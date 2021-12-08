@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="515.0" prefWidth="946.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.maintenance.MaintenanceController">
+   <children>
+      <BorderPane prefHeight="542.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+               <menus>
+                  <Menu mnemonicParsing="false" text="Settings">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuChangePassword" text="Change Password" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuEditProfile" text="Edit Profile" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Report">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuComplaint" text="Complaint" />
+                        <MenuItem mnemonicParsing="false" onAction="#menusuggestion" text="Suggestion" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuViewNotice" text="Notice" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <JFXTabPane BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab text="Maintenance">
+                     <content>
+                        <BorderPane prefHeight="422.0" prefWidth="850.0">
+                           <center>
+                              <VBox maxWidth="791.0" prefHeight="372.0" prefWidth="710.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <ExpansionPanel prefWidth="770.0">
+                                       <collapsedContent>
+                                          <!--<ExpansionPanel.CollapsedPanel>-->
+                                             <!--<titleNodes>-->
+                                                <Label text="Sports Grounds" />
+                                             <!--</titleNodes>-->
+                                          <!--</ExpansionPanel.CollapsedPanel>-->
+                                       </collapsedContent>
+                                       <expandedContent>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Sports Grounds" />
+                                                <TableView fx:id="table1" prefHeight="324.0" prefWidth="430.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="table1Activity" prefWidth="289.0" text="Activity" />
+                                                      <TableColumn prefWidth="439.0" text="Level of Completeness">
+                                                         <columns>
+                                                            <TableColumn fx:id="nComp1" prefWidth="132.0" text="Not Completed" />
+                                                            <TableColumn fx:id="partComp1" minWidth="0.0" prefWidth="175.0" text="Partially Completed" />
+                                                            <TableColumn fx:id="fullyComp1" prefWidth="152.0" text="Fully Completed" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </expandedContent>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel layoutX="10.0" layoutY="10.0" prefWidth="770.0">
+                                       <collapsedContent>
+                                          <!--<ExpansionPanel.CollapsedPanel>-->
+                                             <!--<titleNodes>-->
+                                                <Label text="Cleaning" />
+                                             <!--</titleNodes>-->
+                                          <!--</ExpansionPanel.CollapsedPanel>-->
+                                       </collapsedContent>
+                                       <expandedContent>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Cleaning" />
+                                                <TableView fx:id="table2" prefHeight="324.0" prefWidth="430.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="table2Activity" prefWidth="269.0" text="Activity" />
+                                                      <TableColumn prefWidth="439.0" text="Level of Completeness">
+                                                         <columns>
+                                                            <TableColumn fx:id="nComp2" prefWidth="132.0" text="Not Completed" />
+                                                            <TableColumn fx:id="partComp2" minWidth="0.0" prefWidth="175.0" text="Partially Completed" />
+                                                            <TableColumn fx:id="fullyComp2" prefWidth="152.0" text="Fully Completed" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </expandedContent>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel layoutX="10.0" layoutY="50.0" prefWidth="770.0">
+                                       <collapsedContent>
+                                          <!--<ExpansionPanel.CollapsedPanel>-->
+                                             <!--<titleNodes>-->
+                                                <Label text="Checking" />
+                                             <!--</titleNodes>-->
+                                          <!--</ExpansionPanel.CollapsedPanel>-->
+                                       </collapsedContent>
+                                       <expandedContent>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Checking" />
+                                                <TableView fx:id="table3" prefHeight="324.0" prefWidth="430.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="table3Activity" prefWidth="269.0" text="Activity" />
+                                                      <TableColumn prefWidth="439.0" text="Level of Completeness">
+                                                         <columns>
+                                                            <TableColumn fx:id="nComp3" prefWidth="132.0" text="Not Completed" />
+                                                            <TableColumn fx:id="partComp3" minWidth="0.0" prefWidth="175.0" text="Partially Completed" />
+                                                            <TableColumn fx:id="fullyComp3" prefWidth="152.0" text="Fully Completed" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </expandedContent>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel layoutX="10.0" layoutY="90.0" prefWidth="770.0">
+                                       <collapsedContent>
+                                          <!--<ExpansionPanel.CollapsedPanel>-->
+                                             <!--<titleNodes>-->
+                                                <Label text="Removal and Storage" />
+                                             <!--</titleNodes>-->
+                                          <!--</ExpansionPanel.CollapsedPanel>-->
+                                       </collapsedContent>
+                                       <expandedContent>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Removal and Storage" />
+                                                <TableView fx:id="table4" prefHeight="324.0" prefWidth="430.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="table4Activity" prefWidth="269.0" text="Activity" />
+                                                      <TableColumn prefWidth="439.0" text="Level of Completeness">
+                                                         <columns>
+                                                            <TableColumn fx:id="nComp4" prefWidth="132.0" text="Not Completed" />
+                                                            <TableColumn fx:id="partComp4" minWidth="0.0" prefWidth="175.0" text="Partially Completed" />
+                                                            <TableColumn fx:id="fullyComp4" prefWidth="152.0" text="Fully Completed" />
+                                                         </columns>
+                                                      </TableColumn>
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </expandedContent>
+                                    </ExpansionPanel>
+                                 </children>
+                                 <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" top="50.0" />
+                                 </BorderPane.margin>
+                              </VBox>
+                           </center>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Repairs">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="422.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="1058.0" styleClass="form_label" text="Register Repair" />
+                                          <JFXTextField fx:id="repairRequired" labelFloat="true" promptText="Repair Required" />
+                                          <JFXComboBox fx:id="dept" prefHeight="37.0" prefWidth="978.0" promptText="Department">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </JFXComboBox>
+                                          <JFXTextField fx:id="expenditure" labelFloat="true" promptText="Expected Expenditure" />
+                                          <JFXButton fx:id="regRepairBtn" onAction="#handleRegRepairBtn" prefHeight="40.0" prefWidth="779.0" text="Ok">
+                                             <VBox.margin>
+                                                <Insets left="100.0" right="100.0" top="40.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="150.0" right="150.0" top="20.0" />
+                                       </BorderPane.margin>
+                                    </VBox>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </center>
+      </BorderPane>
+      <!--<ExpansionPanel.CollapsedPanel layoutX="10.0" layoutY="10.0" />-->
+   </children>
+</AnchorPane>

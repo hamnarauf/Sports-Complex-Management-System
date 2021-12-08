@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="787.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.finance.transactions.EmployeesController">
+   <center>
+      <TableView prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn prefWidth="50.0" text="ID" />
+            <TableColumn prefWidth="225.0" text="Name" />
+            <TableColumn prefWidth="177.0" text="Department" />
+            <TableColumn prefWidth="158.0" text="Role" />
+            <TableColumn prefWidth="149.0" text="Salary" />
+         </columns>
+         <contextMenu>
+            <ContextMenu>
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+      </TableView>
+   </center>
+   <top>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="787.0" spacing="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Total 500000" />
+            <JFXButton onAction="#exportAsPdf" prefHeight="42.0" prefWidth="151.0" text="Export as PDF" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+</BorderPane>

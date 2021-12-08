@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="870.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.inventory.IssuedItemsController">
+   <center>
+      <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="idCol" prefWidth="134.0" text="Member id" />
+            <TableColumn fx:id="nameCol" prefWidth="283.0" text="Member Name" />
+            <TableColumn fx:id="itemName" prefWidth="204.0" text="Item name" />
+            <TableColumn fx:id="quantityCol" prefWidth="99.0" text="Quantity" />
+            <TableColumn fx:id="timeCol" prefWidth="126.0" text="Issued Time" />
+         </columns>
+         <contextMenu>
+            <ContextMenu>
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Returned" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <top>
+      <VBox alignment="CENTER" prefHeight="127.0" prefWidth="475.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="form_label" text="ISSUED ITEMS">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+               <children>
+                  <JFXTextField fx:id="search" prefHeight="37.0" prefWidth="336.0" promptText="Member ID">
+                     <padding>
+                        <Insets left="70.0" right="70.0" />
+                     </padding></JFXTextField>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="200.0" right="200.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
+</BorderPane>

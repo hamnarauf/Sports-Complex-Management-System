@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="563.0" prefWidth="774.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="240.0" layoutY="82.0" prefHeight="563.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <JFXTabPane BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab text="Members">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="992.0">
+                           <children>
+                              <BorderPane prefHeight="470.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <JFXTabPane nodeOrientation="LEFT_TO_RIGHT" rotateGraphic="true" side="LEFT" BorderPane.alignment="CENTER">
+                                       <tabs>
+                                          <Tab styleClass="inner_tab" text="Add">
+                                             <content>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <BorderPane layoutX="226.0" layoutY="75.0" prefHeight="465.0" prefWidth="714.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <top>
+                                                            <Label prefHeight="26.0" prefWidth="138.0" text="Register Member" BorderPane.alignment="CENTER">
+                                                               <BorderPane.margin>
+                                                                  <Insets bottom="20.0" top="20.0" />
+                                                               </BorderPane.margin>
+                                                            </Label>
+                                                         </top>
+                                                         <center>
+                                                            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                               <left>
+                                                                  <VBox prefHeight="399.0" prefWidth="346.0" BorderPane.alignment="CENTER">
+                                                                     <children>
+                                                                        <JFXTextField labelFloat="true" promptText="First Name">
+                                                                           <VBox.margin>
+                                                                              <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                                                                           </VBox.margin>
+                                                                        </JFXTextField>
+                                                                     </children>
+                                                                  </VBox>
+                                                               </left>
+                                                               <right>
+                                                                  <VBox prefHeight="399.0" prefWidth="363.0" BorderPane.alignment="CENTER" />
+                                                               </right>
+                                                            </BorderPane>
+                                                         </center>
+                                                      </BorderPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </Tab>
+                                          <Tab id="inner_Tab" styleClass="inner_tab" text="Drop">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                            </content>
+                                          </Tab>
+                                          <Tab styleClass="inner_tab" text="Edit">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="714.0" styleClass="inner_tab" />
+                                             </content>
+                                          </Tab>
+                                       </tabs>
+                                       <BorderPane.margin>
+                                          <Insets top="5.0" />
+                                       </BorderPane.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </JFXTabPane>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Teams">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="469.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <right>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <VBox prefHeight="489.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <JFXButton contentDisplay="TOP" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="97.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="271.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </right>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </center></BorderPane>
+   </children>
+</AnchorPane>

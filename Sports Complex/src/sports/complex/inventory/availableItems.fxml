@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="731.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.inventory.AvailableItemsController">
+   <center>
+      <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="itemCol" prefWidth="454.0" text="Item" />
+            <TableColumn fx:id="quantityCol" prefWidth="244.0" text="Quantity" />
+         </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <top>
+      <Label styleClass="form_label" text="AVAILABLE ITEMS" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+</BorderPane>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="847.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.manager.EmergenciesController">
+   <top>
+      <Label styleClass="form_label" text="MEDICAL EMERGENCIES" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="idCol" prefWidth="93.0" text="Patient ID" />
+            <TableColumn fx:id="nameCol" prefWidth="169.0" text="Name" />
+            <TableColumn fx:id="probCol" prefWidth="215.0" text="Problem" />
+            <TableColumn fx:id="facilityCol" prefWidth="239.0" text="Facilities Used" />
+            <TableColumn fx:id="resolvedCol" prefWidth="128.0" text="Issue Resolved" />
+         </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+</BorderPane>

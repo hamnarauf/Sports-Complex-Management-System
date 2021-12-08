@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="563.0" prefWidth="774.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.registration.RegistrationMainController">
+   <children>
+      <BorderPane layoutX="240.0" layoutY="82.0" prefHeight="563.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <JFXTabPane BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab text="Members">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="992.0">
+                           <children>
+                              <BorderPane prefHeight="470.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <right>
+                                    <VBox prefHeight="489.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Add Member" textAlignment="CENTER">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="USER_PLUS" size="25" textAlignment="CENTER" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Remove Member" textAlignment="CENTER">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="MINUS_SQUARE" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Edit Member" textAlignment="CENTER">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="PENCIL" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="97.0" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="View All Members" textAlignment="CENTER">
+                                             <graphic>
+                                                <FontAwesomeIconView glyphName="TH_LIST" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </VBox>
+                                 </right>
+                                 <center>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Pane prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <BorderPane fx:id="addMember_pane11" prefHeight="472.0" prefWidth="581.0">
+                                                   <top>
+                                                      <Label prefHeight="56.0" prefWidth="150.0" text="Remove MEMBER" BorderPane.alignment="CENTER">
+                                                         <padding>
+                                                            <Insets top="30.0" />
+                                                         </padding>
+                                                      </Label>
+                                                   </top>
+                                                   <center>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                                         <children>
+                                                            <JFXTextField labelFloat="true" prefHeight="38.0" prefWidth="489.0" promptText="Member id">
+                                                               <VBox.margin>
+                                                                  <Insets top="20.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <JFXTextField labelFloat="true" layoutX="10.0" layoutY="30.0" prefHeight="38.0" prefWidth="489.0" promptText="Name">
+                                                               <VBox.margin>
+                                                                  <Insets top="30.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <JFXTextField labelFloat="true" layoutX="10.0" layoutY="68.0" prefHeight="38.0" prefWidth="489.0" promptText="Contact">
+                                                               <VBox.margin>
+                                                                  <Insets top="30.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <AnchorPane prefHeight="85.0" prefWidth="381.0">
+                                                               <children>
+                                                                  <JFXButton layoutX="145.0" layoutY="104.0" text="ADD" />
+                                                               </children>
+                                                            </AnchorPane>
+                                                         </children>
+                                                         <BorderPane.margin>
+                                                            <Insets left="100.0" right="100.0" top="30.0" />
+                                                         </BorderPane.margin>
+                                                         <padding>
+                                                            <Insets bottom="10.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </center>
+                                                </BorderPane>
+                                             </children>
+                                          </Pane>
+                                          <Pane prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <BorderPane fx:id="addMember_pane1" prefHeight="472.0" prefWidth="581.0">
+                                                   <top>
+                                                      <Label prefHeight="56.0" prefWidth="114.0" text="Remove MEMBER" BorderPane.alignment="CENTER">
+                                                         <padding>
+                                                            <Insets top="30.0" />
+                                                         </padding>
+                                                      </Label>
+                                                   </top>
+                                                   <center>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                                         <children>
+                                                            <JFXTextField labelFloat="true" prefHeight="38.0" prefWidth="489.0" promptText="Member id">
+                                                               <VBox.margin>
+                                                                  <Insets top="20.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <JFXTextField labelFloat="true" layoutX="10.0" layoutY="30.0" prefHeight="38.0" prefWidth="489.0" promptText="Name">
+                                                               <VBox.margin>
+                                                                  <Insets top="30.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <JFXTextField labelFloat="true" layoutX="10.0" layoutY="68.0" prefHeight="38.0" prefWidth="489.0" promptText="Contact">
+                                                               <VBox.margin>
+                                                                  <Insets top="30.0" />
+                                                               </VBox.margin>
+                                                            </JFXTextField>
+                                                            <AnchorPane prefHeight="85.0" prefWidth="381.0">
+                                                               <children>
+                                                                  <JFXButton layoutX="145.0" layoutY="104.0" text="ADD" />
+                                                               </children>
+                                                            </AnchorPane>
+                                                         </children>
+                                                         <BorderPane.margin>
+                                                            <Insets left="100.0" right="100.0" top="30.0" />
+                                                         </BorderPane.margin>
+                                                         <padding>
+                                                            <Insets bottom="10.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </center>
+                                                </BorderPane>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                              </BorderPane>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Teams">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane prefHeight="469.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <right>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <VBox prefHeight="489.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <JFXButton contentDisplay="TOP" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="97.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="271.0" prefHeight="150.0" prefWidth="200.0" styleClass="side-button" textAlignment="CENTER">
+                                                   <graphic>
+                                                      <FontAwesomeIconView glyphName="USER" size="30" textAlignment="CENTER" />
+                                                   </graphic>
+                                                </JFXButton>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </right>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </center></BorderPane>
+   </children>
+</AnchorPane>

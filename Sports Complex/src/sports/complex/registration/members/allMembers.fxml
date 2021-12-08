@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="958.0" stylesheets="@../../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.registration.members.AllMembersController">
+   <top>
+      <Label styleClass="form_label" text="REGISTERED MEMBERS" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <bottom>
+      <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
+          <TableColumn fx:id="nameCol" prefWidth="210.0" text="Name" />
+            <TableColumn fx:id="cnicCol" prefWidth="150.0" text="CNIC" />
+            <TableColumn fx:id="genderCol" prefWidth="68.0" text="Gender" />
+            <TableColumn fx:id="dobCol" prefWidth="150.0" text="DOB" />
+            <TableColumn fx:id="contactCol" prefWidth="140.0" text="Contact" />
+            <TableColumn fx:id="emailCol" prefWidth="189.0" text="Email" />
+        </columns>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </bottom>
+</BorderPane>

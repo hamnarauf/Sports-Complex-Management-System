@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="538.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.login.EnterUsernameController">
+   <center>
+      <JFXTextField fx:id="username" labelFloat="true" promptText="Username" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <JFXButton onAction="#handleNextBtn" prefHeight="40.0" prefWidth="85.0" text="Next" BorderPane.alignment="CENTER" />
+   </bottom>
+   <padding>
+      <Insets bottom="30.0" left="100.0" right="100.0" />
+   </padding>
+</BorderPane>

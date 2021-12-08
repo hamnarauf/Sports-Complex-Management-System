@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="844.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.finance.FundsController">
+   <center>
+      <TableView fx:id="tableView" prefHeight="388.0" prefWidth="712.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="idCol" prefWidth="201.0" text="ID" />
+            <TableColumn fx:id="typeCol" prefWidth="392.0" text="Type" />
+            <TableColumn fx:id="paymentCol" prefWidth="181.0" text="Payment" />
+         </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <left>
+      <Label style="-fx-rotate: 270deg;" styleClass="form_label" text="FUNDS" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="40.0" />
+         </BorderPane.margin>
+      </Label>
+   </left>
+   <top>
+      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="787.0" spacing="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="totalLabel" text="Total 500000" />
+            <JFXButton onAction="#handleExportPdf" prefHeight="42.0" prefWidth="151.0" text="Export as PDF" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+   </top>
+</BorderPane>

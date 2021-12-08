@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.inventory.AddItemController">
+   <top>
+      <Label styleClass="form_label" text="ADD ITEM" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="30.0" top="30.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTextField fx:id="name" labelFloat="true" promptText="Item Name">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="quantity" labelFloat="true" promptText="Quantity">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </JFXTextField>
+         </children>
+         <BorderPane.margin>
+            <Insets left="70.0" right="70.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <bottom>
+      <JFXButton onAction="#handleAddBtn" prefHeight="40.0" prefWidth="83.0" text="Add" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="40.0" />
+         </BorderPane.margin>
+      </JFXButton>
+   </bottom>
+</BorderPane>

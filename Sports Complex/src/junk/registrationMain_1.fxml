@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="1084.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.registration.RegistrationController">
+   <center>
+      <JFXTabPane BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="Members">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="285.0" layoutY="115.0" prefHeight="460.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <right>
+                              <VBox prefHeight="489.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="402.0" onAction="#loadTraineeWindow" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Register Trainee" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="USER_PLUS" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="97.0" onAction="#loadAllMember" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="View All Members" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="TH_LIST" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="240.0" onAction="#loadGuestWindow" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Register Guest" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="USER_PLUS" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" onAction="#loadRemoveMember" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Remove Member" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="MINUS_SQUARE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </right>
+                           <center>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <Label styleClass="form_label" text="REGISTER MEMBER" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets top="30.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <center>
+                                    <GridPane hgap="30.0" maxWidth="700.0" minWidth="-Infinity" BorderPane.alignment="CENTER">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <JFXTextField fx:id="regMemFN" labelFloat="true" promptText="First Name" />
+                                          <JFXTextField fx:id="regMemAddress" labelFloat="true" promptText="Address" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <JFXTextField fx:id="regMemLN" labelFloat="true" promptText="Last Name" GridPane.columnIndex="1" />
+                                          <JFXTextField fx:id="regMemContactEmer" labelFloat="true" promptText="Emergency Contact Number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regMemBloodGroup" labelFloat="true" promptText="Blood Group" GridPane.rowIndex="3" />
+                                          <JFXDatePicker fx:id="regMemDOB" defaultColor="#08eff5" prefHeight="38.0" prefWidth="251.0" promptText="Date of Birth" GridPane.rowIndex="1" />
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <RadioButton fx:id="memberGender" layoutX="71.0" layoutY="46.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <toggleGroup>
+                                                      <ToggleGroup fx:id="regMemGender" />
+                                                   </toggleGroup>
+                                                </RadioButton>
+                                                <Label layoutY="43.0" text="Gender" />
+                                                <RadioButton layoutX="146.0" layoutY="45.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regMemGender">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </RadioButton>
+                                             </children>
+                                          </AnchorPane>
+                                          <JFXTextField fx:id="regMemContact" labelFloat="true" promptText="Contact Number" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regMemEmail" labelFloat="true" promptText="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regMemAllergies" labelFloat="true" promptText="Allergies (if any)" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXTextField fx:id="regMemCnic" labelFloat="true" promptText="CNIC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <JFXCheckBox fx:id="regMemTrainee" checkedColor="#08eff5" prefHeight="18.0" prefWidth="121.0" text="Trainee" textFill="#08eff5" unCheckedColor="#08eff5" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </JFXCheckBox>
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="35.0" right="35.0" top="20.0" />
+                                       </BorderPane.margin>
+                                    </GridPane>
+                                 </center>
+                                 <BorderPane.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" />
+                                 </BorderPane.margin>
+                                 <bottom>
+                                    <VBox alignment="CENTER" prefHeight="155.0" prefWidth="844.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="705.0" text="Security Question" />
+                                          <JFXTextField fx:id="regMemSecurityAns" maxWidth="700.0" prefHeight="37.0" prefWidth="677.0" promptText="Answer">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="70.0" right="70.0" />
+                                             </VBox.margin>
+                                          </JFXTextField>
+                                          <JFXButton fx:id="regMemBtn" text="Register">
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </JFXButton>
+                                       </children>
+                                    </VBox>
+                                 </bottom>
+                              </BorderPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Teams">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="285.0" layoutY="115.0" prefHeight="460.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <right>
+                              <VBox prefHeight="489.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" onAction="#loadRemoveTeam" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Remove Team" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="MINUS_SQUARE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="97.0" onAction="#loadAllTeams" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="View All Teams" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="TH_LIST" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </right>
+                           <center>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <Label styleClass="form_label" text="REGISTER TEAM" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets top="30.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <bottom>
+                                    <JFXButton text="Register" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="40.0" />
+                                       </BorderPane.margin>
+                                    </JFXButton>
+                                 </bottom>
+                                 <center>
+                                    <GridPane hgap="30.0" maxWidth="700.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
+                                          <JFXTextField fx:id="regTeamCoach" labelFloat="true" promptText="Coach (if any)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <JFXTextField fx:id="regTeamPackage" labelFloat="true" promptText="Package" GridPane.rowIndex="1" />
+                                          <JFXTextField fx:id="regTeamMembers" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="35.0" right="35.0" top="30.0" />
+                                       </BorderPane.margin>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Employees">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="285.0" layoutY="115.0" prefHeight="460.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <Label styleClass="form_label" text="REGISTER EMPLOYEE" BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets top="10.0" />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </top>
+                                 <center>
+                                    <GridPane hgap="30.0" maxWidth="700.0" minWidth="-Infinity" prefHeight="386.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <JFXTextField fx:id="regEmpFN" labelFloat="true" promptText="First Name" />
+                                          <JFXTextField fx:id="regEmpAddress" labelFloat="true" promptText="Address" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <JFXTextField fx:id="regEmpLN" labelFloat="true" promptText="Last Name" GridPane.columnIndex="1" />
+                                          <JFXTextField fx:id="regEmpContactEmer" labelFloat="true" promptText="Emergency Contact Number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regEmpDomain" labelFloat="true" promptText="Domain (only for coaches)" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <JFXDatePicker fx:id="regEmpDOB" defaultColor="#08eff5" prefHeight="38.0" prefWidth="356.0" promptText="Date of Birth" GridPane.rowIndex="1" />
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                             <children>
+                                                <RadioButton layoutX="71.0" layoutY="41.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <toggleGroup>
+                                                      <ToggleGroup fx:id="regEmpGender" />
+                                                   </toggleGroup>
+                                                </RadioButton>
+                                                <RadioButton layoutX="143.0" layoutY="41.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regEmpGender">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </RadioButton>
+                                                <Label layoutY="38.0" text="Gender" />
+                                             </children>
+                                          </AnchorPane>
+                                          <JFXTextField fx:id="regEmpContact" labelFloat="true" promptText="Contact Number" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regEmpEmail" labelFloat="true" promptText="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <JFXTextField fx:id="regEmpBloodGroup" labelFloat="true" promptText="Blood Group" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <JFXComboBox fx:id="regEmpDept" prefHeight="38.0" prefWidth="362.0" promptText="Department" GridPane.rowIndex="3" />
+                                          <JFXComboBox fx:id="regEmpRole" prefHeight="38.0" prefWidth="331.0" promptText="Role" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <JFXTextField fx:id="regEmpAllergies" labelFloat="true" promptText="Allergies (if any)" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <JFXTextField fx:id="regEmpCnic" labelFloat="true" promptText="CNIC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <AnchorPane prefHeight="86.0" prefWidth="33.0" GridPane.rowIndex="4">
+                                             <children>
+                                                <JFXButton layoutY="14.0" onAction="#uploadFile" prefHeight="40.0" prefWidth="216.0" styleClass="file-chooser" text="Qualification Document" />
+                                                <Label fx:id="fileLabel" alignment="CENTER" layoutX="2.0" layoutY="59.0" prefHeight="26.0" prefWidth="213.0" text="File Name" textAlignment="CENTER" />
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                       </BorderPane.margin>
+                                    </GridPane>
+                                 </center>
+                                 <bottom>
+                                    <AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="158.0" prefWidth="884.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="162.0" prefWidth="844.0">
+                                             <children>
+                                                <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="674.0" text="Security Question" />
+                                                <JFXTextField fx:id="regEmpSecurityAns" maxHeight="-Infinity" maxWidth="700.0" prefHeight="37.0" prefWidth="737.0" promptText="Answer">
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" left="85.0" right="70.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <JFXButton fx:id="regEmpBtn" text="Register">
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </JFXButton>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </bottom>
+                              </BorderPane>
+                           </center>
+                           <right>
+                              <VBox prefHeight="489.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#loadAllCoaches" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="View All Coaches" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="TH_LIST" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="97.0" onAction="#loadAllEmployee" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="View All Employees" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="TH_LIST" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="157.0" onAction="#loadWorkingHours" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Edit Working Hours of Coaches" textAlignment="CENTER" wrapText="true">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="CALENDAR" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" onAction="#loadRemoveEmployee" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Remove Employee" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="MINUS_SQUARE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#loadRemoveCoach" prefHeight="400.0" prefWidth="250.0" styleClass="side-button" text="Remove Coach" textAlignment="CENTER">
+                                       <graphic>
+                                          <FontAwesomeIconView glyphName="MINUS_SQUARE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </right>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Tournament">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="588.0" prefWidth="974.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <GridPane hgap="100.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="406.0" styleClass="form_label" text="Register Member" />
+                                    <JFXTextField fx:id="tourMemId" labelFloat="true" promptText="Member ID" GridPane.rowIndex="1" />
+                                    <JFXButton fx:id="tourMemBtn" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="447.0" text="Register" textAlignment="CENTER" GridPane.rowIndex="3" />
+                                    <JFXComboBox fx:id="tournament1" prefHeight="38.0" prefWidth="401.0" promptText="Tournament" GridPane.rowIndex="2" />
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="406.0" styleClass="form_label" text="Register Team" GridPane.columnIndex="1" />
+                                    <JFXTextField fx:id="tourTeamId" labelFloat="true" maxWidth="500.0" promptText="Team ID" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <JFXComboBox fx:id="tournament2" prefHeight="38.0" prefWidth="401.0" promptText="Tournament" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <JFXButton fx:id="tourTeamBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="405.0" prefHeight="40.0" prefWidth="457.0" text="Register" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                 </children>
+                                 <BorderPane.margin>
+                                    <Insets bottom="50.0" left="150.0" right="150.0" />
+                                 </BorderPane.margin>
+                              </GridPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Settings">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menuChangePassword" text="Change Password" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuEditProfile" text="Edit Profile" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Report">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menuComplaint" text="Complaint" />
+                  <MenuItem mnemonicParsing="false" onAction="#menusuggestion" text="Suggestion" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="View">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#menuViewNotice" text="Notice" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

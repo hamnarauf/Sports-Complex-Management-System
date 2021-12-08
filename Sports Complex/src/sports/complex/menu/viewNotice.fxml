@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="358.0" prefWidth="803.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.menu.ViewNoticeController">
+   <children>
+      <BorderPane layoutX="228.0" prefHeight="358.0" prefWidth="695.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER" maxWidth="700.0" prefHeight="358.0" prefWidth="406.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ExpansionPanel prefWidth="770.0">
+                     <expandedContent>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="notice1" text="Table Tenis Tournament" />
+                              <AnchorPane prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="notice1info" text="There is an upcoming Table Tenis Tournament on 23rd March 2022, Gear Up!" wrapText="true" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </expandedContent>
+                     <collapsedContent>
+                        <!--<ExpansionPanel.CollapsedPanel>-->
+                           <!--<titleNodes>-->
+                              <Label fx:id="notice1heading" prefHeight="40.0" prefWidth="258.0" styleClass="form_label" text="Table Tenis Tournament" />
+                           <!--</titleNodes>-->
+                        <!--</ExpansionPanel.CollapsedPanel>-->
+                     </collapsedContent>
+
+                   
+                  </ExpansionPanel>
+                  <ExpansionPanel layoutX="10.0" layoutY="169.0" prefWidth="770.0">
+                     <expandedContent>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="notice2" text="Membership Fees" />
+                              <AnchorPane prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="notice2info" text="From now ownwards, membership fees is increased to Rs. 15000" wrapText="true" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </expandedContent>
+                     <collapsedContent>
+                        <Label fx:id="notice2heading" prefHeight="40.0" prefWidth="258.0" styleClass="form_label" text="Membership fees" />
+                     </collapsedContent>
+                  </ExpansionPanel>
+                  <ExpansionPanel layoutX="10.0" layoutY="189.0" prefWidth="770.0">
+                     <collapsedContent>
+                        <!--<ExpansionPanel.CollapsedPanel>-->
+                           <!--<titleNodes>-->
+                              <Label fx:id="notice3heading" prefHeight="40.0" prefWidth="258.0" styleClass="form_label" text="Holiday" />
+                           <!--</titleNodes>-->
+                        <!--</ExpansionPanel.CollapsedPanel>-->
+                     </collapsedContent>
+                     <expandedContent>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="notice3" text="Holiday" />
+                              <AnchorPane prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="notice3info" text="There will be a holiday on 23rd March in light of Pakistan Day." wrapText="true" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </expandedContent>
+                  </ExpansionPanel>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="70.0" right="70.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="40.0" top="40.0" />
+               </padding>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
