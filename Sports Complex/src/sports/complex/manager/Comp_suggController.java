@@ -7,9 +7,17 @@ package sports.complex.manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import Classes.*;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -19,16 +27,49 @@ import javafx.scene.control.TableColumn;
 public class Comp_suggController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> complaintCol;
+    private TableView<Report> complaintTable;
     @FXML
-    private TableColumn<?, ?> suggCol;
+    private TableView<Report> suggTable;
+    @FXML
+    private TableColumn<Report, String> complaintCol;
+    @FXML
+    private TableColumn<Report, String> suggCol;
+
+    ObservableList<Report> complaintlist = FXCollections.observableArrayList();
+    ObservableList<Report> suggList = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+        complaintCol.setCellValueFactory(new PropertyValueFactory<>("details"));
+        suggCol.setCellValueFactory(new PropertyValueFactory<>("details"));
+
+    }
+
+    private void loadData() {
+
+        ArrayList<Report> complaints = new ArrayList<Report>();
+        for (Report complaint : complaints) {
+            complaintlist.add(complaint);
+        }
+        complaintTable.setItems(complaintlist);
+
+        ArrayList<Report> suggs = new ArrayList<Report>();
+        for (Report sugg : suggs) {
+            suggList.add(sugg);
+        }
+        suggTable.setItems(suggList);
+    }
+
+    @FXML
+    private void handleAddressed(ActionEvent event) {
+    }
+
 }

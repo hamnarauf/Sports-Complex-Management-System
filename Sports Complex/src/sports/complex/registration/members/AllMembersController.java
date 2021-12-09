@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.members;
-
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -20,6 +14,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import Classes.Member;
+import java.util.ArrayList;
+import java.util.Date;
+import Classes.gender;
 
 /**
  * FXML Controller class
@@ -35,7 +33,9 @@ public class AllMembersController implements Initializable {
     @FXML
     private TableColumn<Member, String> idCol;
     @FXML
-    private TableColumn<Member, String> nameCol;
+    private TableColumn<Member, String> fnameCol;
+    @FXML
+    private TableColumn<Member, String> lnameCol;
     @FXML
     private TableColumn<Member, String> cnicCol;
     @FXML
@@ -59,65 +59,25 @@ public class AllMembersController implements Initializable {
     private void initCol() {
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
         cnicCol.setCellValueFactory(new PropertyValueFactory<>("cnic"));
-        genderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        genderCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
         dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
 
     private void loadData() {
-        list.add(new Member("54678", "Ahmed Ali", "7897654312657", "M", "5/12/2000", "0334897654" , "ali@gmail.com"));
+        Member member1 = new Member("fname", "lname", gender.m, new Date(), "cnic", "address",
+                "contactNo", "emerContact", "email", "bloodGrp", "allergy");
+
+        ArrayList<Member> allMember = new ArrayList<Member>();
+        allMember.add(member1);
+        for (Member member : allMember) {
+            list.add(member);
+        }
         tableView.setItems(list);
-    }
-
-    public class Member {
-
-        private final SimpleStringProperty id;
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty cnic;
-        private final SimpleStringProperty gender;
-        private final SimpleStringProperty dob;
-        private final SimpleStringProperty contact;
-        private final SimpleStringProperty email;
-
-        public Member(String id, String name, String cnic, String gender, String dob, String contact, String email) {
-            this.id = new SimpleStringProperty(id);
-            this.name = new SimpleStringProperty(name);
-            this.cnic = new SimpleStringProperty(cnic);
-            this.gender = new SimpleStringProperty(gender);
-            this.dob = new SimpleStringProperty(dob);
-            this.contact = new SimpleStringProperty(contact);
-            this.email = new SimpleStringProperty(email);
-        }
-
-        public String getId() {
-            return id.get();
-        }
-
-        public String getName() {
-            return name.get();
-        }
-
-        public String getCnic() {
-            return cnic.get();
-        }
-
-        public String getGender() {
-            return gender.get();
-        }
-
-        public String getDob() {
-            return dob.get();
-        }
-
-        public String getContact() {
-            return contact.get();
-        }
-        public String getEmail() {
-            return email.get();
-        }
     }
 
 }

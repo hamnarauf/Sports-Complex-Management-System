@@ -11,6 +11,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import Classes.Team;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -20,24 +25,42 @@ import javafx.scene.control.TableView;
 public class AllTeamsController implements Initializable {
 
     @FXML
-    private TableView<?> tableView;
+    private TableView<Team> tableView;
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableColumn<Team, String> idCol;
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<Team, String> nameCol;
     @FXML
-    private TableColumn<?, ?> packageCol;
+    private TableColumn<Team, String> packageCol;
     @FXML
-    private TableColumn<?, ?> coachCol;
+    private TableColumn<Team, String> coachCol;
     @FXML
-    private TableColumn<?, ?> totalMembersCol;
+    private TableColumn<Team, String> totalMembersCol;
 
-    /**
-     * Initializes the controller class.
-     */
+    ObservableList<Team> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        packageCol.setCellValueFactory(new PropertyValueFactory<>("package"));
+        coachCol.setCellValueFactory(new PropertyValueFactory<>("totalMem"));
+        totalMembersCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
+    }
+
+    private void loadData() {
+
+        ArrayList<Team> allTeam = new ArrayList<Team>();
+        for (Team team : allTeam) {
+            list.add(team);
+        }
+        tableView.setItems(list);
+    }
+
 }

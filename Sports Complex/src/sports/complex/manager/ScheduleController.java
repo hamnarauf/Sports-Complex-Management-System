@@ -11,6 +11,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import Classes.*;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -20,22 +27,44 @@ import javafx.scene.control.TableView;
 public class ScheduleController implements Initializable {
 
     @FXML
-    private TableView<?> tableView;
+    private TableView<Schedule> tableView;
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableColumn<Schedule, String> idCol;
     @FXML
-    private TableColumn<?, ?> dateCol;
+    private TableColumn<Schedule, Date> dateCol;
     @FXML
-    private TableColumn<?, ?> timeCol;
+    private TableColumn<Schedule, Time> timeCol;
     @FXML
-    private TableColumn<?, ?> venueCol;
+    private TableColumn<Schedule, String> venueCol;
+    @FXML
+    private TableColumn<Schedule, String> nameCol;
 
-    /**
-     * Initializes the controller class.
-     */
+    
+    ObservableList<Schedule> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        venueCol.setCellValueFactory(new PropertyValueFactory<>("venue"));
+
+    }
+
+    private void loadData() {
+
+        ArrayList<Schedule> events = new ArrayList<Schedule>();
+        for (Schedule event : events) {
+            list.add(event);
+        }
+        tableView.setItems(list);
+    }
+
     
 }

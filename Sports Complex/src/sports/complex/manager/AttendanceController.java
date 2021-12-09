@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.manager;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -13,6 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import Classes.*;
+import java.util.ArrayList;
+import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -26,28 +27,51 @@ public class AttendanceController implements Initializable {
     @FXML
     private JFXComboBox<?> filter;
     @FXML
-    private TableView<?> tableView;
+    private TableView<Attendance> tableView;
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableColumn<Attendance, String> idCol;
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<Attendance, String> nameCol;
     @FXML
-    private TableColumn<?, ?> contactCol;
+    private TableColumn<Attendance, String> contactCol;
     @FXML
-    private TableColumn<?, ?> emailCol;
+    private TableColumn<Attendance, String> emailCol;
     @FXML
-    private TableColumn<?, ?> deptCol;
+    private TableColumn<Attendance, String> deptCol;
     @FXML
-    private TableColumn<?, ?> roleCol;
+    private TableColumn<Attendance, String> roleCol;
     @FXML
-    private TableColumn<?, ?> attendanceCol;
+    private TableColumn<Attendance, Date> dateCol;
+    @FXML
+    private TableColumn<Attendance, String> attendanceCol;
 
-    /**
-     * Initializes the controller class.
-     */
+    ObservableList<Attendance> list = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
+        roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        attendanceCol.setCellValueFactory(new PropertyValueFactory<>("attendance"));
+
+    }
+
+    private void loadData() {
+
+        ArrayList<Attendance> employees = new ArrayList<Attendance>();
+        for (Attendance employee : employees) {
+            list.add(employee);
+        }
+        tableView.setItems(list);
+    }
+
 }

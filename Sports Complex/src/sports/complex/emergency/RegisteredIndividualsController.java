@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.emergency;
 
 import com.jfoenix.controls.JFXTextField;
@@ -12,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import Classes.*;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -24,29 +24,57 @@ public class RegisteredIndividualsController implements Initializable {
     private JFXTextField search;
     @FXML
     private JFXTextField bloodGroup;
+
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableView<Person> tableView;
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<Person, String> idCol;
     @FXML
-    private TableColumn<?, ?> genderCol;
+    private TableColumn<Person, String> genderCol;
     @FXML
-    private TableColumn<?, ?> bloodGCol;
+    private TableColumn<Person, String> bloodGCol;
     @FXML
-    private TableColumn<?, ?> allergiesCol;
+    private TableColumn<Person, String> allergiesCol;
     @FXML
-    private TableColumn<?, ?> contactCol;
+    private TableColumn<Person, String> contactCol;
     @FXML
-    private TableColumn<?, ?> emerContact;
+    private TableColumn<Person, String> emerContact;
     @FXML
-    private TableView<?> tableView;
+    private TableColumn<Person, String> fnameCol;
+    @FXML
+    private TableColumn<Person, String> lnameCol;
+
+    ObservableList<Person> list = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        initCol();
+        loadData();
+    }
+
+    private void initCol() {
+
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        genderCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
+        bloodGCol.setCellValueFactory(new PropertyValueFactory<>("bloodGrp"));
+        allergiesCol.setCellValueFactory(new PropertyValueFactory<>("allergy"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
+        emerContact.setCellValueFactory(new PropertyValueFactory<>("emerContact"));
+        fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
+
+    }
+
+    private void loadData() {
+
+        ArrayList<Person> allPersons = new ArrayList<Person>();
+        for (Person person : allPersons) {
+            list.add(person);
+        }
+        tableView.setItems(list);
+    }
+
 }

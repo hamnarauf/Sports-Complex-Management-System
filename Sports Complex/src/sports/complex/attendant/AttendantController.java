@@ -82,34 +82,27 @@ public class AttendantController implements Initializable {
 
     public class Attendance {
 
-        private final SimpleStringProperty id;
+        private final String id;
         private final SimpleStringProperty name;
         private final SimpleStringProperty dept;
         private final SimpleStringProperty role;
         private final ToggleButton attendance;
 
         public Attendance(String id, String name, String dept, String role) {
-            this.id = new SimpleStringProperty(id);
+            this.id = (id);
             this.name = new SimpleStringProperty(name);
             this.dept = new SimpleStringProperty(dept);
             this.role = new SimpleStringProperty(role);
             this.attendance = new JFXToggleButton();
-//            attendance.setOnAction(handleToggle());
             attendance.setOnAction(new EventHandler<ActionEvent>() {
 
                 @Override
                 public void handle(ActionEvent event) {
-//                    int selectdIndex = getTableRow().getIndex();
-//                    TableCell table = new TableCell();
 
                     System.out.println("Hello World!");
                     ToggleButton btn = (ToggleButton) event.getSource();
                     Attendance t = findByButton(list, btn);
-
-//                    Attendance t = new Attendance();
-//                    int index = table.getTableRow().getIndex();
-//                    t = (Attendance) tableView.getItems().get(index);
-                    System.out.println(t.name.get());
+                    System.out.println(t.getId());
                 }
 
             });
@@ -121,7 +114,7 @@ public class AttendantController implements Initializable {
         }
 
         public String getId() {
-            return id.get();
+            return id;
         }
 
         public String getName() {
@@ -139,11 +132,6 @@ public class AttendantController implements Initializable {
         public ToggleButton getAttendance() {
             return attendance;
         }
-//
-//        private EventHandler<ActionEvent> handleToggle() {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-
     }
 
     @FXML
