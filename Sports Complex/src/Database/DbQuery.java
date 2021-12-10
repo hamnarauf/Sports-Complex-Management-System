@@ -264,11 +264,11 @@ public class DbQuery {
 
         ResultSet rs = st.executeQuery(query);
         
-        while(rs.next()){
-            Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), rs.getString("gen"),
-            rs.getDate("dob"), rs.getString("cnic"), rs.getString("address"), rs.getString("contactNo"),
-            rs.getString("emerContact"), rs.getString("email"), rs.getString(""));
-        }
+//        while(rs.next()){
+//            Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), rs.getString("gen"),
+//            rs.getDate("dob"), rs.getString("cnic"), rs.getString("address"), rs.getString("contactNo"),
+//            rs.getString("emerContact"), rs.getString("email"), rs.getString(""));
+//        }
 
         tearDownDb();
         return memberList;
