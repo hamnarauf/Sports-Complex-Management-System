@@ -339,4 +339,79 @@ public class DbQuery {
         st.executeUpdate(query);
         tearDownDb();
     }
+
+    public static boolean isTeam(String team_id) throws SQLException{
+        setupDb();
+        boolean valid;
+        final String query = "SELECT team_id FROM Team WHERE team_id = \"" + team_id + "\"";
+        
+        ResultSet rs = st.executeQuery(query);
+        valid = rs.next();  //checks if the team exists
+        
+        tearDownDb();
+        return valid;
+    }
+
+    public static void registerEmployee(Employee emp) throws SQLException {
+        setupDb();
+
+        final String queryPer = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address," +
+                                " contact, emerContact, email, bloodGroup) \n" +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        final String queryEmp = "INSERT INTO Employee VALUES (\"" + emp.getCnic() + "\", " + 
+                                 emp.getDept_id() + ", " + emp.getSalary()+ ", " + emp.getRole() + ");";
+
+        java.sql.Date date = new java.sql.Date(emp.getDob().getTime());
+        
+        try (PreparedStatement statement = conn.prepareStatement(queryPer)) {
+            statement.setString(1, emp.getFname());
+            statement.setString(2, emp.getLname());
+            statement.setString(3, emp.getGen().name());
+            statement.setDate(4,date);
+            statement.setString(5, emp.getCnic());
+            statement.setString(6, emp.getAddress());
+            statement.setString(7, emp.getContactNo());
+            statement.setString(8, emp.getEmerContact());
+            statement.setString(9, emp.getEmail());
+            statement.setString(10, emp.getBloodGrp());
+            statement.executeUpdate();
+        }
+
+        st.executeUpdate(queryEmp);       
+        tearDownDb();
+    }
+
+    public static ArrayList<String> getDeptList() throws SQLException{
+        setupDb();
+        ArrayList<String> deptName = new ArrayList<String>();
+        
+        final String query = "SELECT deptName FROM Department;";
+        
+        ResultSet rs = st.executeQuery(query);
+        
+        while(rs.next()){
+            deptName.add(rs.getString("sportName"));
+        }
+        
+        tearDownDb();
+        return deptName;
+    }
+
+    public static int getDeptID(String dept) throws SQLException{
+        setupDb();
+        int dept_id = 0;
+
+        final String getDeptQuery = "SELECT dept_id FROM Department WHERE deptName = \"" + dept + "\"";
+        ResultSet rs = st.executeQuery(getDeptQuery);
+        
+        if(rs.next()){
+            dept_id = rs.getInt("dept_id");
+        }
+
+        tearDownDb();
+        return dept_id;
+    }
+
+
 }
