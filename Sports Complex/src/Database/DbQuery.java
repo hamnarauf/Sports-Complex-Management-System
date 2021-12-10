@@ -114,7 +114,7 @@ public class DbQuery {
         return valid;
     }
     
-    public static void passwordRecovery(String uname, String passNew) throws SQLException{
+    public static void passwordNew(String uname, String passNew) throws SQLException{
         setupDb();
         
         //updates the password of the given user
@@ -266,13 +266,77 @@ public class DbQuery {
 
         while(rs.next()){
            Member m = new Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), 
-                    gender.valueOf(rs.getString("gen")), rs.getDate("dob"), rs.getString("cnic"), 
-                    rs.getString("contactNo"), rs.getString("email"), rs.getString("member_id"));
+                    gender.valueOf(rs.getString("Person.gender")), rs.getDate("Person.dob"), 
+                    rs.getString("Person.cnic"), rs.getString("Person.contact"), 
+                    rs.getString("Person.email"), rs.getString("Member.member_id"));
 
             memberList.add(m);
         }
 
         tearDownDb();
         return memberList;
+    }
+
+    public static void registerGuest(Guest g) throws SQLException{
+        setupDb();
+
+        final String query = "INSERT INTO Guest (cnic, member_id, firstName, lastName) VALUES (?, ?, ?, ?)";
+        
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, g.getCnic());
+            statement.setString(2, g.getMember_id());
+            statement.setString(3, g.getFirstName());
+            statement.setString(4, g.getLastName());
+            statement.executeUpdate();
+        }
+
+        tearDownDb();
+    }
+
+    public static String getMemberCnic(String member_id) throws SQLException{
+        setupDb();
+        String cnic;
+        
+        final String getCnicQuery = "SELECT cnic FROM Member WHERE member_id = \"" + member_id + "\"";
+        
+        ResultSet rs = st.executeQuery(getCnicQuery);
+        cnic = rs.getString("cnic");
+
+        tearDownDb();
+        return cnic;
+    }
+
+    public static Person removeMemberDetails(String member_id) throws SQLException{
+        setupDb();
+        String cnic = getMemberCnic(member_id);
+        Person p = null;
+
+        final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n" +
+            "FROM Person where cnic = \"" + cnic + "\"";
+        
+        ResultSet rs = st.executeQuery(getDetailsQuery);
+
+        if(rs.next()){
+            p = new Person(rs.getString("firstName"), rs.getString("lastName"), 
+            gender.m, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
+            rs.getString("address"));
+        }
+
+        tearDownDb();
+        return p;
+    }
+
+    public static void removeMember(String member_id) throws SQLException{
+        setupDb();
+        String cnic = getMemberCnic(member_id);
+        deletePerson(cnic);
+        tearDownDb();
+    }
+
+    public static void deletePerson(String cnic) throws SQLException{
+        setupDb();
+        final String query = "DELETE FROM Person WHERE cnic = \"" + cnic + "\"" ;
+        st.executeUpdate(query);
+        tearDownDb();
     }
 }
