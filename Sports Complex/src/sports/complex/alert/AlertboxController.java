@@ -31,14 +31,14 @@ public class AlertboxController implements Initializable {
     URL path = getClass().getResource("alertbox.fxml");
     public static final String ICON_IMAGE_LOC = "/Images/icon.png";
 
-    AlertboxController(String message, String btn1Label) {
+    public AlertboxController(String message, String btn1Label) {
         label.setText(message);
         button1.setText(btn1Label);
         button2.setVisible(false);
 
     }
 
-    AlertboxController(String message, String btn1Label, String btn2Label) {
+    public AlertboxController(String message, String btn1Label, String btn2Label) {
         this(message, btn1Label);
         button2.setVisible(true);
         button2.setText(btn2Label);

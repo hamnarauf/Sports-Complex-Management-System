@@ -44,18 +44,18 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="traineesTable" text="Trainees">
+            <Tab text="Trainees">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <BorderPane layoutX="285.0" layoutY="115.0" prefHeight="460.0" prefWidth="769.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <center>
-                              <TableView maxWidth="888.0" prefHeight="419.0" prefWidth="888.0" BorderPane.alignment="CENTER">
+                              <TableView fx:id="traineeTable" maxWidth="888.0" prefHeight="419.0" prefWidth="888.0" BorderPane.alignment="CENTER">
                                 <columns>
-                                  <TableColumn fx:id="traineeIdCol" prefWidth="64.0" text="ID" />
-                                  <TableColumn fx:id="traineeNameCol" minWidth="0.0" prefWidth="229.0" text="Name" />
-                                    <TableColumn fx:id="traineeDomainCol" minWidth="0.0" prefWidth="235.0" text="Domain" />
-                                    <TableColumn fx:id="traineeTournamentCol" minWidth="0.0" prefWidth="322.0" text="Tournament" />
+                                  <TableColumn fx:id="traineeIdCol" prefWidth="178.0" text="ID" />
+                                  <TableColumn fx:id="traineeFNameCol" minWidth="0.0" prefWidth="197.0" text="First Name" />
+                                    <TableColumn fx:id="traineeLNameCol" minWidth="0.0" prefWidth="295.0" text="Last Name" />
+                                    <TableColumn fx:id="traineeDomainCol" minWidth="0.0" prefWidth="180.0" text="Domain" />
                                 </columns>
                                  <BorderPane.margin>
                                     <Insets top="10.0" />

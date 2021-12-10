@@ -16,6 +16,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import utilities.StageLoader;
+import Classes.CoachSchedule;
+import Classes.Trainee;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -26,40 +34,84 @@ public class CoachController implements Initializable {
 
     @FXML
     private BorderPane rootPane;
+
+    // Coach schedule table
     @FXML
-    private TableColumn<?, ?> scheduleDayCol;
+    private TableView<CoachSchedule> scheduleTable;
     @FXML
-    private TableColumn<?, ?> scheduleDateCol;
+    private TableColumn<CoachSchedule, String> scheduleDayCol;
     @FXML
-    private TableColumn<?, ?> scheduleStartCol;
+    private TableColumn<CoachSchedule, Date> scheduleDateCol;
     @FXML
-    private TableColumn<?, ?> scheduleEndCol;
+    private TableColumn<CoachSchedule, Time> scheduleStartCol;
     @FXML
-    private TableColumn<?, ?> scheduleattendeesCol;
+    private TableColumn<CoachSchedule, Time> scheduleEndCol;
     @FXML
-    private TableColumn<?, ?> scheduleDomainCol;
+    private TableColumn<CoachSchedule, String> scheduleattendeesCol;
     @FXML
-    private TableColumn<?, ?> traineeIdCol;
+    private TableColumn<CoachSchedule, String> scheduleDomainCol;
+    ObservableList<CoachSchedule> scheduleList = FXCollections.observableArrayList();
+
+    // trainee table
     @FXML
-    private TableColumn<?, ?> traineeNameCol;
+    private TableView<Trainee> traineeTable;
     @FXML
-    private TableColumn<?, ?> traineeDomainCol;
+    private TableColumn<Trainee, String> traineeDomainCol;
     @FXML
-    private TableColumn<?, ?> traineeTournamentCol;
+    private TableColumn<Trainee, String> traineeFNameCol;
     @FXML
-    private TableView<?> scheduleTable;
+    private TableColumn<Trainee, String> traineeLNameCol;
     @FXML
-    private Tab traineesTable;
+    private TableColumn<Trainee, String> traineeIdCol;
+    
+    ObservableList<Trainee> traineeList = FXCollections.observableArrayList();
+
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        initScheduleCol();
+        initTraineeCol();
+        loadScheduleData();
+        loadTraineeData();
+    }
 
- 
+    private void initScheduleCol() {
+        scheduleDayCol.setCellValueFactory(new PropertyValueFactory<>("day"));
+        scheduleDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        scheduleStartCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        scheduleEndCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        scheduleattendeesCol.setCellValueFactory(new PropertyValueFactory<>("totalAttendees"));
+        scheduleDomainCol.setCellValueFactory(new PropertyValueFactory<>("domain"));
+    }
+
+    private void initTraineeCol() {
+        traineeIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        traineeFNameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        traineeLNameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
+        traineeDomainCol.setCellValueFactory(new PropertyValueFactory<>("domain"));
+    }
+
+    private void loadScheduleData() {
+
+        ArrayList<CoachSchedule> schedules = new ArrayList<CoachSchedule>();
+        for (CoachSchedule schedule : schedules) {
+            scheduleList.add(schedule);
+        }
+        scheduleTable.setItems(scheduleList);
+    }
+    
+    private void loadTraineeData() {
+
+        ArrayList<Trainee> trainees = new ArrayList<Trainee>();
+        for (Trainee trainee : trainees) {
+            traineeList.add(trainee);
+        }
+        traineeTable.setItems(traineeList);
+    }
+
     @FXML
     private void menuChangePassword(ActionEvent event) {
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
@@ -93,10 +145,9 @@ public class CoachController implements Initializable {
     private void menuExit(ActionEvent event) {
         getStage().close();
     }
-    
-        private Stage getStage() {
+
+    private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
     }
 
-    
 }

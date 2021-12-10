@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="958.0" stylesheets="@../../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.registration.members.AllMembersController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="1155.0" stylesheets="@../../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.registration.members.AllMembersController">
    <top>
       <Label styleClass="form_label" text="REGISTERED MEMBERS" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -20,12 +20,13 @@
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
-          <TableColumn fx:id="nameCol" prefWidth="210.0" text="Name" />
-            <TableColumn fx:id="cnicCol" prefWidth="150.0" text="CNIC" />
-            <TableColumn fx:id="genderCol" prefWidth="68.0" text="Gender" />
-            <TableColumn fx:id="dobCol" prefWidth="150.0" text="DOB" />
-            <TableColumn fx:id="contactCol" prefWidth="140.0" text="Contact" />
-            <TableColumn fx:id="emailCol" prefWidth="189.0" text="Email" />
+          <TableColumn fx:id="fnameCol" prefWidth="162.0" text="First Name" />
+            <TableColumn fx:id="lnameCol" prefWidth="186.0" text="Last Name" />
+            <TableColumn fx:id="cnicCol" prefWidth="140.0" text="CNIC" />
+            <TableColumn fx:id="genderCol" prefWidth="75.0" text="Gender" />
+            <TableColumn fx:id="dobCol" prefWidth="140.0" text="DOB" />
+            <TableColumn fx:id="contactCol" prefWidth="190.0" text="Contact" />
+            <TableColumn fx:id="emailCol" prefWidth="208.0" text="Email" />
         </columns>
          <contextMenu>
             <ContextMenu>

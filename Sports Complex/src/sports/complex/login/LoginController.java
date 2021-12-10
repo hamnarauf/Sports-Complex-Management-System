@@ -12,6 +12,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import utilities.StageLoader;
+import sports.complex.alert.AlertMaker;
+import Database.DbQuery;
+import Classes.User;
+import java.sql.SQLException;
 
 /**
  * FXML Controller class
@@ -26,47 +30,66 @@ public class LoginController implements Initializable {
     @FXML
     private TextField username;
 
-    private PasswordField password;
     @FXML
     private JFXPasswordField pass_hidden;
     @FXML
     private JFXTextField pass_text;
 
     @FXML
-    private void handleLoginButton(ActionEvent event) {
+    private void handleLoginButton(ActionEvent event) throws ClassNotFoundException, SQLException {
 
         //fetching the entered data by user
         String uname = username.getText();
-        String pass = password.getText();
+        String pass = pass_hidden.getText();
 
         //if user has not entered username or password
         if (uname.equals("") || pass.equals("")) {
-//            AlertBox alertBox = new AlertBox("Username and password required", "Empty fields");
+            AlertMaker.showSimpleAlert("Try Again", "Please Enter username and password");
 
         } else {
 
-////            Boolean success = Database.login(uname, pass);
-//            if (success) {
-//                SportsComplex app = new SportsComplex();
-//                app.setStage("adminMain.fxml");
-//
-//            } else {
-////                AlertBox alertBox = new AlertBox("Invalid Username or password.", "Invalid");
-//                username.setText("");
-//                password.setText("");
-//
-//            }
-        }//end else
-    }
+            User user = DbQuery.checkLoginDetails(uname, pass);
+            if (user != null) {
+                System.out.println("login");
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+//                switch (user.getRole()) {
+//                    case ("registrant"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
+//                        break;
+//                    case ("attendant"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", null);
+//                        break;
+//                    case ("coach"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", null);
+//                        break;
+//                    case ("emergency"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", null);
+//                        break;
+//                    case ("finance"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", null);
+//                        break;
+//                    case ("inventory"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", null);
+//                        break;
+//                    case ("maintenance"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", null);
+//                        break;
+//                    case ("manager"):
+//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
+//                        break;
+//                }
+            } else {
+                AlertMaker.showSimpleAlert("Try Again", "Invalid username or password");
+                clearDetails();
+
+            }
+
+        }
     }
 
     @FXML
     private void forgetPassword(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("passwordRecovery.fxml"), "Password Recovery", null);
+        StageLoader.loadWindow(getClass().getResource("enterUsername.fxml"), "Password Recovery", null);
 
     }
 
@@ -81,6 +104,17 @@ public class LoginController implements Initializable {
         pass_hidden.setText(pass_text.getText());
         pass_hidden.setVisible(true);
         pass_text.setVisible(false);
+    }
+
+    private void clearDetails() {
+        username.setText("");
+        pass_hidden.setText("");
+        pass_text.setText("");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
     }
 
 }

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="997.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.manager.attendance.AttendanceController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="1220.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.manager.AttendanceController">
    <center>
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
          <columns>
@@ -20,6 +20,7 @@
             <TableColumn fx:id="emailCol" prefWidth="148.0" text="Email" />
             <TableColumn fx:id="deptCol" prefWidth="168.0" text="Department" />
             <TableColumn fx:id="roleCol" prefWidth="157.0" text="Role" />
+            <TableColumn fx:id="dateCol" prefWidth="111.0" text="Date" />
             <TableColumn fx:id="attendanceCol" prefWidth="111.0" text="Attendance" />
          </columns>
          <BorderPane.margin>
