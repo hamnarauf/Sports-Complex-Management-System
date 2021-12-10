@@ -22,7 +22,7 @@
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
          <columns>
             <TableColumn fx:id="purposeCol" prefWidth="538.0" text="Purpose" />
-            <TableColumn fx:id="deptCol" prefWidth="168.0" text="Department" />
+            <TableColumn fx:id="sportCol" prefWidth="168.0" text="Sport" />
             <TableColumn fx:id="amountCol" prefWidth="251.0" text="Expected Expenditure" />
          </columns>
          <contextMenu>

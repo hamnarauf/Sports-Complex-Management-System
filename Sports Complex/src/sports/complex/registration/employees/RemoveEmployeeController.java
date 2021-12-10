@@ -21,8 +21,6 @@ import javafx.scene.control.Label;
 public class RemoveEmployeeController implements Initializable {
 
     @FXML
-    private JFXTextField id;
-    @FXML
     private Label name;
     @FXML
     private Label contact;
@@ -34,6 +32,8 @@ public class RemoveEmployeeController implements Initializable {
     private Label address;
     @FXML
     private Label dept;
+    @FXML
+    private JFXTextField empId;
 
     /**
      * Initializes the controller class.
@@ -43,8 +43,39 @@ public class RemoveEmployeeController implements Initializable {
         // TODO
     }    
 
-    @FXML
+       @FXML
     private void handleRemoveBtn(ActionEvent event) {
+
+
+    }
+
+    public void clearCache() {
+        name.setText("");
+        contact.setText("");
+        dob.setText("");
+        email.setText("");
+        address.setText("");
+        dept.setText("");
+    }
+
+    @FXML
+    private void updateFields(ActionEvent event) {
+            clearCache();
+        String id = empId.getText();
+//        if (id != null && DbQuery.isEmployee(id)) {
+//            Employee emp;
+//            emp = DbQuery.getEmployee(id);
+//            name.setText(emp.getFname() + emp.getLname());
+//            contact.setText(emp.getContact());
+//            dob.setText(emp.getDob().toString());
+//            email.setText(emp.getEmail());
+//            address.setText(emp.getAddress());
+//            domain.setText(emp.getDept());
+//
+//        }
+//        else {
+//            dept.setText("Invalid Member ID");
+//        }
     }
     
 }

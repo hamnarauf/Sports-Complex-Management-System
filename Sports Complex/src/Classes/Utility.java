@@ -16,6 +16,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import Classes.*;
+import Database.DbQuery;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import sports.complex.alert.AlertMaker;
 /**
  *
@@ -42,8 +45,10 @@ public class Utility {
             }
         });
         if (flag) {
-            AlertMaker.showSimpleAlert( "Member data has been exported.", "Completed");
+            AlertMaker.showSimpleAlert( "Completed", "Member data has been exported.");
         }
     }
+        
+
     
 }

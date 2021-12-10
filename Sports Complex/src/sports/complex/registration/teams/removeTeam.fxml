@@ -30,7 +30,7 @@
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <JFXTextField fx:id="teamId" labelFloat="true" prefHeight="38.0" prefWidth="372.0" promptText="Team ID" BorderPane.alignment="CENTER">
+                  <JFXTextField fx:id="teamId" labelFloat="true" onAction="#updateFields" prefHeight="38.0" prefWidth="372.0" promptText="Team ID" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets left="70.0" right="70.0" top="20.0" />
                      </BorderPane.margin>
@@ -47,9 +47,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="175.0" text="Team Name" textAlignment="CENTER" />
-                        <Label fx:id="pack" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="177.0" text="Package" textAlignment="CENTER" GridPane.columnIndex="1" />
-                        <Label fx:id="coach" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="170.0" text="Coach (if any)" textAlignment="CENTER" GridPane.columnIndex="2" />
+                        <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="175.0" textAlignment="CENTER" />
+                        <Label fx:id="pack" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="177.0" textAlignment="CENTER" GridPane.columnIndex="1" />
+                        <Label fx:id="coach" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="170.0" textAlignment="CENTER" GridPane.columnIndex="2" />
                      </children>
                      <BorderPane.margin>
                         <Insets top="10.0" />

@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.employees;
 
+import Classes.*;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,8 +18,6 @@ import javafx.scene.control.Label;
 public class RemoveCoachController implements Initializable {
 
     @FXML
-    private JFXTextField id;
-    @FXML
     private Label name;
     @FXML
     private Label contact;
@@ -34,6 +29,8 @@ public class RemoveCoachController implements Initializable {
     private Label address;
     @FXML
     private Label domain;
+    @FXML
+    private JFXTextField coachId;
 
     /**
      * Initializes the controller class.
@@ -41,10 +38,41 @@ public class RemoveCoachController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void handleRemoveBtn(ActionEvent event) {
+ 
+
     }
-    
+
+    public void clearCache() {
+        name.setText("");
+        contact.setText("");
+        dob.setText("");
+        email.setText("");
+        address.setText("");
+        domain.setText("");
+    }
+
+    @FXML
+    private void updateFields(ActionEvent event) {
+               clearCache();
+        String id = coachId.getText();
+//        if (id != null && DbQuery.isCoach(id)) {
+//            Coach coach;
+//            coach = DbQuery.getCoach(id);
+//            name.setText(coach.getFname() + coach.getLname());
+//            contact.setText(coach.getContact());
+//            dob.setText(coach.getDob().toString());
+//            email.setText(coach.getEmail());
+//            address.setText(coach.getAddress());
+//            domain.setText(coach.getDomain());
+//
+//        }
+//        else {
+//            domain.setText("Invalid Member ID");
+//        }
+    }
+
 }

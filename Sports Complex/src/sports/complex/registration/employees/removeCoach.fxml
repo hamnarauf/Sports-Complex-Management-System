@@ -23,14 +23,14 @@
          <bottom>
             <JFXButton onAction="#handleRemoveBtn" text="Remove" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets bottom="15.0" />
+                  <Insets bottom="40.0" />
                </BorderPane.margin>
             </JFXButton>
          </bottom>
          <center>
             <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <JFXTextField fx:id="id" labelFloat="true" prefHeight="38.0" prefWidth="372.0" promptText="Coach ID" BorderPane.alignment="CENTER">
+                  <JFXTextField fx:id="coachId" labelFloat="true" onAction="#updateFields" prefHeight="38.0" prefWidth="372.0" promptText="Coach ID" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets left="70.0" right="70.0" top="20.0" />
                      </BorderPane.margin>
@@ -48,15 +48,15 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="175.0" text="Name" textAlignment="CENTER" />
-                        <Label fx:id="contact" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="177.0" text="Contact Number" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Label fx:id="dob" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="170.0" text="DOB" textAlignment="CENTER" GridPane.columnIndex="2" />
-                        <Label fx:id="email" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="171.0" text="Email" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="address" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="189.0" text="Address" textAlignment="CENTER" GridPane.rowIndex="1" />
-                        <Label fx:id="domain" alignment="CENTER" prefHeight="26.0" prefWidth="227.0" text="Domain" GridPane.columnIndex="1" />
+                        <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="263.0" textAlignment="CENTER" />
+                        <Label fx:id="contact" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="254.0" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="dob" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="219.0" textAlignment="CENTER" GridPane.columnIndex="2" />
+                        <Label fx:id="email" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="234.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="address" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="247.0" textAlignment="CENTER" GridPane.rowIndex="1" />
+                        <Label fx:id="domain" alignment="CENTER" prefHeight="26.0" prefWidth="227.0" GridPane.columnIndex="1" />
                      </children>
                      <BorderPane.margin>
-                        <Insets top="10.0" />
+                        <Insets top="30.0" />
                      </BorderPane.margin>
                   </GridPane>
                </center>

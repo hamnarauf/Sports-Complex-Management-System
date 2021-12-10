@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration;
 
+import Classes.Employee;
+import Classes.Member;
+import Classes.gender;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -32,6 +30,10 @@ import javafx.stage.Stage;
 import utilities.StageLoader;
 import Database.DbQuery;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -71,9 +73,7 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXComboBox<String> regTeamSport;
     @FXML
-    private JFXTextField regTeamCoach;
-    @FXML
-    private JFXTextField regTeamPackage;
+    private JFXComboBox<String> regTeamCoach;
     @FXML
     private JFXTextField regTeamMembers;
     @FXML
@@ -100,7 +100,6 @@ public class RegistrationController implements Initializable {
     private JFXTextField regEmpBloodGroup;
     @FXML
     private JFXComboBox<String> regEmpDept;
-    @FXML
     private JFXComboBox<String> regEmpRole;
     @FXML
     private JFXTextField regEmpAllergies;
@@ -118,6 +117,10 @@ public class RegistrationController implements Initializable {
     private JFXComboBox<String> sports1;
     @FXML
     private JFXComboBox<String> sports2;
+    @FXML
+    private JFXComboBox<String> regTeamPackage;
+    @FXML
+    private Label SecurityQues;
 
     /**
      * Initializes the controller class.
@@ -131,10 +134,19 @@ public class RegistrationController implements Initializable {
         }
     }
 
+    public String getSelectedRadio(ToggleGroup toggle) {
+
+        RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
+        String toogleGroupValue = selectedRadioButton.getText();
+
+        return toogleGroupValue;
+    }
+
     void populateComboBox() throws SQLException {
         populateSportsCombo();
         populateDeptCombo();
-        populateRoleCombo();
+        populateCoachCombo();
+        populatePackageCombo();
 
     }
 
@@ -150,18 +162,30 @@ public class RegistrationController implements Initializable {
 
     void populateDeptCombo() throws SQLException {
         ArrayList<String> depts = new ArrayList<String>();
-//        depts = DbQuery.getDeptList();
+        depts = DbQuery.getDeptList();
         for (String dept : depts) {
             regEmpDept.getItems().add(dept);
         }
     }
 
-    void populateRoleCombo() throws SQLException {
-        ArrayList<String> roles = new ArrayList<String>();
-//        depts = DbQuery.getDeptList();
-        for (String role : roles) {
-            regEmpRole.getItems().add(role);
+
+    void populateCoachCombo() throws SQLException {
+        ArrayList<String> coaches = new ArrayList<String>();
+//        coaches = DbQuery.getCoachOfSport(DbQuery.getSportID(regTeamSport.getValue()));
+        for (String coach : coaches) {
+            regEmpRole.getItems().add(coach);
         }
+    }
+
+    void populatePackageCombo() throws SQLException {
+
+        regTeamPackage.getItems().add("Training");
+        regTeamPackage.getItems().add("Non-Training");
+    }
+    
+    public void displaySecQues(){
+    
+        SecurityQues.setText("");
     }
 
     @FXML
@@ -278,16 +302,110 @@ public class RegistrationController implements Initializable {
         return (Stage) rootPane.getScene().getWindow();
     }
 
+    public Date getDate(LocalDate local) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date date = Date.from(local.atStartOfDay(defaultZoneId).toInstant());
+
+        return date;
+
+    }
+
     @FXML
-    private void handleRegMemBtn(ActionEvent event) {
+    private void handleRegMemBtn(ActionEvent event) throws SQLException {
+        String fname = regMemFN.getText();
+        String lname = regMemLN.getText();
+        String memGender = getSelectedRadio(regMemGender);
+        LocalDate localDob = regMemDOB.getValue();
+        String cnic = regMemCnic.getText();
+        String address = regMemAddress.getText();
+        String contact = regMemContact.getText();
+        String emerContact = regMemContactEmer.getText();
+        String email = regMemEmail.getText();
+        String BloodGrp = regMemBloodGroup.getText();
+        String allergies = regMemAllergies.getText();
+
+        if (fname == null || lname == null || memGender == null || localDob == null || cnic == null || address == null
+                || contact == null || email == null || BloodGrp == null) {
+            AlertMaker.showErrorMessage("Tryagain", "One or more feild is empty.");
+
+        } else {
+            Date dob = getDate(localDob);
+            gender gen;
+            if (memGender.equals("Male")) {
+                gen = gender.m;
+            } else {
+                gen = gender.f;
+
+            }
+
+            Member mem = new Member(fname, lname, gen, dob, cnic, address,
+                    contact, emerContact, email, BloodGrp, allergies, "");
+            DbQuery.registerMember(mem);
+
+            AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+
+        }
     }
 
     @FXML
     private void handleRegTeamBtn(ActionEvent event) {
+        String sport = regTeamSport.getValue();
+        String mem = regTeamMembers.getText();
+        String pkg = regTeamPackage.getValue();
+        String coach = regTeamCoach.getValue();
+
+        if (sport == null || mem == null || pkg == null || (pkg == "Training" && coach == null)) {
+            AlertMaker.showErrorMessage("Try again", "Please enter all required feilds");
+        } else {
+//            DbQuery.registerTeam();
+            AlertMaker.showSimpleAlert("Succes", "Team Registered succesfully");
+
+        }
+
     }
 
     @FXML
-    private void handleRegEmpBtn(ActionEvent event) {
+    private void handleRegEmpBtn(ActionEvent event) throws SQLException {
+        String fname = regEmpFN.getText();
+        String lname = regEmpLN.getText();
+        String empGender = getSelectedRadio(regEmpGender);
+        LocalDate localDob = regEmpDOB.getValue();
+        String cnic = regEmpCnic.getText();
+        String address = regEmpAddress.getText();
+        String contact = regEmpContact.getText();
+        String emerContact = regEmpContactEmer.getText();
+        String email = regEmpEmail.getText();
+        String dept = regEmpDept.getValue();
+        String role = regEmpRole.getValue();
+        String domain = regEmpDomain.getText();
+        String bloodgrp = regEmpBloodGroup.getText(); 
+        String allergy = regEmpAllergies.getText();
+        String ques = SecurityQues.getText();
+        String ans = regEmpSecurityAns.getText();
+        
+       if (fname == null || lname == null || empGender == null || localDob == null || cnic == null || address == null
+                || contact == null || email == null || bloodgrp == null || dept == null ||  role  == null || 
+               domain == null ||  ques == null ||  ans == null) {
+            AlertMaker.showErrorMessage("Try Again", "One or more feild is empty.");
+
+        } else {
+            Date dob = getDate(localDob);
+            gender gen;          
+            
+            if (empGender.equals("Male")) {
+                gen = gender.m;
+            } else {
+                gen = gender.f;
+
+            }
+
+            Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
+                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)), 0,"");
+            DbQuery.registerEmployee(emp);
+
+            AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+
+        }
     }
 
     @FXML

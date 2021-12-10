@@ -29,6 +29,7 @@ public class SportsComplex extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 //        setStage("/sports/complex/registration/registration.fxml");
+//        setStage("/sports/complex/registration/members/registerTrainee.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
 //        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/finance/finance.fxml");

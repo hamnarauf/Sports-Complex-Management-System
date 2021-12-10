@@ -181,9 +181,9 @@
                                       </rowConstraints>
                                        <children>
                                           <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
-                                          <JFXTextField fx:id="regTeamCoach" labelFloat="true" promptText="Coach (if any)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <JFXTextField fx:id="regTeamPackage" labelFloat="true" promptText="Package" GridPane.rowIndex="1" />
                                           <JFXTextField fx:id="regTeamMembers" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
+                                          <JFXComboBox fx:id="regTeamPackage" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Package" GridPane.rowIndex="1" />
+                                          <JFXComboBox fx:id="regTeamCoach" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" prefHeight="37.0" prefWidth="352.0" promptText="Coach (only for taining teams)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                        <BorderPane.margin>
                                           <Insets left="35.0" right="35.0" top="30.0" />
@@ -252,10 +252,9 @@
                                           </AnchorPane>
                                           <JFXTextField fx:id="regEmpContact" labelFloat="true" promptText="Contact Number" GridPane.rowIndex="2" />
                                           <JFXTextField fx:id="regEmpEmail" labelFloat="true" promptText="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                          <JFXTextField fx:id="regEmpBloodGroup" labelFloat="true" promptText="Blood Group" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <JFXTextField fx:id="regEmpBloodGroup" labelFloat="true" promptText="Blood Group" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                           <JFXComboBox fx:id="regEmpDept" prefHeight="38.0" prefWidth="362.0" promptText="Department" GridPane.rowIndex="3" />
-                                          <JFXComboBox fx:id="regEmpRole" prefHeight="38.0" prefWidth="331.0" promptText="Role" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <JFXTextField fx:id="regEmpAllergies" labelFloat="true" promptText="Allergies (if any)" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <JFXTextField fx:id="regEmpAllergies" labelFloat="true" promptText="Allergies (if any)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <JFXTextField fx:id="regEmpCnic" labelFloat="true" promptText="CNIC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <AnchorPane prefHeight="86.0" prefWidth="33.0" GridPane.rowIndex="4">
                                              <children>
@@ -274,7 +273,7 @@
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="162.0" prefWidth="844.0">
                                              <children>
-                                                <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="674.0" text="Security Question" />
+                                                <Label fx:id="SecurityQues" contentDisplay="CENTER" prefHeight="26.0" prefWidth="674.0" text="Security Question" />
                                                 <JFXTextField fx:id="regEmpSecurityAns" maxHeight="-Infinity" maxWidth="700.0" prefHeight="37.0" prefWidth="737.0" promptText="Answer">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" left="85.0" right="70.0" />

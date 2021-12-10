@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.teams;
 
+import Classes.*;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,10 +33,35 @@ public class RemoveTeamController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void handleRemoveBtn(ActionEvent event) {
+
     }
-    
+
+    private void clearCache() {
+        name.setText("");
+        coach.setText("");
+        pack.setText("");
+
+    }
+
+    @FXML
+    private void updateFields(ActionEvent event) throws SQLException {
+        clearCache();
+        String id = teamId.getText();
+
+        if (id != null && DbQuery.isTeam(id)) {
+            Team team;
+//            team = DbQuery.getTeam(id);
+//            name.setText(team.getName());
+//            coach.setText(team.getCoach());
+//            pack.setText(team.getPackage());
+
+        } else {
+            pack.setText("Invalid Member ID");
+        }
+    }
+
 }

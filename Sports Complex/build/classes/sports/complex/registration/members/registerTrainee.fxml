@@ -22,12 +22,12 @@
                   <Insets bottom="30.0" left="30.0" right="30.0" top="35.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXComboBox fx:id="sport" prefHeight="37.0" prefWidth="504.0" promptText="Sport">
+            <JFXComboBox fx:id="sportCombo" prefHeight="37.0" prefWidth="504.0" promptText="Sport">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="15.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXComboBox fx:id="time" prefHeight="37.0" prefWidth="431.0" promptText="Favourable Time">
+            <JFXComboBox fx:id="timeCombo" onMouseClicked="#handleTime" prefHeight="37.0" prefWidth="431.0" promptText="Favourable Time">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="15.0" />
                </VBox.margin>

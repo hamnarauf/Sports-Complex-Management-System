@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.inventory;
 
 import com.jfoenix.controls.JFXTextField;
@@ -23,9 +18,9 @@ public class DelItemController implements Initializable {
     @FXML
     private JFXTextField itemName;
     @FXML
-    private Label sportId;
-    @FXML
     private Label quantity;
+    @FXML
+    private Label sportName;
 
     /**
      * Initializes the controller class.
@@ -33,10 +28,32 @@ public class DelItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void handleDeleteBtn(ActionEvent event) {
     }
-    
+
+    @FXML
+    private void updateFields(ActionEvent event) {
+        clearCache();
+//        String name = itemName.getText();
+//
+//        if (name != null && DbQuery.isItem(name)) {
+//            InventoryItem item;
+//            item = DbQuery.getItem(name);
+//            name.setText(item.getName());
+//            coach.setText(item.getCoach());
+//            pack.setText(item.getPackage());
+//
+//        } else {
+//            sportName.setText("Invalid Member ID");
+//        }
+    }
+
+    public void clearCache() {
+        quantity.setText("");
+        sportName.setText("");
+    }
+
 }

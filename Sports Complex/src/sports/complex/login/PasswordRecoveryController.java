@@ -67,7 +67,7 @@ public class PasswordRecoveryController implements Initializable {
             AlertMaker.showSimpleAlert("Try Again", "Please re-type same password");
         } else {
             if (DbQuery.checkSecAns(username, answer.getText())) {
-                DbQuery.passwordRecovery(username, newPass.getText());
+                DbQuery.passwordNew(username, newPass.getText());
             } else {
                 AlertMaker.showSimpleAlert("Try Again", "Answer does not match with the records.");
             }

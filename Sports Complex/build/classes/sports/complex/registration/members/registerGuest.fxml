@@ -39,7 +39,7 @@
       </Label>
    </top>
    <bottom>
-      <JFXButton text="Register" BorderPane.alignment="CENTER">
+      <JFXButton onAction="#handleRegisterBtn" text="Register" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="15.0" />
          </BorderPane.margin>
