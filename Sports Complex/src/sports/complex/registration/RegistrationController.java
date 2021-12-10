@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,6 +30,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utilities.StageLoader;
+import Database.DbQuery;
+import java.sql.SQLException;
 
 /**
  * FXML Controller class
@@ -43,8 +46,6 @@ public class RegistrationController implements Initializable {
     private BorderPane rootPane;
     @FXML
     private RadioButton memberGender;
-    @FXML
-    private JFXTextField regMemSecurityAns;
     @FXML
     private JFXTextField regMemFN;
     @FXML
@@ -68,9 +69,7 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXTextField regMemCnic;
     @FXML
-    private JFXCheckBox regMemTrainee;
-    @FXML
-    private JFXComboBox<?> regTeamSport;
+    private JFXComboBox<String> regTeamSport;
     @FXML
     private JFXTextField regTeamCoach;
     @FXML
@@ -100,9 +99,9 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXTextField regEmpBloodGroup;
     @FXML
-    private JFXComboBox<?> regEmpDept;
+    private JFXComboBox<String> regEmpDept;
     @FXML
-    private JFXComboBox<?> regEmpRole;
+    private JFXComboBox<String> regEmpRole;
     @FXML
     private JFXTextField regEmpAllergies;
     @FXML
@@ -112,21 +111,57 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXButton tourMemBtn;
     @FXML
-    private JFXComboBox<?> tournament1;
-    @FXML
     private JFXTextField tourTeamId;
     @FXML
-    private JFXComboBox<?> tournament2;
-    @FXML
     private JFXButton tourTeamBtn;
+    @FXML
+    private JFXComboBox<String> sports1;
+    @FXML
+    private JFXComboBox<String> sports2;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            populateComboBox();
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-//        combox.getitems().add():
+    void populateComboBox() throws SQLException {
+        populateSportsCombo();
+        populateDeptCombo();
+        populateRoleCombo();
+
+    }
+
+    void populateSportsCombo() throws SQLException {
+        ArrayList<String> sports = new ArrayList<String>();
+        sports = DbQuery.getSportsList();
+        for (String sport : sports) {
+            regTeamSport.getItems().add(sport);
+            sports1.getItems().add(sport);
+            sports2.getItems().add(sport);
+        }
+    }
+
+    void populateDeptCombo() throws SQLException {
+        ArrayList<String> depts = new ArrayList<String>();
+//        depts = DbQuery.getDeptList();
+        for (String dept : depts) {
+            regEmpDept.getItems().add(dept);
+        }
+    }
+
+    void populateRoleCombo() throws SQLException {
+        ArrayList<String> roles = new ArrayList<String>();
+//        depts = DbQuery.getDeptList();
+        for (String role : roles) {
+            regEmpRole.getItems().add(role);
+        }
     }
 
     @FXML
