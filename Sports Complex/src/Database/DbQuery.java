@@ -273,5 +273,4 @@ public class DbQuery {
         tearDownDb();
         return memberList;
     }
-    //finally learning github
 }
