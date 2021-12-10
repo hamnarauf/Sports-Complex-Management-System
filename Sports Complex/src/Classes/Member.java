@@ -3,19 +3,27 @@ package Classes;
 import java.util.*;
 
 public class Member extends Person {
-    private int member_id;
+    private String member_id;
     
     public Member(String fname, String lname, gender gen, Date dob, String cnic, String address, 
-                  String contactNo, String emerContact, String email, String bloodGrp, int member_id){
-        super(fname, lname, gen, dob, cnic, address, contactNo, emerContact, email, bloodGrp);
+                  String contactNo, String emerContact, String email, String bloodGrp, 
+                  String allergy, String member_id){
+        
+        super(fname, lname, gen, dob, cnic, address, contactNo, emerContact, email, bloodGrp, allergy);
         this.member_id = member_id;
     }
 
-    public int getMember_id() {
+    public Member(String fname, String lname, gender gen, Date dob, String cnic, String contactNo,
+        String email, String address, String member_id){
+            super(fname, lname, gen, dob, cnic, contactNo, email);
+            this.member_id = member_id;
+    }
+
+    public String getMember_id() {
         return member_id;
     }
 
-    public void setMember_id(int member_id) {
+    public void setMember_id(String member_id) {
         this.member_id = member_id;
     }
 }

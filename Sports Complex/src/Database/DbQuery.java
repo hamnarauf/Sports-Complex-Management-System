@@ -259,16 +259,18 @@ public class DbQuery {
         ArrayList<Member> memberList = new ArrayList<Member>();
 
         final String query = "SELECT Person.cnic, Person.firstName, Person.lastName, Person.dob, " +
-        "Person.gender, Person.contact, Person.emerContact, Person.email, Person.address, Member.member_id " +
+        "Person.gender, Person.contact, Person.email, Member.member_id " +
         "FROM Person INNER JOIN Member ON Member.cnic = Person.cnic;";
 
         ResultSet rs = st.executeQuery(query);
-        
-//        while(rs.next()){
-//            Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), rs.getString("gen"),
-//            rs.getDate("dob"), rs.getString("cnic"), rs.getString("address"), rs.getString("contactNo"),
-//            rs.getString("emerContact"), rs.getString("email"), rs.getString(""));
-//        }
+
+        while(rs.next()){
+           Member m = new Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), 
+                    gender.valueOf(rs.getString("gen")), rs.getDate("dob"), rs.getString("cnic"), 
+                    rs.getString("contactNo"), rs.getString("email"), rs.getString("member_id"));
+
+            memberList.add(m);
+        }
 
         tearDownDb();
         return memberList;

@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.*;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -34,7 +35,7 @@ public class RegisteredIndividualsController implements Initializable {
     @FXML
     private TableColumn<Person, String> bloodGCol;
     @FXML
-    private TableColumn<Person, String> allergiesCol;
+    private TableColumn<Person, ArrayList<String> >allergiesCol;
     @FXML
     private TableColumn<Person, String> contactCol;
     @FXML
@@ -71,6 +72,14 @@ public class RegisteredIndividualsController implements Initializable {
     private void loadData() {
 
         ArrayList<Person> allPersons = new ArrayList<Person>();
+        ArrayList<String> allergies = new ArrayList<String>();
+        allergies.add("ABC");
+        allergies.add("DEF");
+        allergies.add("GHi");
+        Person person1 = new Person("fname", "lname", gender.f, new Date() , "cnic", "address", 
+                  "contactNo", "emerContact", "email", "bloodGrp", allergies);
+        allPersons.add(person1);
+        
         for (Person person : allPersons) {
             list.add(person);
         }

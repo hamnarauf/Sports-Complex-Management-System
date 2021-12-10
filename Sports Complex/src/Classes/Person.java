@@ -3,6 +3,7 @@ package Classes;
 import java.util.*;
 
 public class Person {
+
     private String fname;
     private String lname;
     private gender gen;
@@ -13,20 +14,35 @@ public class Person {
     private String emerContact;
     private String email;
     private String bloodGrp;
+    private String allergy;
 
-    public Person(String fname, String lname, gender gen, Date dob, String cnic, String address, 
-                  String contactNo, String emerContact, String email, String bloodGrp){
+    public Person(String fname, String lname, gender gen, Date dob, String cnic,
+            String contactNo, String email) {
 
         this.fname = fname;
         this.lname = lname;
         this.gen = gen;
         this.dob = dob;
         this.cnic = cnic;
-        this.address = address;
         this.contactNo = contactNo;
-        this.emerContact = emerContact;
         this.email = email;
+    }
+
+    public Person(String fname, String lname, gender gen, Date dob, String cnic, String contactNo,
+            String emerContact, String email, String address) {
+
+        this(fname, lname, gen, dob, cnic, contactNo, email);
+        this.emerContact = emerContact;
+        this.address = address;
+    }
+
+    public Person(String fname, String lname, gender gen, Date dob, String cnic,
+            String contactNo, String emerContact, String email, String address, 
+            String bloodGrp, String allergy) {
+
+        this(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address);
         this.bloodGrp = bloodGrp;
+        this.allergy = allergy;
     }
 
     public String getFname() {
@@ -52,7 +68,7 @@ public class Person {
     public void setGen(gender gen) {
         this.gen = gen;
     }
-    
+
     public Date getDob() {
         return dob;
     }
@@ -107,5 +123,13 @@ public class Person {
 
     public void setBloodGrp(String bloodGrp) {
         this.bloodGrp = bloodGrp;
+    }
+
+    public String getAllergy() {
+        return allergy;
+    }
+
+    public void setAllergy(String allergy) {
+        this.allergy = allergy;
     }
 }
