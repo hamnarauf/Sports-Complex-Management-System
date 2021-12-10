@@ -14,7 +14,7 @@ public class Member extends Person {
     }
 
     public Member(String fname, String lname, gender gen, Date dob, String cnic, String contactNo,
-        String email, String address, String member_id){
+        String email, String member_id){
             super(fname, lname, gen, dob, cnic, contactNo, email);
             this.member_id = member_id;
     }
