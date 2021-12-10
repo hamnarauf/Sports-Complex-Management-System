@@ -1,7 +1,5 @@
 package Database;
 
-
-
 import Classes.*;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -26,7 +24,6 @@ public class DbQuery {
     //general-purpose methods
     private static void setupDb() {
         //for making connection to the database
-        String url;
         try {
             Connection connection = DriverManager.getConnection(FILE);
             DbQuery.conn = connection;
@@ -156,30 +153,124 @@ public class DbQuery {
         tearDownDb();
     }
 
-//    public static ArrayList<Time> getTime(String sport){
-//        setupDb();
-//        int sport_id;
-//        int coach_id;
-//
-//        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sport = \"" + sport + "\"";
-//        final String getCoachQuery = "SELECT coach_id FROM Coach WHERE sport_id = \"" + sport_id + "\"";
-//        final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\"";
-//    }
-//
-//    public static void getSportsList(){
-//
-//    }
+    public static ArrayList<String> getSportsList() throws SQLException{
+        setupDb();
+        ArrayList<String> sportName = new ArrayList<String>();
+        
+        final String query = "SELECT sportName FROM Sport;";
+        
+        ResultSet rs = st.executeQuery(query);
+        
+        while(rs.next()){
+            sportName.add(rs.getString("sportName"));
+        }
+        
+        tearDownDb();
+        return sportName;
+    }
+    
+    public static int getSportID(String sport) throws SQLException{
+        setupDb();
+        int sport_id = 0;
 
+        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sport = \"" + sport + "\"";
+        ResultSet rs = st.executeQuery(getSportQuery);
+        
+        if(rs.next()){
+            sport_id = rs.getInt("sport_id");
+        }
 
-//    public static void registerTrainee(Trainee t1){
-//        setupDb();
-//
-//        final String query =
-//
-//        final String query = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address," +
-//                             " contact, emerContact, email, bloodGroup) \n" +
-//                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-//
-//        
-//    }
+        tearDownDb();
+        return sport_id;
+    }
+
+    public static ResultSet getCoachOfSport(int sport_id) throws SQLException{
+        setupDb();
+        
+        final String getCoachQuery = "SELECT coach_id FROM Coach WHERE sport_id = \"" + sport_id + "\"";
+        ResultSet rs = st.executeQuery(getCoachQuery);
+
+        tearDownDb();
+        return rs;
+    }
+
+    public static ArrayList<Time> getTime(String sport) throws SQLException{
+        setupDb();
+
+        int coach_id = 0;
+        ResultSet rs;
+        ResultSet rs2;
+        ArrayList<Time> startTime = new ArrayList <Time>();
+        
+        int sport_id = getSportID(sport);
+        rs = getCoachOfSport(sport_id);
+        
+        while(rs.next()){
+            coach_id = rs.getInt("coach_id");
+            
+            final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\"";
+            rs2 = st.executeQuery(getClassTimeQuery);
+            
+            startTime.add(rs2.getTime("startTime"));
+        }
+        
+        tearDownDb();
+        return startTime;
+    }
+
+    public static boolean isMember(String cnic) throws SQLException{
+        setupDb();
+        boolean valid;
+        
+        final String query = "SELECT member_id FROM Member WHERE cnic = \"" + cnic + "\"";
+        
+        ResultSet rs = st.executeQuery(query);
+        valid = rs.next();  //if any record matches the provided username
+        
+        tearDownDb();
+        return valid;
+    }
+    
+    public static void registerTrainee(Trainee t1) throws SQLException{
+        setupDb();
+
+        int sport_id = getSportID(t1.getSport());
+        int class_id = 0;
+        
+        final String getClassQuery = "SELECT Class.class_id FROM Class " +
+        "INNER JOIN Coach ON Coach.coach_id = Class.coach_id " + 
+        "WHERE sport_id = \"" + sport_id + "\" AND startTime = \"" + t1.getStartTime() + "\"";
+
+        ResultSet rs = st.executeQuery(getClassQuery);
+        
+        if (rs.next()){
+            class_id = rs.getInt("Class.class_id");
+        }
+            
+        final String regTraineeQuery = "INSERT INTO Trainee VALUES (" + t1.getMember_id() + ", " + class_id + ")";
+
+        st.executeUpdate(regTraineeQuery);
+        tearDownDb();
+    }
+
+    public static ArrayList<Member> displayMembers() throws SQLException{
+        setupDb();
+
+        ArrayList<Member> memberList = new ArrayList<Member>();
+
+        final String query = "SELECT Person.cnic, Person.firstName, Person.lastName, Person.dob, " +
+        "Person.gender, Person.contact, Person.emerContact, Person.email, Person.address, Member.member_id " +
+        "FROM Person INNER JOIN Member ON Member.cnic = Person.cnic;";
+
+        ResultSet rs = st.executeQuery(query);
+        
+        while(rs.next()){
+            Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"), rs.getString("gen"),
+            rs.getDate("dob"), rs.getString("cnic"), rs.getString("address"), rs.getString("contactNo"),
+            rs.getString("emerContact"), rs.getString("email"), rs.getString(""));
+        }
+
+        tearDownDb();
+        return memberList;
+    }
 }
