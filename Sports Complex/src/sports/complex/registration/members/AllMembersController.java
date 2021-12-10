@@ -69,11 +69,8 @@ public class AllMembersController implements Initializable {
     }
 
     private void loadData() {
-        Member member1 = new Member("fname", "lname", gender.m, new Date(), "cnic", "address",
-                "contactNo", "emerContact", "email", "bloodGrp", "allergy");
 
         ArrayList<Member> allMember = new ArrayList<Member>();
-        allMember.add(member1);
         for (Member member : allMember) {
             list.add(member);
         }

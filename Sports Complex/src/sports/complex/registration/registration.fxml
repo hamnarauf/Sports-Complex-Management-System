@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
@@ -109,11 +108,6 @@
                                           <JFXTextField fx:id="regMemEmail" labelFloat="true" promptText="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <JFXTextField fx:id="regMemAllergies" labelFloat="true" promptText="Allergies (if any)" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                           <JFXTextField fx:id="regMemCnic" labelFloat="true" promptText="CNIC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <JFXCheckBox fx:id="regMemTrainee" checkedColor="#08eff5" prefHeight="18.0" prefWidth="121.0" text="Trainee" textFill="#08eff5" unCheckedColor="#08eff5" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </JFXCheckBox>
                                        </children>
                                        <BorderPane.margin>
                                           <Insets left="35.0" right="35.0" top="20.0" />
@@ -355,10 +349,10 @@
                                     <Label alignment="CENTER" prefHeight="26.0" prefWidth="406.0" styleClass="form_label" text="Register Member" />
                                     <JFXTextField fx:id="tourMemId" labelFloat="true" promptText="Member ID" GridPane.rowIndex="1" />
                                     <JFXButton fx:id="tourMemBtn" alignment="CENTER" contentDisplay="CENTER" onAction="#handleTourMemBtn" prefHeight="40.0" prefWidth="447.0" text="Register" textAlignment="CENTER" GridPane.rowIndex="3" />
-                                    <JFXComboBox fx:id="tournament1" prefHeight="38.0" prefWidth="401.0" promptText="Tournament" GridPane.rowIndex="2" />
+                                    <JFXComboBox fx:id="sports1" prefHeight="38.0" prefWidth="401.0" promptText="Sports" GridPane.rowIndex="2" />
                                     <Label alignment="CENTER" prefHeight="26.0" prefWidth="406.0" styleClass="form_label" text="Register Team" GridPane.columnIndex="1" />
                                     <JFXTextField fx:id="tourTeamId" labelFloat="true" maxWidth="500.0" promptText="Team ID" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <JFXComboBox fx:id="tournament2" prefHeight="38.0" prefWidth="401.0" promptText="Tournament" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <JFXComboBox fx:id="sports2" prefHeight="38.0" prefWidth="401.0" promptText="Sports" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <JFXButton fx:id="tourTeamBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="405.0" onAction="#handleTourTeamBtn" prefHeight="40.0" prefWidth="457.0" text="Register" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
                                  <BorderPane.margin>
