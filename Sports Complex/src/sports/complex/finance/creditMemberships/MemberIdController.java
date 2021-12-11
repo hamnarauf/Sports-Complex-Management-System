@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.finance.creditMemberships;
 
 import com.jfoenix.controls.JFXTextField;
@@ -11,6 +6,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import Database.*;
+import java.sql.SQLException;
+import sports.complex.alert.AlertMaker;
+import utilities.StageLoader;
 
 /**
  * FXML Controller class
@@ -28,10 +27,25 @@ public class MemberIdController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
-    private void handleOkBtn(ActionEvent event) {
+    private void handleOkBtn(ActionEvent event) throws SQLException {
+        String id = memberId.getText();
+
+        if (id == null) {
+            AlertMaker.showErrorMessage("Error", "Please enter a member id");
+
+        } else {
+            if (DbQuery.isMember(id)) {
+                StageLoader.loadWindow(getClass().getResource("TransactionForm.fxml"), "Credit Membership", null);
+
+            } else {
+                AlertMaker.showErrorMessage("Invalid", "Member id is invalid");
+
+            }
+        }
+
     }
-    
+
 }

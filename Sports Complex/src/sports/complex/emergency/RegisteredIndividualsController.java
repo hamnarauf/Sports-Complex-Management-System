@@ -72,13 +72,7 @@ public class RegisteredIndividualsController implements Initializable {
     private void loadData() {
 
         ArrayList<Person> allPersons = new ArrayList<Person>();
-        ArrayList<String> allergies = new ArrayList<String>();
-        allergies.add("ABC");
-        allergies.add("DEF");
-        allergies.add("GHi");
-        Person person1 = new Person("fname", "lname", gender.f, new Date() , "cnic", "address", 
-                  "contactNo", "emerContact", "email", "bloodGrp", allergies);
-        allPersons.add(person1);
+
         
         for (Person person : allPersons) {
             list.add(person);

@@ -1,17 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.members;
 
+import Classes.*;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -20,8 +19,6 @@ import javafx.scene.control.Label;
  */
 public class RemoveMemberController implements Initializable {
 
-    @FXML
-    private JFXTextField id;
     @FXML
     private Label name;
     @FXML
@@ -32,6 +29,8 @@ public class RemoveMemberController implements Initializable {
     private Label email;
     @FXML
     private Label address;
+    @FXML
+    private JFXTextField memId;
 
     /**
      * Initializes the controller class.
@@ -39,10 +38,38 @@ public class RemoveMemberController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
-    private void handleRemoveBtn(ActionEvent event) {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+        DbQuery.removeMember(memId.getText());
+        AlertMaker.showSimpleAlert("Success", "Member Removed Successfully");
+
     }
-    
+
+    public void clearCache() {
+        name.setText("");
+        contact.setText("");
+        dob.setText("");
+        email.setText("");
+        address.setText("");
+    }
+
+    @FXML
+    private void updateFields(ActionEvent event) throws SQLException {
+        clearCache();
+        String id = memId.getText();
+        if (id != null && DbQuery.isMember(id)) {
+            Person mem;
+            mem = DbQuery.removeMemberDetails(id);
+            name.setText(mem.getFname() + " " + mem.getLname());
+            contact.setText(mem.getContactNo());
+            dob.setText(mem.getDob().toString());
+            email.setText(mem.getEmail());
+            address.setText(mem.getAddress());
+        } else {
+            contact.setText("Invalid Member ID");
+        }
+    }
+
 }

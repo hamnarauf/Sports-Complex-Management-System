@@ -27,4 +27,3 @@ public class Member extends Person {
         this.member_id = member_id;
     }
 }
-

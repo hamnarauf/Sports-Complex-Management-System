@@ -27,7 +27,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <JFXTextField fx:id="itemName" labelFloat="true" prefHeight="38.0" prefWidth="403.0" promptText="Item Name" BorderPane.alignment="CENTER">
+            <JFXTextField fx:id="itemName" labelFloat="true" onAction="#updateFields" prefHeight="38.0" prefWidth="403.0" promptText="Item Name" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="100.0" right="100.0" top="20.0" />
                </BorderPane.margin>
@@ -43,7 +43,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="sportId" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="291.0" text="Sport Id" textAlignment="CENTER" />
+                  <Label fx:id="sportName" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="291.0" text="Sport Id" textAlignment="CENTER" />
                   <Label fx:id="quantity" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="313.0" text="quantity" textAlignment="CENTER" GridPane.columnIndex="1" />
                </children>
                <BorderPane.margin>

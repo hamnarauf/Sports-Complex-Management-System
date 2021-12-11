@@ -18,6 +18,7 @@ import Classes.Member;
 import java.util.ArrayList;
 import java.util.Date;
 import Classes.gender;
+import Database.DbQuery;
 
 /**
  * FXML Controller class
@@ -53,7 +54,11 @@ public class AllMembersController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(AllMembersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
@@ -68,12 +73,10 @@ public class AllMembersController implements Initializable {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
 
-    private void loadData() {
-        Member member1 = new Member("fname", "lname", gender.m, new Date(), "cnic", "address",
-                "contactNo", "emerContact", "email", "bloodGrp", "allergy");
+    private void loadData() throws SQLException {
 
         ArrayList<Member> allMember = new ArrayList<Member>();
-        allMember.add(member1);
+        allMember = DbQuery.displayMembers();
         for (Member member : allMember) {
             list.add(member);
         }

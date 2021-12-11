@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.inventory;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -15,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import sports.complex.alert.AlertMaker;
 import utilities.StageLoader;
 
 /**
@@ -33,14 +29,33 @@ public class InventoryController implements Initializable {
     @FXML
     private JFXTextField quantity;
     @FXML
-    private JFXComboBox<?> item;
+    private JFXComboBox<String> item;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        populateItemCombo();
+    }
+
+    public void populateItemCombo() {
+
+    }
+
+    @FXML
+    private void handleIssueBtn(ActionEvent event) {
+        String id = MemberId.getText();
+        String quant = quantity.getText();
+        String items = item.getValue();
+
+        if (id == null || quant == null || items == null) {
+            AlertMaker.showErrorMessage("Empty fields", "Please fill all fields");
+
+        } else {
+
+        }
+
     }
 
     @FXML
@@ -112,8 +127,4 @@ public class InventoryController implements Initializable {
         return (Stage) rootPane.getScene().getWindow();
     }
 
-    @FXML
-    private void handleIssueBtn(ActionEvent event) {
-
-    }
 }
