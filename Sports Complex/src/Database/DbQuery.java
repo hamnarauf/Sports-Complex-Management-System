@@ -413,5 +413,20 @@ public class DbQuery {
         return dept_id;
     }
 
+    public static ArrayList<String> getQsList() throws SQLException{
+        setupDb();
+        ArrayList<String> qs = new ArrayList<String>();
 
+        final String query = "SELECT ques FROM secQs;";
+        ResultSet rs = st.executeQuery(query);
+        
+        while(rs.next()){
+            qs.add(rs.getString("ques"));
+        }
+
+        tearDownDb();
+        return qs;
+    }
+
+    
 }
