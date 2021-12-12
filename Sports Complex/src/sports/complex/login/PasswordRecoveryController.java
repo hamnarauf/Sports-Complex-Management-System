@@ -42,11 +42,11 @@ public class PasswordRecoveryController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            securityQues.setText(DbQuery.getSecurityQs(username));
-        } catch (SQLException ex) {
-            Logger.getLogger(PasswordRecoveryController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            securityQues.setText(DbQuery.getSecurityQs(username));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PasswordRecoveryController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     public void setUsername(String uname) {
@@ -61,15 +61,15 @@ public class PasswordRecoveryController implements Initializable {
     private void handleConfirmBtn(ActionEvent event) throws SQLException {
 
         if (answer.getText() == null || newPass.getText() == null || retypeNewPass.getText() == null) {
-            AlertMaker.showSimpleAlert("Try Again", "Please enter all data feilds");
+            AlertMaker.showAlert("Try Again", "Please enter all data feilds");
 
         } else if (!newPass.getText().equals(retypeNewPass.getText())) {
-            AlertMaker.showSimpleAlert("Try Again", "Please re-type same password");
+            AlertMaker.showAlert("Try Again", "Please re-type same password");
         } else {
             if (DbQuery.checkSecAns(username, answer.getText())) {
                 DbQuery.passwordNew(username, newPass.getText());
             } else {
-                AlertMaker.showSimpleAlert("Try Again", "Answer does not match with the records.");
+                AlertMaker.showAlert("Try Again", "Answer does not match with the records.");
             }
         }
     }

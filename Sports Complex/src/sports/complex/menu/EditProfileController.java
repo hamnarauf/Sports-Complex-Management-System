@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.menu;
 
+import Classes.Employee;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,11 +50,33 @@ public class EditProfileController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+//        name.setText();
+//        dob.setText();
+//        contact.setText();
+//        contactEmer.setText();
+//        address.setText();
+//        dept.setText();
+//        id.setText();
+//        email.setText();
+//        gender.setText();
+//        role.setText();
+//        bloodGroup.setText();
+//        allergies.setText();
+//        salary.setText();
+//        cnic.setText();
+    }
 
     @FXML
     private void handleEditBtn(ActionEvent event) {
+        Employee emp = new Employee();
+        emp.setEmail(email.getText());
+        emp.setContactNo(contact.getText());
+        emp.setEmerContact(contactEmer.getText());
+        emp.setAllergy(allergies.getText());
+        emp.setAddress(address.getText());
+        
+//        DbQuery.editProfile(emp);
+
     }
-    
+
 }

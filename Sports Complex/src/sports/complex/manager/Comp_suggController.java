@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -43,8 +44,7 @@ public class Comp_suggController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initCol();
-        loadData();
+        refresh();
     }
 
     private void initCol() {
@@ -68,8 +68,34 @@ public class Comp_suggController implements Initializable {
         suggTable.setItems(suggList);
     }
 
+    private void refresh() {
+        initCol();
+        loadData();
+
+    }
+
     @FXML
-    private void handleAddressed(ActionEvent event) {
+    private void handleAddressedComp(ActionEvent event) {
+        Report selectedRepair = (Report) Utility.getRow((TableView<Object>) (Object) complaintTable);
+        if (selectedRepair == null) {
+            AlertMaker.showAlert("Error", "No Row selected");
+
+        } else {
+//               DbQuery.addressReport();
+            refresh();
+        }
+    }
+
+    @FXML
+    private void handleAddressedSugg(ActionEvent event) {
+        Report selectedRepair = (Report) Utility.getRow((TableView<Object>) (Object) suggTable);
+        if (selectedRepair == null) {
+            AlertMaker.showAlert("Error", "No Row selected");
+
+        } else {
+//               DbQuery.addressReport();
+            refresh();
+        }
     }
 
 }

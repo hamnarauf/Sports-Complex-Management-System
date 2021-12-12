@@ -19,6 +19,7 @@ import Classes.*;
 import Database.DbQuery;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.scene.control.TableView;
 import sports.complex.alert.AlertMaker;
 /**
  *
@@ -41,12 +42,17 @@ public class Utility {
             try {
                 Desktop.getDesktop().open(saveLoc);
             } catch (Exception exp) {
-                AlertMaker.showErrorMessage("Could not load file", "Cant load file");
+                AlertMaker.showAlert("Could not load file", "Cant load file");
             }
         });
         if (flag) {
-            AlertMaker.showSimpleAlert( "Completed", "Member data has been exported.");
+            AlertMaker.showAlert("Completed", "Member data has been exported.");
         }
+    }
+        
+        
+        public static Object getRow(TableView<Object> tableView) {
+        return tableView.getSelectionModel().getSelectedItem();
     }
         
 

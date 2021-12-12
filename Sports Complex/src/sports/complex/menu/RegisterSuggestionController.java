@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -32,6 +33,15 @@ public class RegisterSuggestionController implements Initializable {
 
     @FXML
     private void handleSuggOkBtn(ActionEvent event) {
+        if(suggestion.getText()==null){
+            AlertMaker.showAlert("Empty Field", "Please type your suggestion");
+        }
+        
+        else{
+//            DbQuery.regComplaint(complaint.getText());
+            AlertMaker.showAlert("Success", "Suggestion recorded succesfully");
+            suggestion.setText("");
+        }
     }
     
 }

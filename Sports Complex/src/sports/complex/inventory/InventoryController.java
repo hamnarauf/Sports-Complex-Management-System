@@ -50,7 +50,7 @@ public class InventoryController implements Initializable {
         String items = item.getValue();
 
         if (id == null || quant == null || items == null) {
-            AlertMaker.showErrorMessage("Empty fields", "Please fill all fields");
+            AlertMaker.showAlert("Empty fields", "Please fill all fields");
 
         } else {
 

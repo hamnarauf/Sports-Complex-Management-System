@@ -77,15 +77,15 @@ public class RegisterTraineeController implements Initializable {
         Time time = timeCombo.getValue();
 
         if (tId == null || sport == null || time == null) {
-            AlertMaker.showErrorMessage("Try Again", "Please Enter all feilds");
+            AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(tId)) {
                 Trainee t = new Trainee(tId, sport, time);
                 DbQuery.registerTrainee(t);
-                AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+                AlertMaker.showAlert("Registeration successfull", "Success");
 
             } else {
-                AlertMaker.showErrorMessage("Try Again", "Member id does not exists");
+                AlertMaker.showAlert("Try Again", "Member id does not exists");
             }
         }
 

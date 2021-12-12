@@ -65,7 +65,7 @@ public class ListToPdf {
 
             return true;
         } catch (IOException ex) {
-            AlertMaker.showErrorMessage("Error occurred during PDF export", ex.getMessage());
+            AlertMaker.showAlert("Error occurred during PDF export", ex.getMessage());
         }
         return false;
     }

@@ -16,6 +16,8 @@ import sports.complex.alert.AlertMaker;
 import Database.DbQuery;
 import Classes.User;
 import java.sql.SQLException;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -34,6 +36,8 @@ public class LoginController implements Initializable {
     private JFXPasswordField pass_hidden;
     @FXML
     private JFXTextField pass_text;
+    @FXML
+    private AnchorPane rootPane;
 
     @FXML
     private void handleLoginButton(ActionEvent event) throws ClassNotFoundException, SQLException {
@@ -44,7 +48,7 @@ public class LoginController implements Initializable {
 
         //if user has not entered username or password
         if (uname.equals("") || pass.equals("")) {
-            AlertMaker.showSimpleAlert("Try Again", "Please Enter username and password");
+            AlertMaker.showAlert("Try Again", "Please Enter username and password");
 
         } else {
 
@@ -79,7 +83,7 @@ public class LoginController implements Initializable {
 //                        break;
 //                }
             } else {
-                AlertMaker.showSimpleAlert("Try Again", "Invalid username or password");
+                AlertMaker.showAlert("Try Again", "Invalid username or password");
                 clearDetails();
 
             }

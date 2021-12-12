@@ -87,7 +87,7 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXTextField regEmpContactEmer;
     @FXML
-    private JFXTextField regEmpDomain;
+    private JFXComboBox<String> regEmpDomain;
     @FXML
     private JFXDatePicker regEmpDOB;
     @FXML
@@ -100,7 +100,6 @@ public class RegistrationController implements Initializable {
     private JFXTextField regEmpBloodGroup;
     @FXML
     private JFXComboBox<String> regEmpDept;
-    private JFXComboBox<String> regEmpRole;
     @FXML
     private JFXTextField regEmpAllergies;
     @FXML
@@ -120,7 +119,7 @@ public class RegistrationController implements Initializable {
     @FXML
     private JFXComboBox<String> regTeamPackage;
     @FXML
-    private Label SecurityQues;
+    private JFXComboBox<String> SecurityQues;
 
     /**
      * Initializes the controller class.
@@ -147,6 +146,7 @@ public class RegistrationController implements Initializable {
         populateDeptCombo();
         populateCoachCombo();
         populatePackageCombo();
+        populateQuesCombo();
 
     }
 
@@ -173,7 +173,7 @@ public class RegistrationController implements Initializable {
         ArrayList<String> coaches = new ArrayList<String>();
 //        coaches = DbQuery.getCoachOfSport(DbQuery.getSportID(regTeamSport.getValue()));
         for (String coach : coaches) {
-            regEmpRole.getItems().add(coach);
+            regEmpDomain.getItems().add(coach);
         }
     }
 
@@ -183,9 +183,12 @@ public class RegistrationController implements Initializable {
         regTeamPackage.getItems().add("Non-Training");
     }
     
-    public void displaySecQues(){
-    
-        SecurityQues.setText("");
+     void populateQuesCombo() throws SQLException {
+        ArrayList<String> ques = new ArrayList<String>();
+//        ques = DbQuery.getQuesList();
+        for (String q : ques) {
+            SecurityQues.getItems().add(q);
+        }
     }
 
     @FXML
@@ -326,7 +329,7 @@ public class RegistrationController implements Initializable {
 
         if (fname == null || lname == null || memGender == null || localDob == null || cnic == null || address == null
                 || contact == null || email == null || BloodGrp == null) {
-            AlertMaker.showErrorMessage("Tryagain", "One or more feild is empty.");
+            AlertMaker.showAlert("Tryagain", "One or more feild is empty.");
 
         } else {
             Date dob = getDate(localDob);
@@ -342,7 +345,7 @@ public class RegistrationController implements Initializable {
                     contact, emerContact, email, BloodGrp, allergies, "");
             DbQuery.registerMember(mem);
 
-            AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+            AlertMaker.showAlert("Registeration successfull", "Success");
 
         }
     }
@@ -355,10 +358,10 @@ public class RegistrationController implements Initializable {
         String coach = regTeamCoach.getValue();
 
         if (sport == null || mem == null || pkg == null || (pkg == "Training" && coach == null)) {
-            AlertMaker.showErrorMessage("Try again", "Please enter all required feilds");
+            AlertMaker.showAlert("Try again", "Please enter all required feilds");
         } else {
 //            DbQuery.registerTeam();
-            AlertMaker.showSimpleAlert("Succes", "Team Registered succesfully");
+            AlertMaker.showAlert("Succes", "Team Registered succesfully");
 
         }
 
@@ -376,17 +379,16 @@ public class RegistrationController implements Initializable {
         String emerContact = regEmpContactEmer.getText();
         String email = regEmpEmail.getText();
         String dept = regEmpDept.getValue();
-        String role = regEmpRole.getValue();
-        String domain = regEmpDomain.getText();
+        String domain = regEmpDomain.getValue();
         String bloodgrp = regEmpBloodGroup.getText(); 
         String allergy = regEmpAllergies.getText();
-        String ques = SecurityQues.getText();
+        String ques = SecurityQues.getValue();
         String ans = regEmpSecurityAns.getText();
         
        if (fname == null || lname == null || empGender == null || localDob == null || cnic == null || address == null
-                || contact == null || email == null || bloodgrp == null || dept == null ||  role  == null || 
+                || contact == null || email == null || bloodgrp == null || dept == null || 
                domain == null ||  ques == null ||  ans == null) {
-            AlertMaker.showErrorMessage("Try Again", "One or more feild is empty.");
+            AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
             Date dob = getDate(localDob);
@@ -400,10 +402,10 @@ public class RegistrationController implements Initializable {
             }
 
             Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
-                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)), 0,"");
+                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)));
             DbQuery.registerEmployee(emp);
 
-            AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+            AlertMaker.showAlert("Registeration successfull", "Success");
 
         }
     }

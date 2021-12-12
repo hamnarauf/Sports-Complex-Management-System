@@ -9,11 +9,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.*;
+import Database.DbQuery;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -24,8 +32,6 @@ public class AttendanceController implements Initializable {
 
     @FXML
     private JFXTextField search;
-    @FXML
-    private JFXComboBox<?> filter;
     @FXML
     private TableView<Attendance> tableView;
     @FXML
@@ -46,15 +52,27 @@ public class AttendanceController implements Initializable {
     private TableColumn<Attendance, String> attendanceCol;
 
     ObservableList<Attendance> list = FXCollections.observableArrayList();
+    @FXML
+    private JFXComboBox<String> filterDept;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
         loadData();
+//        populateDeptCombo();
+        filterById();
+    }
+
+    private void populateDeptCombo() throws SQLException {
+        ArrayList<String> depts = new ArrayList<String>();
+        depts = DbQuery.getDeptList();
+        for (String dept : depts) {
+            filterDept.getItems().add(dept);
+        }
     }
 
     private void initCol() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("emp_id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -68,10 +86,95 @@ public class AttendanceController implements Initializable {
     private void loadData() {
 
         ArrayList<Attendance> employees = new ArrayList<Attendance>();
+        Employee e = new Employee("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
+                "email", "address", "bloodGrp", "allergy", "emp_id", "dept_id" );
+
+        Attendance a1 = new Attendance("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
+                "email", "address", "bloodGrp", "allergy", "2", "dept_id",
+                0, "", new Date(), "p");
+        Attendance a2 = new Attendance("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
+                "email", "address", "bloodGrp", "allergy", "1", "dept_id",
+                0, "", new Date(), "p");
+
+        employees.add(a1);
+        employees.add(a2);
         for (Attendance employee : employees) {
             list.add(employee);
         }
         tableView.setItems(list);
+    }
+
+    private void filterById() {
+        // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(employee -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (employee.getEmp_id().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableView.setItems(sortedData);
+
+    }
+
+
+    @FXML
+    private void filterByDept(MouseEvent event) {
+     // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterDept.valueProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(employee -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (employee.getDept_id().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableView.setItems(sortedData);
     }
 
 }

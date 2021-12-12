@@ -189,7 +189,7 @@
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="1058.0" styleClass="form_label" text="Register Repair" />
                                           <JFXTextField fx:id="repairRequired" labelFloat="true" promptText="Repair Required" />
-                                          <JFXComboBox fx:id="dept" prefHeight="37.0" prefWidth="978.0" promptText="Department">
+                                          <JFXComboBox fx:id="sportCombo" prefHeight="37.0" prefWidth="978.0" promptText="Sport">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>

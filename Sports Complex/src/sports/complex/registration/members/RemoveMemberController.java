@@ -43,7 +43,7 @@ public class RemoveMemberController implements Initializable {
     @FXML
     private void handleRemoveBtn(ActionEvent event) throws SQLException {
         DbQuery.removeMember(memId.getText());
-        AlertMaker.showSimpleAlert("Success", "Member Removed Successfully");
+        AlertMaker.showAlert("Success", "Member Removed Successfully");
 
     }
 

@@ -230,7 +230,6 @@
                                           <JFXTextField fx:id="regEmpAddress" labelFloat="true" promptText="Address" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <JFXTextField fx:id="regEmpLN" labelFloat="true" promptText="Last Name" GridPane.columnIndex="1" />
                                           <JFXTextField fx:id="regEmpContactEmer" labelFloat="true" promptText="Emergency Contact Number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <JFXTextField fx:id="regEmpDomain" labelFloat="true" promptText="Domain (only for coaches)" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                           <JFXDatePicker fx:id="regEmpDOB" defaultColor="#08eff5" prefHeight="38.0" prefWidth="356.0" promptText="Date of Birth" GridPane.rowIndex="1" />
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                              <children>
@@ -262,9 +261,10 @@
                                                 <Label fx:id="fileLabel" alignment="CENTER" layoutX="2.0" layoutY="59.0" prefHeight="26.0" prefWidth="213.0" text="File Name" textAlignment="CENTER" />
                                              </children>
                                           </AnchorPane>
+                                          <JFXComboBox fx:id="regEmpDomain" prefHeight="37.0" prefWidth="241.0" promptText="Sport (Only for Coach)" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                        </children>
                                        <BorderPane.margin>
-                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                          <Insets left="10.0" right="10.0" />
                                        </BorderPane.margin>
                                     </GridPane>
                                  </center>
@@ -273,7 +273,7 @@
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="162.0" prefWidth="844.0">
                                              <children>
-                                                <Label fx:id="SecurityQues" contentDisplay="CENTER" prefHeight="26.0" prefWidth="674.0" text="Security Question" />
+                                                <JFXComboBox fx:id="SecurityQues" prefHeight="37.0" prefWidth="680.0" promptText=" Security Question" />
                                                 <JFXTextField fx:id="regEmpSecurityAns" maxHeight="-Infinity" maxWidth="700.0" prefHeight="37.0" prefWidth="737.0" promptText="Answer">
                                                    <VBox.margin>
                                                       <Insets bottom="10.0" left="85.0" right="70.0" />

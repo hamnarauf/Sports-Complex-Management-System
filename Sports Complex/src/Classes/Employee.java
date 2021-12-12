@@ -8,6 +8,10 @@ public class Employee extends Person {
     private String deptName;
     private String dept_id;
 
+    
+    public Employee(){}
+
+
     public Employee(String fname, String lname, gender gen, Date dob, String cnic, String contactNo, String emerContact,
             String email, String address, String bloodGrp, String allergy, String emp_id, String dept_id) {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address, bloodGrp, allergy);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.menu;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -11,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -18,7 +14,7 @@ import javafx.fxml.Initializable;
  * @author Hamna Rauf
  */
 public class ChangePasswordController implements Initializable {
-
+    
     @FXML
     private JFXPasswordField currentPass;
     @FXML
@@ -31,11 +27,27 @@ public class ChangePasswordController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-
+        
+    }
+    
     @FXML
     private void handleConfirmBtn(ActionEvent event) {
+        String cPass = currentPass.getText();
+        String nPass = newPass.getText();
+        String retypePass = retypeNewPass.getText();
+        
+        if (cPass == null || nPass == null || retypePass == null) {
+            AlertMaker.showAlert("Empty fields", "Please enter all feilds");
+        } else if (!cPass.equals(retypePass)) {
+            
+            AlertMaker.showAlert("Try Again", "Retyped password does not match");
+            
+        } else {
+//            DbQuery.changePass();
+            AlertMaker.showAlert("Success", "Password changed successfuly");
+            
+        }
+        
     }
     
 }

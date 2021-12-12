@@ -39,7 +39,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
                   <JFXTextField fx:id="search" prefHeight="37.0" prefWidth="311.0" promptText="Search ID" />
-                  <JFXComboBox fx:id="filter" prefHeight="37.0" prefWidth="297.0" promptText="Filter by Department" />
+                  <JFXComboBox fx:id="filterDept" onAction="#handleFilterByDept" onMouseClicked="#filterByDept" prefHeight="37.0" prefWidth="297.0" promptText="Filter by Department" />
                </children>
             </HBox>
          </children>

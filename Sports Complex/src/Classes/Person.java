@@ -15,6 +15,8 @@ public class Person {
     private String email;
     private String bloodGrp;
     private String allergy;
+    
+    public Person(){}
 
     public Person(String fname, String lname, gender gen, Date dob, String cnic,
             String contactNo, String email) {
