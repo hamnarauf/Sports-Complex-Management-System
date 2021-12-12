@@ -87,8 +87,7 @@ public class AttendanceController implements Initializable {
 
         ArrayList<Attendance> employees = new ArrayList<Attendance>();
         Employee e = new Employee("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
-                "email", "address", "bloodGrp", "allergy", "emp_id", "dept_id",
-                0, "");
+                "email", "address", "bloodGrp", "allergy", "emp_id", "dept_id" );
 
         Attendance a1 = new Attendance("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
                 "email", "address", "bloodGrp", "allergy", "2", "dept_id",

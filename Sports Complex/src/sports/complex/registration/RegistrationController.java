@@ -402,7 +402,7 @@ public class RegistrationController implements Initializable {
             }
 
             Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
-                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)), 0,"");
+                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)));
             DbQuery.registerEmployee(emp);
 
             AlertMaker.showAlert("Registeration successfull", "Success");
