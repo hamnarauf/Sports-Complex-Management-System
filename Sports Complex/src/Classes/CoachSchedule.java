@@ -7,6 +7,8 @@ public class CoachSchedule {
     private String day;
     private Time startTime;
     private Time endTime;
+    private String sportName;
+    private int attendees;
 
     public CoachSchedule(String coach_id, String day, Time startTime, Time endTime) {
 
@@ -15,6 +17,32 @@ public class CoachSchedule {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
     }
+
+    public CoachSchedule(String coach_id, String day, Time startTime, Time endTime,String sportName, int attendees) {
+        this(coach_id, day, startTime, endTime);
+        this.sportName = sportName;
+        this.attendees = attendees;
+    }
+
+    public int getAttendees() {
+        return attendees;
+    }
+
+
+    public void setAttendees(int attendees) {
+        this.attendees = attendees;
+    }
+
+
+    public String getSportName() {
+        return sportName;
+    }
+
+
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
+    }
+
 
     public Time getEndTime() {
         return endTime;
