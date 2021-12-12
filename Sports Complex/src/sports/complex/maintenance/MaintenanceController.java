@@ -1,16 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.maintenance;
 
+import Classes.Member;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,6 +30,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sports.complex.alert.AlertMaker;
 import sports.complex.attendant.AttendantController;
 import utilities.StageLoader;
 
@@ -39,58 +41,64 @@ import utilities.StageLoader;
  */
 public class MaintenanceController implements Initializable {
 
-    ObservableList<MaintenanceActivity> list = FXCollections.observableArrayList();
+    ObservableList<MaintenanceActivity> list1 = FXCollections.observableArrayList();
+    ObservableList<MaintenanceActivity> list2 = FXCollections.observableArrayList();
+    ObservableList<MaintenanceActivity> list3 = FXCollections.observableArrayList();
+    ObservableList<MaintenanceActivity> list4 = FXCollections.observableArrayList();
 
+    @FXML
+    private TableView<MaintenanceActivity> table1;
     @FXML
     private TableColumn<MaintenanceActivity, String> nComp1;
     @FXML
     private TableColumn<MaintenanceActivity, String> partComp1;
     @FXML
     private TableColumn<MaintenanceActivity, String> fullyComp1;
-    @FXML
-    private TableView<MaintenanceActivity> table1;
+
     @FXML
     private TableColumn<MaintenanceActivity, String> table1Activity;
     @FXML
-    private TableView<?> table2;
+    private TableView<MaintenanceActivity> table2;
     @FXML
-    private TableColumn<?, ?> table2Activity;
+    private TableColumn<MaintenanceActivity, String> table2Activity;
     @FXML
-    private TableColumn<?, ?> nComp2;
+    private TableColumn<MaintenanceActivity, String> nComp2;
     @FXML
-    private TableColumn<?, ?> partComp2;
+    private TableColumn<MaintenanceActivity, String> partComp2;
     @FXML
-    private TableColumn<?, ?> fullyComp2;
+    private TableColumn<MaintenanceActivity, String> fullyComp2;
+
     @FXML
-    private TableView<?> table3;
+    private TableView<MaintenanceActivity> table3;
     @FXML
-    private TableColumn<?, ?> table3Activity;
+    private TableColumn<MaintenanceActivity, String> table3Activity;
     @FXML
-    private TableColumn<?, ?> nComp3;
+    private TableColumn<MaintenanceActivity, String> nComp3;
     @FXML
-    private TableColumn<?, ?> partComp3;
+    private TableColumn<MaintenanceActivity, String> partComp3;
     @FXML
-    private TableColumn<?, ?> fullyComp3;
+    private TableColumn<MaintenanceActivity, String> fullyComp3;
     @FXML
-    private TableView<?> table4;
+    private TableView<MaintenanceActivity> table4;
     @FXML
-    private TableColumn<?, ?> table4Activity;
+    private TableColumn<MaintenanceActivity, String> table4Activity;
     @FXML
-    private TableColumn<?, ?> nComp4;
+    private TableColumn<MaintenanceActivity, String> nComp4;
     @FXML
-    private TableColumn<?, ?> partComp4;
+    private TableColumn<MaintenanceActivity, String> partComp4;
     @FXML
-    private TableColumn<?, ?> fullyComp4;
+    private TableColumn<MaintenanceActivity, String> fullyComp4;
+
     @FXML
     private JFXTextField repairRequired;
-    @FXML
-    private JFXComboBox<?> dept;
     @FXML
     private JFXTextField expenditure;
     @FXML
     private JFXButton regRepairBtn;
     @FXML
     private AnchorPane rootPane;
+    @FXML
+    private JFXComboBox<String> sportCombo;
 
     /**
      * Initializes the controller class.
@@ -99,6 +107,19 @@ public class MaintenanceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
         loadData();
+        try {
+            populateSportsCombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(MaintenanceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void populateSportsCombo() throws SQLException {
+        ArrayList<String> sports = new ArrayList<String>();
+        sports = DbQuery.getSportsList();
+        for (String sport : sports) {
+            sportCombo.getItems().add(sport);
+        }
     }
 
     private void initCol() {
@@ -107,14 +128,33 @@ public class MaintenanceController implements Initializable {
         nComp1.setCellValueFactory(new PropertyValueFactory<>("nComp"));
         partComp1.setCellValueFactory(new PropertyValueFactory<>("pComp"));
         fullyComp1.setCellValueFactory(new PropertyValueFactory<>("fComp"));
+
+        table2Activity.setCellValueFactory(new PropertyValueFactory<>("activity"));
+        nComp2.setCellValueFactory(new PropertyValueFactory<>("nComp"));
+        partComp2.setCellValueFactory(new PropertyValueFactory<>("pComp"));
+        fullyComp2.setCellValueFactory(new PropertyValueFactory<>("fComp"));
+
+        table3Activity.setCellValueFactory(new PropertyValueFactory<>("activity"));
+        nComp3.setCellValueFactory(new PropertyValueFactory<>("nComp"));
+        partComp3.setCellValueFactory(new PropertyValueFactory<>("pComp"));
+        fullyComp3.setCellValueFactory(new PropertyValueFactory<>("fComp"));
+
+        table4Activity.setCellValueFactory(new PropertyValueFactory<>("activity"));
+        nComp4.setCellValueFactory(new PropertyValueFactory<>("nComp"));
+        partComp4.setCellValueFactory(new PropertyValueFactory<>("pComp"));
+        fullyComp4.setCellValueFactory(new PropertyValueFactory<>("fComp"));
     }
 
     private void loadData() {
-        list.add(new MaintenanceActivity("Leveling"));
-        table1.setItems(list);
+
+        ArrayList<MaintenanceActivity> activities1 = new ArrayList<MaintenanceActivity>();
+//        activities = DbQuery.displayActivities();
+        for (MaintenanceActivity act : activities1) {
+            list1.add(act);
+
+        }
+
     }
-
-
 
     public class MaintenanceActivity {
 
@@ -139,16 +179,13 @@ public class MaintenanceController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                     RadioButton selectedBtn = (RadioButton) radioGroup.getSelectedToggle();
-                    MaintenanceActivity activity = findByButton(list, selectedBtn);
-                    if (selectedBtn.equals(nComp)){
+                    MaintenanceActivity activity = findByButton(list1, selectedBtn);
+                    if (selectedBtn.equals(nComp)) {
                         System.out.println("nComp");
-                    }
-                    
-                    else if(selectedBtn.equals(pComp)){
-                     System.out.println("pComp");
-                    }
-                    else if(selectedBtn.equals(fComp)){
-                     System.out.println("fComp");
+                    } else if (selectedBtn.equals(pComp)) {
+                        System.out.println("pComp");
+                    } else if (selectedBtn.equals(fComp)) {
+                        System.out.println("fComp");
                     }
                 }
 
@@ -186,12 +223,24 @@ public class MaintenanceController implements Initializable {
 //            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //        }
     }
-    
-        @FXML
+
+    @FXML
     private void handleRegRepairBtn(ActionEvent event) {
+        String repair = repairRequired.getText();
+        String sport = sportCombo.getValue();
+        String amount = expenditure.getText();
+        if (repair == null || sport == null || amount == null) {
+            AlertMaker.showAlert("Empty Fields", "Please enter all fields");
+
+        } else {
+//            Repair repair = new Repair(repair, sport, amount);
+//            DbQuery.registerRepair(repair);
+
+            AlertMaker.showAlert("Success", "Succesfully registered reapir...");
+
+        }
     }
 
-    
     @FXML
     private void menuChangePassword(ActionEvent event) {
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
@@ -230,6 +279,5 @@ public class MaintenanceController implements Initializable {
     private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
     }
-
 
 }

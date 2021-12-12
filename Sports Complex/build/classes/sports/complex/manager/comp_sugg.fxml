@@ -23,7 +23,7 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#handleAddressed" text="Addressed" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleAddressedComp" text="Addressed" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
@@ -42,7 +42,7 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#handleAddressed" text="Addressed" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleAddressedSugg" text="Addressed" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>

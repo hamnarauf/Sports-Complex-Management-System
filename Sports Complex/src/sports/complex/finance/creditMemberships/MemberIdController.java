@@ -34,14 +34,14 @@ public class MemberIdController implements Initializable {
         String id = memberId.getText();
 
         if (id == null) {
-            AlertMaker.showErrorMessage("Error", "Please enter a member id");
+            AlertMaker.showAlert("Error", "Please enter a member id");
 
         } else {
             if (DbQuery.isMember(id)) {
                 StageLoader.loadWindow(getClass().getResource("TransactionForm.fxml"), "Credit Membership", null);
 
             } else {
-                AlertMaker.showErrorMessage("Invalid", "Member id is invalid");
+                AlertMaker.showAlert("Invalid", "Member id is invalid");
 
             }
         }

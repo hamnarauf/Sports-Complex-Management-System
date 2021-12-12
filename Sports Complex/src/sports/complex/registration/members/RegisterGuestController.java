@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.members;
 
 import Database.DbQuery;
@@ -48,15 +43,15 @@ public class RegisterGuestController implements Initializable {
         String id = memberId.getText();
 
         if (fname == null || lname == null || CNIC == null || id == null) {
-            AlertMaker.showErrorMessage("Try Again", "Please Enter all feilds");
+            AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(id)) {
                 Guest g = new Guest(CNIC, id, fname, lname);
                 DbQuery.registerGuest(g);
-                AlertMaker.showSimpleAlert("Registeration successfull", "Success");
+                AlertMaker.showAlert("Registeration successfull", "Success");
                 
             } else {
-                AlertMaker.showErrorMessage("Try Again", "Invalid Member id");
+                AlertMaker.showAlert("Try Again", "Invalid Member id");
             }
         }
     }

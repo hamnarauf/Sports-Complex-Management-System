@@ -35,7 +35,9 @@ public class ReqFundsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        refresh();
+//        refresh();
+        initCol();
+        loadData();
     }
 
     private void initCol() {
@@ -55,36 +57,34 @@ public class ReqFundsController implements Initializable {
         tableView.setItems(list);
     }
 
-    private Repair getRow() {
-        return tableView.getSelectionModel().getSelectedItem();
-    }
+//    private Repair getRow() {
+//        return tableView.getSelectionModel().getSelectedItem();
+//    }
 
     @FXML
     private void handleAllocateBtn(ActionEvent event) {
-        Repair selectedRepair = getRow();
+        Repair selectedRepair = (Repair) Utility.getRow((TableView<Object>) (Object) tableView);
 
         if (selectedRepair == null) {
-            AlertMaker.showErrorMessage("Error", "No Row selected");
+            AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
 //               DbQuery.allocateFund();
-             refresh();
+            refresh();
         }
-
-       
 
     }
 
     @FXML
     private void handleRejectBtn(ActionEvent event) {
-                Repair selectedRepair = getRow();
+        Repair selectedRepair =(Repair) Utility.getRow((TableView<Object>)(Object)tableView);
 
         if (selectedRepair == null) {
-            AlertMaker.showErrorMessage("Error", "No Row selected");
+            AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
 //               DbQuery.refuseFund();
-             refresh();
+            refresh();
         }
     }
 

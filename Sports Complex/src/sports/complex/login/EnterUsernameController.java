@@ -38,7 +38,7 @@ public class EnterUsernameController implements Initializable {
         String uname = username.getText();
 
         if (username.getText().equals("")) {
-            AlertMaker.showSimpleAlert("Try Again", "Please enter username");
+            AlertMaker.showAlert("Try Again", "Please enter username");
         } else {
             valid = DbQuery.isCorrectUsername(username.getText());
 
@@ -48,14 +48,11 @@ public class EnterUsernameController implements Initializable {
 
                 PasswordRecoveryController controller = loader.getController();
                 controller.setUsername(uname);
-
-                Stage stage = new Stage(StageStyle.DECORATED);
-                stage.setTitle("Password Recovery");
-                stage.setScene(new Scene(parent));
-                stage.show();
+                
+                StageLoader.setStage("Password Recovery", parent, null);
 
             } else {
-                AlertMaker.showSimpleAlert("Try Again", "Username does not exists");
+                AlertMaker.showAlert("Try Again", "Username does not exists");
 
             }
         }

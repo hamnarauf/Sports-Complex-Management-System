@@ -8,6 +8,8 @@ public class Employee extends Person {
     private String dept_id;
     private float salary;
     private String role;
+    
+    public Employee(){}
 
     public Employee(String fname, String lname, gender gen, Date dob, String cnic, String contactNo, String emerContact,
             String email, String address, String bloodGrp, String allergy, String emp_id, String dept_id,
