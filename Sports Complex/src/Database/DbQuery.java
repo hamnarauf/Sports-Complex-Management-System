@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 
 public class DbQuery {
     // "jdbc:mysql://hostname:portNumber/databaseName"
-    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
+//    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
+    private final static String FILE = "jdbc:mysql://root:3306/sportscomplex";
 
     private static Connection conn;
     private static Statement st;

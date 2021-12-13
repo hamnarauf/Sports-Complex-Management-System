@@ -52,9 +52,9 @@ public class LoginController implements Initializable {
 
         } else {
 
-//            User user = DbQuery.checkLoginDetails(uname, pass);
-//            if (user != null) {
-//                System.out.println("login");
+            User user = DbQuery.checkLoginDetails(uname, pass);
+            if (user != null) {
+                System.out.println("login");
 //
 //                switch (user.getDept()) {
 //                    case ("registrant"):
@@ -81,12 +81,12 @@ public class LoginController implements Initializable {
 //                    case ("manager"):
 //                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
 //                        break;
-//                }
-//            } else {
-//                AlertMaker.showAlert("Try Again", "Invalid username or password");
-//                clearDetails();
-//
 //            }
+            } else {
+                AlertMaker.showAlert("Try Again", "Invalid username or password");
+                clearDetails();
+
+            }
 
         }
     }
