@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.teams;
 
 import java.net.URL;
@@ -12,7 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.Team;
+import Database.DbQuery;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -42,7 +41,11 @@ public class AllTeamsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(AllTeamsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
@@ -54,10 +57,11 @@ public class AllTeamsController implements Initializable {
         totalMembersCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
 
-        ArrayList<Team> allTeam = new ArrayList<Team>();
-        for (Team team : allTeam) {
+        ArrayList<Team> allTeams = new ArrayList<Team>();
+        allTeams = DbQuery.displayTeamList();
+        for (Team team : allTeams) {
             list.add(team);
         }
         tableView.setItems(list);

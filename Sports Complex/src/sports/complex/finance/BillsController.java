@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.finance;
 
 import Classes.*;
@@ -39,6 +34,7 @@ public class BillsController implements Initializable {
     private TableColumn<Transaction, String> typeCol;
     @FXML
     private TableColumn<Transaction, String> paymentCol;
+    
     ObservableList<Transaction> list = FXCollections.observableArrayList();
 
     /**

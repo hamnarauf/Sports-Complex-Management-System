@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex;
 
 import sports.complex.alert.Alertbox;
@@ -31,14 +26,14 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/registration/registration.fxml");
 //        setStage("/sports/complex/registration/members/registerTrainee.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
-        setStage("/sports/complex/login/login.fxml");
+//        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");
 //        setStage("/sports/complex/finance/finance.fxml");
 //        setStage("/sports/complex/attendant/attendant.fxml");
 //        setStage("/sports/complex/registration/menu/viewNotice/viewNotice.fxml");
 //        setStage("/sports/complex/maintenance/maintenance.fxml");
 //        setStage("/sports/complex/manager/manager.fxml");
-//        setStage("/sports/complex/manager/attendance.fxml");
+        setStage("/sports/complex/manager/attendance.fxml");
 //        setStage("/sports/complex/coach/coach.fxml");
 //        setStage("/sports/complex/inventory/inventory.fxml");
 //        setStage("/sports/complex/registration/members/allMembers.fxml");

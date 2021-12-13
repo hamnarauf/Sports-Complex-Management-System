@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.inventory;
 
+import Classes.Attendance;
 import Classes.InventoryLog;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -12,6 +8,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -65,6 +63,42 @@ public class IssuedItemsController implements Initializable {
             list.add(item);
         }
         tableView.setItems(list);
+    }
+    
+        private void filterByName() {
+//        // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<InventoryLog> filteredData = new FilteredList<>(list, b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(item -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (item.getFname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<InventoryLog> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableView.setItems(sortedData);
+
     }
     
 }

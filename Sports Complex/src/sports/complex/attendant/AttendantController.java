@@ -1,18 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.attendant;
 
+import Database.DbQuery;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import utilities.StageLoader;
@@ -51,7 +54,7 @@ public class AttendantController implements Initializable {
     @FXML
     private TableView<Attendance> tableView;
     @FXML
-    private JFXComboBox<?> filterBy;
+    private JFXComboBox<String> filterBy;
     @FXML
     private JFXTextField search;
 
@@ -62,6 +65,20 @@ public class AttendantController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
         loadData();
+        try {
+            populateDeptCombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void populateDeptCombo() throws SQLException {
+        ArrayList<String> depts = new ArrayList<String>();
+        depts = DbQuery.getDeptList();
+        for (String d : depts) {
+            filterBy.getItems().add(d);
+        }
+
     }
 
     private void initCol() {
@@ -78,7 +95,6 @@ public class AttendantController implements Initializable {
         list.add(new Attendance("54678", "Ahmed Ali", "Finance", "Manager"));
         tableView.setItems(list);
     }
-
 
     public class Attendance {
 
@@ -171,5 +187,78 @@ public class AttendantController implements Initializable {
 
     private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
+    }
+    
+        private void filterById() {
+//        // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(employee -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (employee.getId().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableView.setItems(sortedData);
+
+    }
+
+
+    @FXML
+    private void filterByDept(MouseEvent event) {
+     // Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterBy.valueProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(employee -> {
+                // If filter text is empty, display all persons.
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (employee.getDept().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tableView.setItems(sortedData);
     }
 }

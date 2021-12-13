@@ -15,7 +15,7 @@
    <top>
       <VBox prefHeight="90.0" prefWidth="460.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="642.0" styleClass="form_label" text="WORKING HOURS" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="10000.0" styleClass="form_label" text="WORKING HOURS" />
             <JFXTextField fx:id="id" labelFloat="true" promptText="Coach ID" />
          </children>
          <BorderPane.margin>

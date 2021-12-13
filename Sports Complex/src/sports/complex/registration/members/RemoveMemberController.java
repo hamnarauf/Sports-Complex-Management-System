@@ -59,7 +59,7 @@ public class RemoveMemberController implements Initializable {
     private void updateFields(ActionEvent event) throws SQLException {
         clearCache();
         String id = memId.getText();
-        if (id != null && DbQuery.isMember(id)) {
+        if (id != null && DbQuery.isMember(DbQuery.getMemberCnic(id))) {
             Person mem;
             mem = DbQuery.removeMemberDetails(id);
             name.setText(mem.getFname() + " " + mem.getLname());

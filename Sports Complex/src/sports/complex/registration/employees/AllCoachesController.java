@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.employees;
 
 import java.net.URL;
@@ -17,7 +12,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import Database.DbQuery;
 import Classes.Coach;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -55,7 +53,11 @@ public class AllCoachesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(AllCoachesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void initCol() {
@@ -71,8 +73,9 @@ public class AllCoachesController implements Initializable {
 
     }
 
-    public void loadData() {
+    public void loadData() throws SQLException {
         ArrayList<Coach> allCoaches = new ArrayList<Coach>();
+        allCoaches = DbQuery.displayCoachList();
         for (Coach coach : allCoaches) {
             list.add(coach);
         }
