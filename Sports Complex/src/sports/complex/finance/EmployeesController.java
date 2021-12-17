@@ -14,9 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import Classes.*;
 import Database.DbQuery;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -35,14 +38,16 @@ public class EmployeesController implements Initializable {
     @FXML
     private TableView<Employee> tableView;
     @FXML
-    private TableColumn<Employee, String> nameCol;
-    @FXML
     private TableColumn<Employee, String> deptCol;
     @FXML
     private TableColumn<Employee, String> salaryCol;
     ObservableList<Employee> list = FXCollections.observableArrayList();
     @FXML
     private TableColumn<Employee, String> idCol;
+    @FXML
+    private TableColumn<Employee, String> fnameCol;
+    @FXML
+    private TableColumn<Employee, String> lnameCol;
 
     /**
      * Initializes the controller class.
@@ -50,20 +55,26 @@ public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
+        lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
 
         ArrayList<Employee> allEmployees = new ArrayList<Employee>();
+        allEmployees = DbQuery.viewTransEmp();
         for (Employee emp: allEmployees) {
             list.add(emp);
         }
@@ -77,10 +88,10 @@ public class EmployeesController implements Initializable {
         printData.add(Arrays.asList(headers));
         for (Employee emp : list) {
             List<String> row = new ArrayList<>();
-//            row.add(emp.getId());
-//            row.add(emp.getFname()));
-//            row.add(emp.getDept());
-//            row.add(emp.getSalary());
+            row.add(emp.getEmp_id());
+            row.add(emp.getFname());
+            row.add(emp.getDeptName());
+//            row.add(emp.getSalary);
             printData.add(row);
         }
         Utility.initPDFExprot(getStage(), printData);

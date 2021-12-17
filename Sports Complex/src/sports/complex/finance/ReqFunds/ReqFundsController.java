@@ -3,8 +3,11 @@ package sports.complex.finance.ReqFunds;
 import Classes.*;
 import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,22 +38,25 @@ public class ReqFundsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        refresh();
-        initCol();
-        loadData();
+        try {
+            refresh();
+            initCol();
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReqFundsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
-
         purposeCol.setCellValueFactory(new PropertyValueFactory<>("purpose"));
         sportCol.setCellValueFactory(new PropertyValueFactory<>("sport"));
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
 
         ArrayList<Repair> allRepairs = new ArrayList<Repair>();
+        allRepairs = DbQuery.getRepairs();
         for (Repair repair : allRepairs) {
             list.add(repair);
         }
@@ -62,36 +68,34 @@ public class ReqFundsController implements Initializable {
 //    }
 
     @FXML
-    private void handleAllocateBtn(ActionEvent event) {
+    private void handleAllocateBtn(ActionEvent event) throws SQLException {
         Repair selectedRepair = (Repair) Utility.getRow((TableView<Object>) (Object) tableView);
 
         if (selectedRepair == null) {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-//               DbQuery.allocateFund();
+               DbQuery.allocateFunds(selectedRepair);
             refresh();
         }
-
     }
 
     @FXML
-    private void handleRejectBtn(ActionEvent event) {
+    private void handleRejectBtn(ActionEvent event) throws SQLException {
         Repair selectedRepair =(Repair) Utility.getRow((TableView<Object>)(Object)tableView);
 
         if (selectedRepair == null) {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-//               DbQuery.refuseFund();
+               DbQuery.refuseFunds(selectedRepair);
             refresh();
         }
     }
 
-    private void refresh() {
+    private void refresh() throws SQLException {
         initCol();
         loadData();
-
     }
 
 }
