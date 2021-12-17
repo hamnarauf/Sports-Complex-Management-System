@@ -7,17 +7,19 @@ import java.sql.Time;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-//import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Sana Zehra
+ */
+
 public class DbQuery {
     // "jdbc:mysql://hostname:portNumber/databaseName"
-//    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
-    private final static String FILE = "jdbc:mysql://root:3306/sportscomplex";
+    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
 
     private static Connection conn;
     private static Statement st;
@@ -54,14 +56,17 @@ public class DbQuery {
         User user = null;
 
         // login query
-        final String query = "SELECT username, password FROM Users "
-                + "WHERE username =\"" + username + "\" "
-                + "AND password =\"" + password + "\";";
+        final String query = "SELECT Users.username, Users.password, Employee.dept_id FROM Users \n" +
+                "INNER JOIN Employee On Users.emp_id = Employee.emp_id \n" +
+                "WHERE username =\"" + username + "\" \n" +
+                "AND password =\"" + password + "\";";
 
+                
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
-            user = new User(rs.getString("username"), rs.getString("password"));
+            user = new User(rs.getString("username"), rs.getString("password"), 
+            rs.getString("Employee.dept_id"));
         }
 
         tearDownDb();
@@ -177,6 +182,19 @@ public class DbQuery {
         return cnic;
     }
 
+    public static String getEmpId(String cnic) throws SQLException {
+        setupDb();
+        String emp_id;
+
+        final String query = "SELECT emp_id FROM Employee WHERE cnic = \"" + cnic + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        emp_id = rs.getString("emp_id");
+
+        tearDownDb();
+        return emp_id;
+    }
+
     public static int getDeptID(String dept) throws SQLException {
         setupDb();
         int dept_id = 0;
@@ -190,6 +208,19 @@ public class DbQuery {
 
         tearDownDb();
         return dept_id;
+    }
+
+    public static boolean isEmployee(String emp_id) throws SQLException {
+        setupDb();
+        boolean valid = false;
+
+        final String query = "SELECT emp_id FROM Employee WHERE emp_id = \"" + emp_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        valid = rs.next();
+
+        tearDownDb();
+        return valid;
     }
 
     public static boolean isMember(String cnic) throws SQLException {
@@ -318,8 +349,7 @@ public class DbQuery {
 
     public static ArrayList<Time> getTime(String sport, String day) throws SQLException {
         setupDb();
-
-        int coach_id = 0;
+        String coach_id = "";
         ResultSet rs;
         ResultSet rs2;
         ArrayList<Time> startTime = new ArrayList<Time>();
@@ -328,15 +358,16 @@ public class DbQuery {
         rs = getCoachOfSport(sport_id);
 
         while (rs.next()) {
-            coach_id = rs.getInt("coach_id");
+            coach_id = rs.getString("coach_id");
 
-            final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\"" +
-                    "AND day = \"" + day + "\"";
+            if ((getCountOfTeamsOfCoach(coach_id) <= 2) && (getCountOfTraineesOfCoach(coach_id) <= 5)) {
+                final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\"" +
+                        "AND day = \"" + day + "\"";
 
-            rs2 = st.executeQuery(getClassTimeQuery);
-            startTime.add(rs2.getTime("startTime"));
+                rs2 = st.executeQuery(getClassTimeQuery);
+                startTime.add(rs2.getTime("startTime"));
+            }
         }
-
         tearDownDb();
         return startTime;
     }
@@ -454,7 +485,7 @@ public class DbQuery {
 
         final String query = "SELECT Team.team_id, Team.package, Sport.teamMember, Person.firstName FROM (Team " +
                 "LEFT JOIN ((((Team_Schedule ts INNER JOIN Class c ON ts.class_id = c.class-id) " +
-                "INNER JOIN Coach ON Coach.coach_id = ts.coach_id) " +
+                "INNER JOIN Coach ON Coach.coach_id = c.coach_id) " +
                 "INNER JOIN Employee e ON e.emp_id = Coach.coach_id) " +
                 "INNER JOIN Person p ON p.cnic = e.cnic) " +
                 "ON Team.team_id = Team_Schedule.team_id) LEFT JOIN Sport ON Sport.sport_id = Team.sport_id";
@@ -572,6 +603,20 @@ public class DbQuery {
         tearDownDb();
     }
 
+    public static void registerUser(User user) throws SQLException {
+        setupDb();
+        registerEmployee(user);
+        String emp_id = getEmpId(user.getCnic());
+        user.setEmp_id(emp_id);
+
+        final String query = "INSERT INTO Users (emp_id, securityQues, securityAns) \n" +
+                "VALUES (\"" + user.getEmp_id() + "\", \"" + user.getSecQs() + "\", \"" +
+                user.getSecAns() + "\")";
+
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
     public static void registerTeam(Team team) throws SQLException {
         setupDb();
         int sport_id = getSportID(team.getSport());
@@ -629,6 +674,49 @@ public class DbQuery {
 
         tearDownDb();
         return p;
+    }
+
+    public static Person removeEmployeeDetails(String emp_id) throws SQLException {
+        setupDb();
+        String cnic = getEmpCnic(emp_id);
+        Person p = null;
+
+        final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n" +
+                "FROM Person where cnic = \"" + cnic + "\"";
+
+        ResultSet rs = st.executeQuery(getDetailsQuery);
+
+        if (rs.next()) {
+            p = new Person(rs.getString("firstName"), rs.getString("lastName"),
+                    gender.m, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
+                    rs.getString("address"));
+        }
+
+        tearDownDb();
+        return p;
+    }
+
+    public static Team removeTeamDetails(String team_id) throws SQLException {
+        setupDb();
+        Team team = null;
+
+        final String query = "SELECT Team.team_id, Team.package, Person.firstName FROM (Team " +
+                "LEFT JOIN ((((Team_Schedule ts " +
+                "INNER JOIN Class c ON ts.class_id = c.class-id) " +
+                "INNER JOIN Coach ON Coach.coach_id = c.coach_id) " +
+                "INNER JOIN Employee e ON e.emp_id = Coach.coach_id) " +
+                "INNER JOIN Person p ON p.cnic = e.cnic) " +
+                "ON Team.team_id = Team_Schedule.team_id " +
+                "WHERE Team.team_id = \"" + team_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            team = new Team(rs.getString("Team.team_id"), rs.getInt("Sport.teamMember"),
+                    rs.getString("Team.package"), rs.getString("Person.firstName"));
+        }
+        tearDownDb();
+        return team;
     }
 
     public static void removeMember(String member_id) throws SQLException {
@@ -720,4 +808,7 @@ public class DbQuery {
         tearDownDb();
         return traineeList;
     }
+
+    // FINANCE INTERFACE
+    
 }

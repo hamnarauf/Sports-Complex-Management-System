@@ -1,4 +1,8 @@
 package Classes;
+/**
+ *
+ * @author Sana Zehra
+ */
 
 public class Guest {
     String cnic;

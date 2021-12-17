@@ -2,6 +2,11 @@ package Classes;
 
 import java.sql.Time;
 
+/**
+ *
+ * @author Sana Zehra
+ */
+
 public class Team {
     private String team_id;
     private String sport;

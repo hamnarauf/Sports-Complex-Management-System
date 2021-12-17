@@ -2,6 +2,11 @@ package Classes;
 
 import java.sql.*;
 
+/**
+ *
+ * @author Sana Zehra
+ */
+
 public class CoachSchedule {
     private String coach_id;
     private String day;
