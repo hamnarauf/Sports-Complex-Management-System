@@ -2,6 +2,11 @@ package Classes;
 
 import java.util.*;
 
+/**
+ *
+ * @author Sana Zehra
+ */
+
 public class Coach extends Person{
 
     private String coach_id;
