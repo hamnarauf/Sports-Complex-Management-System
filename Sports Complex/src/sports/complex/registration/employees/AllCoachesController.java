@@ -57,6 +57,8 @@ public class AllCoachesController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(AllCoachesController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllCoachesController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -73,7 +75,7 @@ public class AllCoachesController implements Initializable {
 
     }
 
-    public void loadData() throws SQLException {
+    public void loadData() throws SQLException, ClassNotFoundException {
         ArrayList<Coach> allCoaches = new ArrayList<Coach>();
         allCoaches = DbQuery.displayCoachList();
         for (Coach coach : allCoaches) {

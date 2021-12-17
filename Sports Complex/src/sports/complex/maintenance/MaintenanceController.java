@@ -111,10 +111,12 @@ public class MaintenanceController implements Initializable {
             populateSportsCombo();
         } catch (SQLException ex) {
             Logger.getLogger(MaintenanceController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MaintenanceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    void populateSportsCombo() throws SQLException {
+    void populateSportsCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> sports = new ArrayList<String>();
         sports = DbQuery.getSportsList();
         for (String sport : sports) {

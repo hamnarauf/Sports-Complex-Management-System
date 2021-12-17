@@ -36,7 +36,7 @@ public class RegisterGuestController implements Initializable {
     }
 
     @FXML
-    private void handleRegisterBtn(ActionEvent event) throws SQLException {
+    private void handleRegisterBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String fname = firstName.getText();
         String lname = lastName.getText();
         String CNIC = cnic.getText();

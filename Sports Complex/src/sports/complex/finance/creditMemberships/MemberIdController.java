@@ -30,7 +30,7 @@ public class MemberIdController implements Initializable {
     }
 
     @FXML
-    private void handleOkBtn(ActionEvent event) throws SQLException {
+    private void handleOkBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = memberId.getText();
 
         if (id == null) {
