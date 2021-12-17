@@ -76,9 +76,7 @@ public class AllMembersController implements Initializable {
     private void loadData() throws SQLException {
 
         ArrayList<Member> allMember = new ArrayList<Member>();
-//        allMember = DbQuery.displayMembers();
-        allMember.add(new Member("fname", "lname", gender.f, new Date(), "cnic", "contactNo",
-                "email", "member_id"));
+        allMember = DbQuery.displayMembers();
 
         for (Member member : allMember) {
             list.add(member);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.coach;
 
 import java.net.URL;
@@ -18,6 +13,7 @@ import javafx.stage.Stage;
 import utilities.StageLoader;
 import Classes.CoachSchedule;
 import Classes.Trainee;
+import Database.DbQuery;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,8 +37,6 @@ public class CoachController implements Initializable {
     @FXML
     private TableColumn<CoachSchedule, String> scheduleDayCol;
     @FXML
-    private TableColumn<CoachSchedule, Date> scheduleDateCol;
-    @FXML
     private TableColumn<CoachSchedule, Time> scheduleStartCol;
     @FXML
     private TableColumn<CoachSchedule, Time> scheduleEndCol;
@@ -50,6 +44,7 @@ public class CoachController implements Initializable {
     private TableColumn<CoachSchedule, String> scheduleattendeesCol;
     @FXML
     private TableColumn<CoachSchedule, String> scheduleDomainCol;
+    
     ObservableList<CoachSchedule> scheduleList = FXCollections.observableArrayList();
 
     // trainee table
@@ -80,7 +75,6 @@ public class CoachController implements Initializable {
 
     private void initScheduleCol() {
         scheduleDayCol.setCellValueFactory(new PropertyValueFactory<>("day"));
-        scheduleDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         scheduleStartCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         scheduleEndCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         scheduleattendeesCol.setCellValueFactory(new PropertyValueFactory<>("totalAttendees"));
@@ -97,6 +91,7 @@ public class CoachController implements Initializable {
     private void loadScheduleData() {
 
         ArrayList<CoachSchedule> schedules = new ArrayList<CoachSchedule>();
+//        schedules = DbQuery.getCoachSchedule(coach_id);
         for (CoachSchedule schedule : schedules) {
             scheduleList.add(schedule);
         }
@@ -106,6 +101,7 @@ public class CoachController implements Initializable {
     private void loadTraineeData() {
 
         ArrayList<Trainee> trainees = new ArrayList<Trainee>();
+//        trainees = DbQuery.viewTrainees(coach_id);
         for (Trainee trainee : trainees) {
             traineeList.add(trainee);
         }

@@ -25,12 +25,11 @@
                                  <center>
                                     <TableView fx:id="scheduleTable" maxWidth="862.0" prefHeight="419.0" prefWidth="862.0" BorderPane.alignment="CENTER">
                                       <columns>
-                                        <TableColumn fx:id="scheduleDayCol" prefWidth="124.0" text="Day" />
-                                          <TableColumn fx:id="scheduleDateCol" prefWidth="140.0" text="Date" />
-                                        <TableColumn fx:id="scheduleStartCol" prefWidth="141.0" text="Start Time" />
-                                          <TableColumn fx:id="scheduleEndCol" prefWidth="134.0" text="End Time" />
-                                          <TableColumn fx:id="scheduleattendeesCol" minWidth="0.0" prefWidth="101.0" text="Attendees" />
-                                          <TableColumn fx:id="scheduleDomainCol" prefWidth="210.0" text="Domain" />
+                                          <TableColumn fx:id="scheduleDayCol" prefWidth="140.0" text="Day'" />
+                                        <TableColumn fx:id="scheduleStartCol" prefWidth="186.0" text="Start Time" />
+                                          <TableColumn fx:id="scheduleEndCol" prefWidth="196.0" text="End Time" />
+                                          <TableColumn fx:id="scheduleattendeesCol" minWidth="0.0" prefWidth="105.0" text="Attendees" />
+                                          <TableColumn fx:id="scheduleDomainCol" prefWidth="223.0" text="Sport" />
                                       </columns>
                                        <BorderPane.margin>
                                           <Insets top="10.0" />

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.members;
 
 import Classes.Trainee;
@@ -35,6 +30,8 @@ public class RegisterTraineeController implements Initializable {
     private JFXComboBox<String> sportCombo;
     @FXML
     private JFXComboBox<Time> timeCombo;
+    @FXML
+    private JFXComboBox<String> dayCombo;
 
     /**
      * Initializes the controller class.
@@ -42,6 +39,7 @@ public class RegisterTraineeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            populateDaysCombo();
             populateSportsCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,12 +56,30 @@ public class RegisterTraineeController implements Initializable {
 
     }
 
+    void populateDaysCombo() {
+
+        dayCombo.getItems().add("Monday");
+        dayCombo.getItems().add("Tuesday");
+        dayCombo.getItems().add("Wednesday");
+        dayCombo.getItems().add("Thursday");
+        dayCombo.getItems().add("Friday");
+        dayCombo.getItems().add("Saturday");
+        dayCombo.getItems().add("Sunday");
+
+    }
+
     void populateTimeCombo() throws SQLException {
         ArrayList<Time> times = new ArrayList<Time>();
         String sport = sportCombo.getValue();
+        String day = dayCombo.getValue();
 
+<<<<<<< HEAD
         if (sport != null) {
-            times = DbQuery.getTime(sportCombo.getValue());
+          //  times = DbQuery.getTime(sportCombo.getValue());
+=======
+        if (sport != null && day != null) {
+            times = DbQuery.getTime(sport, day);
+>>>>>>> upstream/main
             for (Time time : times) {
                 timeCombo.getItems().add(time);
             }
@@ -75,13 +91,19 @@ public class RegisterTraineeController implements Initializable {
         String tId = id.getText();
         String sport = sportCombo.getValue();
         Time time = timeCombo.getValue();
+        String day = dayCombo.getValue();
 
         if (tId == null || sport == null || time == null) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(tId)) {
-                Trainee t = new Trainee(tId, sport, time);
+<<<<<<< HEAD
+               // Trainee t = new Trainee(tId, sport, time);
+             //   DbQuery.registerTrainee(t);
+=======
+                Trainee t = new Trainee(tId, sport, time, day);
                 DbQuery.registerTrainee(t);
+>>>>>>> upstream/main
                 AlertMaker.showAlert("Registeration successfull", "Success");
 
             } else {

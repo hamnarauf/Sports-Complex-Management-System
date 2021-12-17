@@ -55,8 +55,8 @@ public class LoginController implements Initializable {
             User user = DbQuery.checkLoginDetails(uname, pass);
             if (user != null) {
                 System.out.println("login");
-
-//                switch (user.getRole()) {
+//
+//                switch (user.getDept()) {
 //                    case ("registrant"):
 //                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
 //                        break;
@@ -81,7 +81,7 @@ public class LoginController implements Initializable {
 //                    case ("manager"):
 //                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
 //                        break;
-//                }
+//            }
             } else {
                 AlertMaker.showAlert("Try Again", "Invalid username or password");
                 clearDetails();

@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 
 public class DbQuery {
     // "jdbc:mysql://hostname:portNumber/databaseName"
-    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
+//    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
+    private final static String FILE = "jdbc:mysql://root:3306/sportscomplex";
 
     private static Connection conn;
     private static Statement st;
@@ -25,7 +26,7 @@ public class DbQuery {
     private static void setupDb() {
         // for making connection to the database
         try {
-            Connection connection = DriverManager.getConnection(FILE);
+            Connection connection = DriverManager.getConnection(FILE); // File, "username", "password"
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
             DbQuery.st = statement;

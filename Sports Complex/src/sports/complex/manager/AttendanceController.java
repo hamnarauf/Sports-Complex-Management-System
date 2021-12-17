@@ -13,6 +13,8 @@ import Database.DbQuery;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -59,7 +61,11 @@ public class AttendanceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
         loadData();
-//        populateDeptCombo();
+//        try {
+////            populateDeptCombo();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         filterById();
     }
 
@@ -105,7 +111,7 @@ public class AttendanceController implements Initializable {
     }
 
     private void filterById() {
-        // Wrap the ObservableList in a FilteredList (initially display all data).
+//        // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
@@ -176,5 +182,4 @@ public class AttendanceController implements Initializable {
         // 5. Add sorted (and filtered) data to the table.
         tableView.setItems(sortedData);
     }
-
 }

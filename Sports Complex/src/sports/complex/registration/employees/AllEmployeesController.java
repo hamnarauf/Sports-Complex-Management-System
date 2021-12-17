@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.employees;
 
 import Classes.Employee;
+import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -51,7 +50,11 @@ public class AllEmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(AllEmployeesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void initCol() {
@@ -66,8 +69,9 @@ public class AllEmployeesController implements Initializable {
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
     }
 
-    public void loadData() {
+    public void loadData() throws SQLException {
         ArrayList<Employee> allEmployee = new ArrayList<Employee>();
+        allEmployee = DbQuery.displayEmployeeList();
         for (Employee employee : allEmployee) {
             list.add(employee);
         }

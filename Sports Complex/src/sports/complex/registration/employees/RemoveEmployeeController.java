@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.registration.employees;
 
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +41,8 @@ public class RemoveEmployeeController implements Initializable {
     }    
 
        @FXML
-    private void handleRemoveBtn(ActionEvent event) {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+        DbQuery.removeEmp(empId.getText());
 
 
     }

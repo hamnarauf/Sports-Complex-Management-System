@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -36,7 +37,9 @@ public class RemoveTeamController implements Initializable {
     }
 
     @FXML
-    private void handleRemoveBtn(ActionEvent event) {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+        DbQuery.removeTeam(teamId.getText());
+        AlertMaker.showAlert("Success", "Team removed successfully");
 
     }
 

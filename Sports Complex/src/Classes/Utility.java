@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Classes;
 
 import com.jfoenix.controls.JFXButton;
@@ -17,17 +12,21 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import Classes.*;
 import Database.DbQuery;
+import com.jfoenix.controls.JFXTextField;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
 import sports.complex.alert.AlertMaker;
+
 /**
  *
  * @author Hamna Rauf
  */
 public class Utility {
-    
-        public static void initPDFExprot(Stage stage, List<List> data) {
+
+    public static void initPDFExprot(Stage stage, List<List> data) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save as PDF");
         FileChooser.ExtensionFilter extFilter
@@ -49,12 +48,11 @@ public class Utility {
             AlertMaker.showAlert("Completed", "Member data has been exported.");
         }
     }
-        
-        
-        public static Object getRow(TableView<Object> tableView) {
+
+    public static Object getRow(TableView<Object> tableView) {
         return tableView.getSelectionModel().getSelectedItem();
     }
-        
+    
 
     
 }
