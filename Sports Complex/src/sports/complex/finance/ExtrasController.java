@@ -7,11 +7,15 @@ package sports.complex.finance;
 
 import Classes.Transaction;
 import Classes.Utility;
+import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,7 +56,11 @@ public class ExtrasController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ExtrasController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
@@ -63,9 +71,10 @@ public class ExtrasController implements Initializable {
 
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
 
         ArrayList<Transaction> allTrans = new ArrayList<Transaction>();
+        allTrans = DbQuery.viewTransExtras();
         for (Transaction trans : allTrans) {
             list.add(trans);
         }
