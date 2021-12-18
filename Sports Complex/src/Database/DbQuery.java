@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class DbQuery {
 
     // "jdbc:mysql://hostname:portNumber/databaseName"
-    private final static String FILE = "jdbc:mysql://root:3306/sportscomplex";
+    private final static String FILE = "jdbc:mysql://localhost:3306/sportscomplex";
     private static Connection conn = null;
     private static Statement st;
 
@@ -29,15 +29,15 @@ public class DbQuery {
         // for making connection to the database
         try {
             
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver loaded");
-            Connection connection = DriverManager.getConnection(FILE + "user=root&password=Divergent2001!");
-            System.out.println(connection);
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sportscomplex?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC", "root", "root");
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
             DbQuery.st = statement;
         } catch (SQLException| ClassNotFoundException exc) {
-            exc.toString();
+            System.out.println(exc.toString());
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(DbQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -56,11 +56,6 @@ public class DbQuery {
             ClassNotFoundException {
 
         setupDb();
-        System.out.println("The system has been set");
-        System.out.println(DbQuery.conn);
-        System.out.println(DbQuery.st);
-        
-        
         User user = null;
 
         // login query
@@ -820,7 +815,7 @@ public class DbQuery {
     }
 
     // finance
-    public static ArrayList<Transaction> viewTransSummary() throws SQLException {
+    public static ArrayList<Transaction> viewTransSummary() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -840,7 +835,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static double getSummaryTransTotal() throws SQLException {
+    public static double getSummaryTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -853,7 +848,7 @@ public class DbQuery {
         return total;
     }
 
-    public static ArrayList<Transaction> viewTransBills() throws SQLException {
+    public static ArrayList<Transaction> viewTransBills() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -869,7 +864,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Transaction> viewTransFunds() throws SQLException {
+    public static ArrayList<Transaction> viewTransFunds() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -885,7 +880,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Transaction> viewTransExtras() throws SQLException {
+    public static ArrayList<Transaction> viewTransExtras() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -901,7 +896,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Employee> viewTransEmp() throws SQLException {
+    public static ArrayList<Employee> viewTransEmp() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Employee> transList = new ArrayList<Employee>();
@@ -923,7 +918,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static double getBillsTransTotal() throws SQLException {
+    public static double getBillsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -936,7 +931,7 @@ public class DbQuery {
         return total;
     }
 
-    public static double getFundsTransTotal() throws SQLException {
+    public static double getFundsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -949,7 +944,7 @@ public class DbQuery {
         return total;
     }
 
-    public static double getExtraTransTotal() throws SQLException {
+    public static double getExtraTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -962,7 +957,7 @@ public class DbQuery {
         return total;
     }
 
-    public static ArrayList<Repair> getRepairs() throws SQLException {
+    public static ArrayList<Repair> getRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
@@ -980,7 +975,7 @@ public class DbQuery {
         return repairsList;
     }
 
-    public static boolean hasReqRepairs() throws SQLException {
+    public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
@@ -997,7 +992,7 @@ public class DbQuery {
 
     }
 
-    public static void allocateFunds(Repair r) throws SQLException {
+    public static void allocateFunds(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "update repairs\n"
@@ -1007,7 +1002,7 @@ public class DbQuery {
         tearDownDb();
     }
     
-    public static void refuseFunds(Repair r) throws SQLException {
+    public static void refuseFunds(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "update repairs\n"

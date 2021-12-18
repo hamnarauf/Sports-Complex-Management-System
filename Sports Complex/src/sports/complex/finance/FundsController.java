@@ -52,6 +52,8 @@ public class FundsController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(FundsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FundsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -63,7 +65,7 @@ public class FundsController implements Initializable {
 
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Transaction> allTrans = new ArrayList<Transaction>();
         allTrans = DbQuery.viewTransFunds();

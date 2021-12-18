@@ -59,6 +59,8 @@ public class EmployeesController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(EmployeesController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmployeesController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -71,7 +73,7 @@ public class EmployeesController implements Initializable {
 
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Employee> allEmployees = new ArrayList<Employee>();
         allEmployees = DbQuery.viewTransEmp();

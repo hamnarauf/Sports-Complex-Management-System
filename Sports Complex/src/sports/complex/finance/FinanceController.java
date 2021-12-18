@@ -41,6 +41,8 @@ public class FinanceController implements Initializable {
             }
         } catch (SQLException ex) {
             Logger.getLogger(FinanceController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FinanceController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
