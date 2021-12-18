@@ -42,7 +42,7 @@ public class ReqFundsController implements Initializable {
             refresh();
             initCol();
             loadData();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ReqFundsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -53,7 +53,7 @@ public class ReqFundsController implements Initializable {
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Repair> allRepairs = new ArrayList<Repair>();
         allRepairs = DbQuery.getRepairs();
@@ -68,7 +68,7 @@ public class ReqFundsController implements Initializable {
 //    }
 
     @FXML
-    private void handleAllocateBtn(ActionEvent event) throws SQLException {
+    private void handleAllocateBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         Repair selectedRepair = (Repair) Utility.getRow((TableView<Object>) (Object) tableView);
 
         if (selectedRepair == null) {
@@ -81,7 +81,7 @@ public class ReqFundsController implements Initializable {
     }
 
     @FXML
-    private void handleRejectBtn(ActionEvent event) throws SQLException {
+    private void handleRejectBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         Repair selectedRepair =(Repair) Utility.getRow((TableView<Object>)(Object)tableView);
 
         if (selectedRepair == null) {
@@ -93,7 +93,7 @@ public class ReqFundsController implements Initializable {
         }
     }
 
-    private void refresh() throws SQLException {
+    private void refresh() throws SQLException, ClassNotFoundException {
         initCol();
         loadData();
     }

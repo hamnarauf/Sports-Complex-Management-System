@@ -66,13 +66,17 @@ public class AttendantController implements Initializable {
         initCol();
         loadData();
         try {
-            populateDeptCombo();
+            try {
+                populateDeptCombo();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void populateDeptCombo() throws SQLException {
+    private void populateDeptCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> depts = new ArrayList<String>();
         depts = DbQuery.getDeptList();
         for (String d : depts) {

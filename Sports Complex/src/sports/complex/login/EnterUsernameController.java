@@ -33,7 +33,7 @@ public class EnterUsernameController implements Initializable {
     }
 
     @FXML
-    private void handleNextBtn(ActionEvent event) throws SQLException, IOException {
+    private void handleNextBtn(ActionEvent event) throws SQLException, IOException, ClassNotFoundException {
         boolean valid;
         String uname = username.getText();
 

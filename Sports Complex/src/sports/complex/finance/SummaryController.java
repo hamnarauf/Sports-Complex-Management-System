@@ -50,6 +50,8 @@ public class SummaryController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(SummaryController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SummaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -61,7 +63,7 @@ public class SummaryController implements Initializable {
 
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Transaction> allTrans = new ArrayList<Transaction>();
         allTrans = DbQuery.viewTransSummary();
