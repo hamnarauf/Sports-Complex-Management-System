@@ -58,6 +58,8 @@ public class AllMembersController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(AllMembersController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllMembersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -73,7 +75,7 @@ public class AllMembersController implements Initializable {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Member> allMember = new ArrayList<Member>();
         allMember = DbQuery.displayMembers();

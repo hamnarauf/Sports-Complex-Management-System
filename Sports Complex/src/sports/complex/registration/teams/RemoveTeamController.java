@@ -37,7 +37,7 @@ public class RemoveTeamController implements Initializable {
     }
 
     @FXML
-    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeTeam(teamId.getText());
         AlertMaker.showAlert("Success", "Team removed successfully");
 
@@ -51,7 +51,7 @@ public class RemoveTeamController implements Initializable {
     }
 
     @FXML
-    private void updateFields(ActionEvent event) throws SQLException {
+    private void updateFields(ActionEvent event) throws SQLException, ClassNotFoundException {
         clearCache();
         String id = teamId.getText();
 

@@ -41,7 +41,7 @@ public class RemoveEmployeeController implements Initializable {
     }    
 
        @FXML
-    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeEmp(empId.getText());
 
 

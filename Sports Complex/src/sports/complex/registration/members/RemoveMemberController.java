@@ -41,7 +41,7 @@ public class RemoveMemberController implements Initializable {
     }
 
     @FXML
-    private void handleRemoveBtn(ActionEvent event) throws SQLException {
+    private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeMember(memId.getText());
         AlertMaker.showAlert("Success", "Member Removed Successfully");
 
@@ -56,7 +56,7 @@ public class RemoveMemberController implements Initializable {
     }
 
     @FXML
-    private void updateFields(ActionEvent event) throws SQLException {
+    private void updateFields(ActionEvent event) throws SQLException, ClassNotFoundException {
         clearCache();
         String id = memId.getText();
         if (id != null && DbQuery.isMember(DbQuery.getMemberCnic(id))) {

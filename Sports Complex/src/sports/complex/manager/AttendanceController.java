@@ -69,7 +69,7 @@ public class AttendanceController implements Initializable {
         filterById();
     }
 
-    private void populateDeptCombo() throws SQLException {
+    private void populateDeptCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> depts = new ArrayList<String>();
         depts = DbQuery.getDeptList();
         for (String dept : depts) {

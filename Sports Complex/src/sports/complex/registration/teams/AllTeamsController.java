@@ -45,6 +45,8 @@ public class AllTeamsController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(AllTeamsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllTeamsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -57,7 +59,7 @@ public class AllTeamsController implements Initializable {
         totalMembersCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Team> allTeams = new ArrayList<Team>();
         allTeams = DbQuery.displayTeamList();

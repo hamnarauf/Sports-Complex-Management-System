@@ -41,6 +41,8 @@ public class PasswordRecoveryController implements Initializable {
             securityQues.setText(DbQuery.getSecurityQs(username));
         } catch (SQLException ex) {
             Logger.getLogger(PasswordRecoveryController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PasswordRecoveryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -53,7 +55,7 @@ public class PasswordRecoveryController implements Initializable {
     }
 
     @FXML
-    private void handleConfirmBtn(ActionEvent event) throws SQLException {
+    private void handleConfirmBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         if (answer.getText() == null || newPass.getText() == null || retypeNewPass.getText() == null) {
             AlertMaker.showAlert("Try Again", "Please enter all data feilds");
