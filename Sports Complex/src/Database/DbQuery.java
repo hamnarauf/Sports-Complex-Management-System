@@ -90,24 +90,16 @@ public class DbQuery {
 
     public static String getSecurityQs(String uname) throws SQLException, ClassNotFoundException {
         setupDb();
-        String ques_id = "";
         String secQs = "";
-
+    
         // retreive stored security question of the provided user
-        final String query = "SELECT ques_id FROM Users WHERE username = \"" + uname + "\"";
+        final String query = "SELECT ques FROM security_qs WHERE ques_id = " +
+        "(SELECT security_qs_id FROM Users WHERE username = \"" + uname + "\");";
 
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) {
-            ques_id = rs.getString("ques_id");
-        }
-
-        final String getQsQuery = "SELECT ques FROM security_qs WHERE ques_id = \"" + ques_id + "\"";
-
-        rs = st.executeQuery(getQsQuery);
-
-        if (rs.next()) {
-            secQs = rs.getString("securityQues");
+            secQs = rs.getString("ques");
         }
 
         tearDownDb();
