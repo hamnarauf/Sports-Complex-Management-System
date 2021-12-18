@@ -17,7 +17,10 @@
     <jar href="lib\fontbox-2.0.21.jar" size="1562354" download="eager" />
     <jar href="lib\guava-29.0-android.jar" size="2631690" download="eager" />
     <jar href="lib\jfoenix-8.0.10.jar" size="2710207" download="eager" />
+<<<<<<< HEAD
+=======
     <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
+>>>>>>> 183f2cae48718f27cb0506ec301b9f1fba8c0738
     <jar href="lib\mysql-connector-java-8.0.25.jar" size="2428320" download="eager" />
     <jar href="lib\pdfbox-2.0.21.jar" size="2718635" download="eager" />
     <jar href="lib\slf4j-api-1.7.10.jar" size="32119" download="eager" />
