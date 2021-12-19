@@ -908,9 +908,9 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
-                    rs.getString("transactions.type"),
-                    rs.getString("transactions.amount"));
+            Transaction trans = new Transaction(rs.getString("repair_id"),
+                    rs.getString("purpose"),
+                    rs.getString("amount"));
             transList.add(trans);
         }
         tearDownDb();
@@ -1197,7 +1197,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("attendance"));
+            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("status"));
             attList.add(att);
         }
 

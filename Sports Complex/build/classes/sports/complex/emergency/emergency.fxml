@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
@@ -59,7 +60,7 @@
                         <JFXTextField fx:id="patientId" labelFloat="true" prefHeight="37.0" prefWidth="152.0" promptText="ID" />
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
                         <JFXTextField fx:id="problem" labelFloat="true" promptText="Problem" GridPane.rowIndex="1" />
-                        <JFXTextField fx:id="facilitiesUsed" labelFloat="true" promptText="Facilities used" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="facilitiesUsed" prefHeight="37.0" prefWidth="272.0" promptText="Facility Used" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                      <BorderPane.margin>
                         <Insets left="20.0" right="20.0" top="20.0" />

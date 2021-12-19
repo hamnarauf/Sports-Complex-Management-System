@@ -36,9 +36,10 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/emergency/emergency.fxml");
 //        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");
-//        setStage("/sports/complex/finance/finance.fxml");
+        setStage("/sports/complex/finance/finance.fxml");
 //        setStage("/sports/complex/attendant/attendant.fxml");
-//        setStage("/sports/complex/registration/menu/viewNotice/viewNotice.fxml");
+//        setStage("/sports/complex/menu/viewNotice.fxml");
+//        setStage("/sports/complex/editProfile.fxml");
 //        setStage("/sports/complex/maintenance/maintenance.fxml");
 //        setStage("/sports/complex/manager/manager.fxml");
 //        setStage("/sports/complex/manager/comp_sugg.fxml");
@@ -50,7 +51,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/inventory/issuedItems.fxml");
 //        setStage("/sports/complex/inventory/delItem.fxml");
 //        setStage("/sports/complex/inventory/history.fxml");
-        setStage("/sports/complex/inventory/availableItems.fxml");
+//        setStage("/sports/complex/inventory/availableItems.fxml");
 //        setStage("/sports/complex/finance/bills.fxml");
 //        setStage("/sports/complex/emergency/registeredIndividuals.fxml");
 //        setStage("/sports/complex/finance/ReqFunds/reqFunds.fxml");
