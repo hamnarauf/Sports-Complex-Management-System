@@ -4,7 +4,6 @@ import Classes.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +61,7 @@ public class DbQuery {
         User user = null;
 
         // login query
-        final String query = "SELECT username, password, Employee.dept_id FROM Users \n" +
+        final String query = "SELECT username, password, Employee.dept_id, Employee.emp_id FROM Users \n" +
                 "INNER JOIN Employee On Users.emp_id = Employee.emp_id \n" +
                 "WHERE username =\"" + username + "\" \n" +
                 "AND password =\"" + password + "\";";
@@ -70,7 +69,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
-            user = new User(rs.getString("username"), rs.getString("password"),
+            user = new User(rs.getString("emp_id"), rs.getString("username"), rs.getString("password"),
                     rs.getString("dept_id"));
         }
 
@@ -145,7 +144,7 @@ public class DbQuery {
         setupDb();
         int sport_id = 0;
 
-        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sport = \"" + sport + "\"";
+        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sportName = \"" + sport + "\"";
         ResultSet rs = st.executeQuery(getSportQuery);
 
         if (rs.next()) {
@@ -276,9 +275,9 @@ public class DbQuery {
         setupDb();
         String coach_id = "";
 
-        final String query = "SELECT coach_id FROM ((Coach "
+        final String query = "SELECT class.coach_id FROM ((Coach "
                 + "INNER JOIN Class On Class.coach_id = Coach.coach_id)"
-                + "INNER JOIN Team_Schedule On TeamSchedule.class_id = Class.class_id)"
+                + "INNER JOIN Team_Schedule On Team_Schedule.class_id = Class.class_id)"
                 + "WHERE team_id = \"" + team.getTeam_id() + "\"";
 
         ResultSet rs = st.executeQuery(query);
@@ -395,10 +394,10 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Member m = new Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"),
-                    gender.valueOf(rs.getString("Person.gender")), rs.getDate("Person.dob"),
-                    rs.getString("Person.cnic"), rs.getString("Person.contact"),
-                    rs.getString("Person.email"), rs.getString("Member.member_id"));
+            Member m = new Member(rs.getString("firstName"), rs.getString("lastName"),
+                    gender.valueOf(rs.getString("gender")), rs.getDate("dob"),
+                    rs.getString("cnic"), rs.getString("contact"),
+                    rs.getString("email"), rs.getString("member_id"));
 
             memberList.add(m);
         }
@@ -416,7 +415,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            deptName.add(rs.getString("sportName"));
+            deptName.add(rs.getString("deptName"));
         }
 
         tearDownDb();
@@ -1330,5 +1329,12 @@ public class DbQuery {
         tearDownDb();
     }
 
-    // available items
+    public static ArrayList<InventoryItem> displayAvailableItems() throws ClassNotFoundException, SQLException{
+        setupDb();
+        ArrayList<InventoryItem> itemList = new ArrayList<>();
+        InventoryItem item;
+
+        tearDownDb();
+        return itemList;
+    }
 }
