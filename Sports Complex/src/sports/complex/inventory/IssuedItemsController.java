@@ -48,10 +48,10 @@ public class IssuedItemsController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initCol();
-        filterByName();
+        initCol();    
         try {
             loadData();
+            filterByName();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(IssuedItemsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

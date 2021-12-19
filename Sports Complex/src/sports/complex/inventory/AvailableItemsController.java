@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.inventory;
 
+import Classes.AvailableItem;
 import Classes.InventoryItem;
+import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,12 +25,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class AvailableItemsController implements Initializable {
 
     @FXML
-    private TableView<InventoryItem> tableView;
+    private TableView<AvailableItem> tableView;
     @FXML
-    private TableColumn<InventoryItem, String> itemCol;
+    private TableColumn<AvailableItem, String> itemCol;
     @FXML
-    private TableColumn<InventoryItem, String> quantityCol;
-    ObservableList<InventoryItem> list = FXCollections.observableArrayList();
+    private TableColumn<AvailableItem, String> quantityCol;
+    ObservableList<AvailableItem> list = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -38,19 +38,26 @@ public class AvailableItemsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AvailableItemsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AvailableItemsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
 
-        itemCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        quantityCol.setCellValueFactory(new PropertyValueFactory<>("available"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("qty"));
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
-        ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
-        for (InventoryItem item : items) {
+        ArrayList<AvailableItem> items = new ArrayList<AvailableItem>();
+        items = DbQuery.displayAvailableItems();
+        for (AvailableItem item : items) {
             list.add(item);
         }
         tableView.setItems(list);

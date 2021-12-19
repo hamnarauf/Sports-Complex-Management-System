@@ -63,9 +63,10 @@ public class RemoveEmployeeController implements Initializable {
         String id = empId.getText();
         if (id != null && DbQuery.isEmployee(id)) {
             Person emp;
-            emp = DbQuery.removeEmployeeDetails(id);
+            emp = DbQuery.removeEmployeeDetails(DbQuery.getEmpCnic(id));
             name.setText(emp.getFname() + emp.getLname());
             contact.setText(emp.getContactNo());
+//            dept.setText(emp.getDeptName());
             dob.setText(emp.getDob().toString());
             email.setText(emp.getEmail());
             address.setText(emp.getAddress());

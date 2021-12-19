@@ -1,7 +1,9 @@
 package sports.complex.inventory;
 
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,12 +31,18 @@ public class AddItemController implements Initializable {
     }
 
     @FXML
-    private void handleAddBtn(ActionEvent event) {
+    private void handleAddBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (name.getText().equals("") || quantity.getText().equals("")) {
             AlertMaker.showAlert("Empty fields", "Please fill all fields");
 
         } else {
-            
+            try {
+                int q = new Integer(quantity.getText());
+                DbQuery.addItem(name.getText(), q);
+                AlertMaker.showAlert("Success", "Item added successfully.");
+            } catch (Exception e) {
+                AlertMaker.showAlert("Error", "Quanity can only be an integer");
+            }
         }
 
     }

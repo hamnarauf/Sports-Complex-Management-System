@@ -47,8 +47,10 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/manager/attendance.fxml");
 //        setStage("/sports/complex/coach/coach.fxml");
 //        setStage("/sports/complex/inventory/inventory.fxml");
-        setStage("/sports/complex/inventory/issuedItems.fxml");
-//        setStage("/sports/complex/registration/members/allMembers.fxml");
+//        setStage("/sports/complex/inventory/issuedItems.fxml");
+//        setStage("/sports/complex/inventory/delItem.fxml");
+//        setStage("/sports/complex/inventory/history.fxml");
+        setStage("/sports/complex/inventory/availableItems.fxml");
 //        setStage("/sports/complex/finance/bills.fxml");
 //        setStage("/sports/complex/emergency/registeredIndividuals.fxml");
 //        setStage("/sports/complex/finance/ReqFunds/reqFunds.fxml");

@@ -44,7 +44,6 @@ public class RemoveMemberController implements Initializable {
     private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeMember(memId.getText());
         AlertMaker.showAlert("Success", "Member Removed Successfully");
-
     }
 
     public void clearCache() {
@@ -59,9 +58,10 @@ public class RemoveMemberController implements Initializable {
     private void updateFields(ActionEvent event) throws SQLException, ClassNotFoundException {
         clearCache();
         String id = memId.getText();
-        if (!id.equals("") && DbQuery.isMember(DbQuery.getMemberCnic(id))) {
+        String cnic = DbQuery.getMemberCnic(id);
+        if (!id.equals("") && DbQuery.isMember(cnic)) {
             Person mem;
-            mem = DbQuery.removeMemberDetails(id);
+            mem = DbQuery.removeMemberDetails(cnic);
             name.setText(mem.getFname() + " " + mem.getLname());
             contact.setText(mem.getContactNo());
             dob.setText(mem.getDob().toString());
