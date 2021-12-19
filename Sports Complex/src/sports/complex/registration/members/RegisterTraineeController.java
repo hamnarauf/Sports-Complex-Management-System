@@ -76,6 +76,9 @@ public class RegisterTraineeController implements Initializable {
         ArrayList<Time> times = new ArrayList<Time>();
         String sport = sportCombo.getValue();
         String day = dayCombo.getValue();
+        
+        System.out.println(sport);
+        System.out.println(day);
 
         if (sport != null && day != null) {
             times = DbQuery.getTime(sport, day);
@@ -92,7 +95,7 @@ public class RegisterTraineeController implements Initializable {
         Time time = timeCombo.getValue();
         String day = dayCombo.getValue();
 
-        if (tId == null || sport == null || time == null) {
+        if (tId.equals("") || sport.equals("") || time.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(tId)) {
