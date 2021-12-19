@@ -188,10 +188,10 @@ public class DbQuery {
         final String getCnicQuery = "SELECT cnic FROM Employee WHERE emp_id = \"" + emp_id + "\"";
 
         ResultSet rs = st.executeQuery(getCnicQuery);
-        if (rs.next()){
-            cnic = rs.getString("cnic");    
+        if (rs.next()) {
+            cnic = rs.getString("cnic");
         }
-        
+
         tearDownDb();
         return cnic;
     }
@@ -283,7 +283,7 @@ public class DbQuery {
         final String getCnicQuery = "SELECT cnic FROM Member WHERE member_id = \"" + member_id + "\"";
 
         ResultSet rs = st.executeQuery(getCnicQuery);
-        if(rs.next()){
+        if (rs.next()) {
             cnic = rs.getString("cnic");
         }
         tearDownDb();
@@ -1402,6 +1402,29 @@ public class DbQuery {
         }
     }
 
-    // public static ArrayListPerson>
+    public static ArrayList<Person> getMedicalDetails() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Person> detailsList = new ArrayList<>();
+        Person p;
+
+        final String query = "SELECT Person.cnic, firstName, lastName, gender, bloodGroup, allergy, contact, emerContact \n"
+                +
+                "FROM Person \n" +
+                "LEFT JOIN allergies on person.cnic = allergies.cnic";
+
+        ResultSet rs = st.executeQuery(query);
+        
+        while(rs.next()){
+            p = new Person(rs.getString("firstName"), rs.getString("lastName"), gender.valueOf(rs.getString("gender")), 
+            rs.getString("cnic"), rs.getString("contact"), rs.getString("emerContact"), 
+            rs.getString("bloodGroup"), rs.getString("allergy"));
+
+            detailsList.add(p);
+        }
+
+        tearDownDb();
+        return detailsList;
+    }
+
 
 }
