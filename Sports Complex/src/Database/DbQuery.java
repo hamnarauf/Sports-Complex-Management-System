@@ -153,14 +153,19 @@ public class DbQuery {
         return sport_id;
     }
 
-    public static ResultSet getCoachOfSport(int sport_id) throws SQLException, ClassNotFoundException {
+    public static ArrayList<String> getCoachOfSport(int sport_id) throws SQLException, ClassNotFoundException {
         setupDb();
-
+        ArrayList<String> coach_id = new ArrayList();
+        
         final String getCoachQuery = "SELECT coach_id FROM Coach WHERE sport_id = \"" + sport_id + "\"";
         ResultSet rs = st.executeQuery(getCoachQuery);
+        
+        while(rs.next()){
+            coach_id.add(rs.getString("coach_id"));
+        }
 
         tearDownDb();
-        return rs;
+        return coach_id;
     }
 
     public static String getUsername(String emp_id) throws SQLException, ClassNotFoundException {
@@ -370,25 +375,25 @@ public class DbQuery {
 
     public static ArrayList<Time> getTime(String sport, String day) throws SQLException, ClassNotFoundException {
         setupDb();
-        String coach_id = "";
-        ResultSet rs;
+        String coach_id;
+        ArrayList<String> coach_ids;
         ResultSet rs2;
         ArrayList<Time> startTime = new ArrayList<Time>();
 
         int sport_id = getSportID(sport);
-        rs = getCoachOfSport(sport_id);
-
-        while (rs.next()) {
-            coach_id = rs.getString("coach_id");
-
+        coach_ids = getCoachOfSport(sport_id);
+        
+        for (int i = 0; i < coach_ids.size(); i++) {
+            coach_id = coach_ids.get(i);
             if ((getCountOfTeamsOfCoach(coach_id) <= 2) && (getCountOfTraineesOfCoach(coach_id) <= 5)) {
                 final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\""
                         + "AND day = \"" + day + "\"";
-
+                
                 rs2 = st.executeQuery(getClassTimeQuery);
                 startTime.add(rs2.getTime("startTime"));
             }
         }
+        
         tearDownDb();
         return startTime;
     }
@@ -1387,7 +1392,7 @@ public class DbQuery {
             statement.setString(1, e.getPatient_id());
             statement.setString(2, e.getProblem());
             statement.setDate(3, date);
-            statement.setDate(4, time);
+//            statement.setDate(4, time);
             statement.setString(5, e.getStatus());
             statement.executeUpdate();
         }
