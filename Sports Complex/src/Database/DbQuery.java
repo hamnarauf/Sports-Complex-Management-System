@@ -969,13 +969,14 @@ public class DbQuery {
         setupDb();
 
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
-        final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
+        final String query = "select purpose, sportName, amount, status from repairs join sport using (sport_id)\n"
                 + "where status = \"Pending\"";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"));
+            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"),
+                    rs.getString("status"));
             repairsList.add(rep);
         }
 
@@ -1077,6 +1078,41 @@ public class DbQuery {
         return suggList;
     }
 
+    public static String getReportID(String report) throws ClassNotFoundException, SQLException {
+        setupDb();
+        String report_id = "";
+
+        final String query = "SELECT report_id FROM Report WHERE details = \"" + report + "\";";
+
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            report_id = rs.getString("report_id");
+        }
+
+        tearDownDb();
+        return report_id;
+    }
+
+    public static void deleteReport(String report_id) throws ClassNotFoundException, SQLException {
+        setupDb();
+        final String query = "DELETE FROM Report WHERE report_id = \"" + report_id + "\";";
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
+    public static void addressReport(String report_id) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "UPDATE Report \n" +
+                "SET status = addressed \n" +
+                "WHERE report_id = \"" + report_id + "\";";
+
+        st.executeUpdate(query);
+
+        tearDownDb();
+    }
+
     public static ArrayList<Repair> displayRepairs() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<Repair> repList = new ArrayList<>();
@@ -1111,8 +1147,53 @@ public class DbQuery {
             statement.setDate(3, date);
             statement.executeUpdate();
         }
-        
+
         tearDownDb();
+    }
+
+    public static ArrayList<Emergency> displayEmergency() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Emergency> emgList = new ArrayList<>();
+        Emergency emg;
+
+        final String query = "SELECT patient_id, concat(firstName, \" \", lastName) AS name, problem, itemName, status \n"
+                +
+                "FROM emergency \n" +
+                "INNER JOIN member ON emergency.patient_id = member.member_id \n" +
+                "INNER JOIN person ON member.cnic = person.cnic \n" +
+                "INNER JOIN medical_log ON emergency.emer_id = medical_log.emer_id \n" +
+                "INNER JOIN inventory ON medical_log.item_id = inventory.item_id; \n";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            emg = new Emergency(rs.getString("patient_id"), rs.getString("name"),
+                    rs.getString("problem"), rs.getString("itemName"), rs.getString("status"));
+            emgList.add(emg);
+        }
+
+        tearDownDb();
+        return emgList;
+    }
+
+    public static ArrayList<Attendance> displayAttendance() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Attendance> attList = new ArrayList<>();
+        Attendance att;
+
+        final String query = "SELECT emp_id, date, status FROM attendance \n" +
+                "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n" +
+                "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("attendance"));
+            attList.add(att);
+        }
+
+        tearDownDb();
+        return attList;
     }
 
     // INVENTORY INTERFACE

@@ -35,12 +35,26 @@ public class Attendance extends Employee{
 
     }
 
+    public Attendance(String emp_id, Date date, String attendance){
+        this.setEmp_id(emp_id);
+        this.setDate(date);
+        this.setAttendance(attendance);
+    }
+
     public Date getDate() {
         return date;
     }
 
+    public void setDate(Date d){
+        this.date = d;
+    }
+
     public String getAttendance() {
         return attendance;
+    }
+
+    public void setAttendance(String attendance){
+        this.attendance = attendance;
     }
 
 }
