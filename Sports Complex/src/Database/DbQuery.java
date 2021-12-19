@@ -974,8 +974,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"),
-                    rs.getString("status"));
+            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"), "");
             repairsList.add(rep);
         }
 
