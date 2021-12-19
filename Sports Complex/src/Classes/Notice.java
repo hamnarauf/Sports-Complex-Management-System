@@ -1,14 +1,43 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Classes;
+
+import java.sql.Date;
 
 /**
  *
  * @author Hamna Rauf
  */
 public class Notice {
-    
+    private String title;
+    private String text;
+    private Date date;
+
+    public Notice(String title, String text, Date date) {
+        this.setTitle(title);
+        this.setText(text);
+        this.setDate(date);
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

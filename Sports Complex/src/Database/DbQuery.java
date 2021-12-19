@@ -4,6 +4,7 @@ import Classes.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -1076,6 +1077,44 @@ public class DbQuery {
         return suggList;
     }
 
+    public static ArrayList<Repair> displayRepairs() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Repair> repList = new ArrayList<>();
+        Repair r;
+
+        final String query = "SELECT purpose, sportName, amount, status \n" +
+                "FROM repairs INNER JOIN sport ON repairs.sport_id = sport.sport_id;";
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            r = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"),
+                    rs.getString("status"));
+            repList.add(r);
+        }
+
+        tearDownDb();
+        return repList;
+    }
+
+    public static void issueNotice(Notice notice) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "INSERT INTO Notice (title, text, date) \n" +
+                "VALUES (?,?,?)";
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, notice.getTitle());
+            statement.setString(2, notice.getText());
+            statement.setDate(3, date);
+            statement.executeUpdate();
+        }
+        
+        tearDownDb();
+    }
+
     // INVENTORY INTERFACE
     public static ArrayList<InventoryItem> displayIssuedItems() throws ClassNotFoundException, SQLException {
         setupDb();
@@ -1109,7 +1148,7 @@ public class DbQuery {
                 "WHERE itemName = \"" + itemName + "\";";
 
         ResultSet rs = st.executeQuery(query);
-        if(rs.next()){
+        if (rs.next()) {
             item = new InventoryItem(rs.getString("sportName"), rs.getInt("quantity"));
         }
 
@@ -1117,21 +1156,21 @@ public class DbQuery {
         return item;
     }
 
-    public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException{
+    public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException {
         setupDb();
         int qty = 0;
 
         final String query = "SELECT quantity FROM inventory WHERE itemName = \"" + itemName + "\"";
         ResultSet rs = st.executeQuery(query);
-        
-        if(rs.next()){
+
+        if (rs.next()) {
             qty = rs.getInt("quantity");
         }
         tearDownDb();
         return qty;
     }
 
-    public static void deleteItem(String itemName) throws ClassNotFoundException, SQLException{
+    public static void deleteItem(String itemName) throws ClassNotFoundException, SQLException {
         setupDb();
 
         final String query = "UPDATE inventory \n" +
@@ -1142,7 +1181,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void addItem(String itemName, int qty) throws ClassNotFoundException, SQLException{
+    public static void addItem(String itemName, int qty) throws ClassNotFoundException, SQLException {
         setupDb();
 
         final String query = "UPDATE inventory \n" +
@@ -1152,24 +1191,25 @@ public class DbQuery {
         st.executeUpdate(query);
         tearDownDb();
     }
-    
-    public static ArrayList<InventoryItem> displayHistory() throws ClassNotFoundException, SQLException{
+
+    public static ArrayList<InventoryItem> displayHistory() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<InventoryItem> logList = new ArrayList<>();
         InventoryItem itemLog;
 
-        final String query = "SELECT issued_items.member_id, concat(firstName, \" \", lastName) AS name, itemName, issued_items.quantity, borrowedTime, returnedTime, damaged \n" +
-        "FROM issued_items \n" +
-        "INNER JOIN inventory_log ON issued_items.issue_id = inventory_log.issue_id \n" +
-        "INNER JOIN member on member.member_id = issued_items.member_id \n" +
-        "INNER JOIN person on member.cnic = person.cnic \n" +
-        "INNER JOIN inventory on issued_items.item_id = inventory.item_id;";
+        final String query = "SELECT issued_items.member_id, concat(firstName, \" \", lastName) AS name, itemName, issued_items.quantity, borrowedTime, returnedTime, damaged \n"
+                +
+                "FROM issued_items \n" +
+                "INNER JOIN inventory_log ON issued_items.issue_id = inventory_log.issue_id \n" +
+                "INNER JOIN member on member.member_id = issued_items.member_id \n" +
+                "INNER JOIN person on member.cnic = person.cnic \n" +
+                "INNER JOIN inventory on issued_items.item_id = inventory.item_id;";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
             itemLog = new InventoryItem(rs.getString("member_id"), rs.getString("name"),
-                    rs.getString("itemName"), rs.getInt("quantity"), rs.getTime("borrowedTime"), 
+                    rs.getString("itemName"), rs.getInt("quantity"), rs.getTime("borrowedTime"),
                     rs.getTime("returnedTime"), rs.getInt("damaged"));
             logList.add(itemLog);
         }
@@ -1178,14 +1218,14 @@ public class DbQuery {
         return logList;
     }
 
-    public static String getItemID(String itemName) throws ClassNotFoundException, SQLException{
+    public static String getItemID(String itemName) throws ClassNotFoundException, SQLException {
         setupDb();
         String item_id = "";
 
         final String query = "SELECT item_id FROM inventory WHERE itemName = \"" + itemName + "\";";
         ResultSet rs = st.executeQuery(query);
 
-        if(rs.next()){
+        if (rs.next()) {
             item_id = rs.getString("item_id");
         }
 
@@ -1193,12 +1233,12 @@ public class DbQuery {
         return item_id;
     }
 
-    public static void issueItem(InventoryItem item) throws ClassNotFoundException, SQLException{
+    public static void issueItem(InventoryItem item) throws ClassNotFoundException, SQLException {
         setupDb();
 
         final String query = "INSERT INTO issued_items (member_id, item_id, time, quantity) \n" +
                 "VALUES (?, ?, ?, ?)";
-        
+
         try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setString(1, item.getMember_id());
             statement.setString(2, getItemID(item.getItemName()));
@@ -1209,5 +1249,5 @@ public class DbQuery {
         tearDownDb();
     }
 
-    //available items
+    // available items
 }
