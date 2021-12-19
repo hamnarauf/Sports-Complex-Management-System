@@ -678,7 +678,7 @@ public class DbQuery {
 
         if (rs.next()) {
             p = new Person(rs.getString("firstName"), rs.getString("lastName"),
-                    gender.m, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
+                    gender.M, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
                     rs.getString("address"));
         }
 
@@ -698,7 +698,7 @@ public class DbQuery {
 
         if (rs.next()) {
             p = new Person(rs.getString("firstName"), rs.getString("lastName"),
-                    gender.m, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
+                    gender.M, rs.getDate("dob"), cnic, rs.getString("contact"), "", rs.getString("email"),
                     rs.getString("address"));
         }
 
