@@ -34,7 +34,7 @@ public class AddItemController implements Initializable {
             AlertMaker.showAlert("Empty fields", "Please fill all fields");
 
         } else {
-
+            
         }
 
     }

@@ -7,7 +7,7 @@ import java.sql.Time;
  * @author Sana Zehra
  */
 
-public class Trainee {
+public class Trainee extends Member{
     private String member_id;
     private String sport;
     private Time startTime;
@@ -22,9 +22,8 @@ public class Trainee {
         this.day = day;;
     }
 
-    public Trainee(String member_id, String sport, String fname, String lname){
+    public Trainee(String member_id, String fname, String lname){
         this.member_id = member_id;
-        this.sport = sport;
         this.fname = fname;
         this.lname = lname;
     }
