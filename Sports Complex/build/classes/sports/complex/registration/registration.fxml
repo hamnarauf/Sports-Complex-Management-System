@@ -305,7 +305,7 @@
                                           <FontAwesomeIconView glyphName="TH_LIST" size="25" />
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="157.0" onAction="#loadWorkingHours" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Edit Working Hours of Coaches" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="157.0" onAction="#loadWorkingHours" prefHeight="400.0" prefWidth="200.0" styleClass="side-button" text="Working Hours of Coaches" textAlignment="CENTER" wrapText="true">
                                        <graphic>
                                           <FontAwesomeIconView glyphName="CALENDAR" size="25" />
                                        </graphic>

@@ -23,11 +23,14 @@ public class SportsComplex extends Application {
         stage = primaryStage;
 //        setStage("/sports/complex/registration/registration.fxml");
 //        setStage("/sports/complex/registration/members/allMembers.fxml");
+//        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/members/registerGuest.fxml");
         setStage("/sports/complex/registration/members/registerTrainee.fxml");
 //        setStage("/sports/complex/registration/members/removeMember.fxml");
 //        setStage("/sports/complex/registration/employees/allCoaches.fxml");
 //        setStage("/sports/complex/registration/employees/allEmployees.fxml");
+//        setStage("/sports/complex/registration/employees/removeEmployee.fxml");
+//        setStage("/sports/complex/registration/employees/coachWorkingHours.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
 //        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");

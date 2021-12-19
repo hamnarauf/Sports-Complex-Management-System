@@ -28,8 +28,6 @@ public class AllTeamsController implements Initializable {
     @FXML
     private TableColumn<Team, String> idCol;
     @FXML
-    private TableColumn<Team, String> nameCol;
-    @FXML
     private TableColumn<Team, String> packageCol;
     @FXML
     private TableColumn<Team, String> coachCol;
@@ -52,11 +50,10 @@ public class AllTeamsController implements Initializable {
 
     private void initCol() {
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        packageCol.setCellValueFactory(new PropertyValueFactory<>("package"));
-        coachCol.setCellValueFactory(new PropertyValueFactory<>("totalMem"));
-        totalMembersCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("team_id"));
+        packageCol.setCellValueFactory(new PropertyValueFactory<>("pack"));
+        coachCol.setCellValueFactory(new PropertyValueFactory<>("coachName"));
+        totalMembersCol.setCellValueFactory(new PropertyValueFactory<>("members"));
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {
