@@ -28,6 +28,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 import utilities.StageLoader;
 
 /**
@@ -57,6 +59,7 @@ public class AttendantController implements Initializable {
     private JFXComboBox<String> filterBy;
     @FXML
     private JFXTextField search;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -74,6 +77,14 @@ public class AttendantController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
     }
 
     private void populateDeptCombo() throws SQLException, ClassNotFoundException {
@@ -156,12 +167,14 @@ public class AttendantController implements Initializable {
 
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
@@ -192,8 +205,8 @@ public class AttendantController implements Initializable {
     private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
     }
-    
-        private void filterById() {
+
+    private void filterById() {
 //        // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
 
@@ -229,10 +242,9 @@ public class AttendantController implements Initializable {
 
     }
 
-
     @FXML
     private void filterByDept(MouseEvent event) {
-     // Wrap the ObservableList in a FilteredList (initially display all data).
+        // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.

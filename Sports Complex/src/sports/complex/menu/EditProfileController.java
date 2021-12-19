@@ -45,12 +45,15 @@ public class EditProfileController implements Initializable {
     @FXML
     private JFXTextField cnic;
 
+    public static String emp_id;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        name.setText();
+//        Employee e = DbQuery.getEmployee();
+//        name.setText(e.fname+" " + e.lname());
 //        dob.setText();
 //        contact.setText();
 //        contactEmer.setText();
@@ -66,6 +69,14 @@ public class EditProfileController implements Initializable {
 //        cnic.setText();
     }
 
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
+    }
+
     @FXML
     private void handleEditBtn(ActionEvent event) {
         Employee emp = new Employee();
@@ -74,9 +85,8 @@ public class EditProfileController implements Initializable {
         emp.setEmerContact(contactEmer.getText());
         emp.setAllergy(allergies.getText());
         emp.setAddress(address.getText());
-        
-//        DbQuery.editProfile(emp);
 
+//        DbQuery.editProfile(emp);
     }
 
 }

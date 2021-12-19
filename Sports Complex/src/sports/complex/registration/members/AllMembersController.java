@@ -65,7 +65,7 @@ public class AllMembersController implements Initializable {
 
     private void initCol() {
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("member_id"));
         fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
         lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
         cnicCol.setCellValueFactory(new PropertyValueFactory<>("cnic"));

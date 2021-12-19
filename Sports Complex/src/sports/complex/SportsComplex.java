@@ -1,6 +1,5 @@
 package sports.complex;
 
-import sports.complex.alert.Alertbox;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,20 +18,27 @@ public class SportsComplex extends Application {
 
     public static Stage stage;
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 //        setStage("/sports/complex/registration/registration.fxml");
+//        setStage("/sports/complex/registration/members/allMembers.fxml");
+//        setStage("/sports/complex/registration/members/registerGuest.fxml");
 //        setStage("/sports/complex/registration/members/registerTrainee.fxml");
+//        setStage("/sports/complex/registration/members/removeMember.fxml");
+//        setStage("/sports/complex/registration/employees/allCoaches.fxml");
+        setStage("/sports/complex/registration/employees/allEmployees.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
-        setStage("/sports/complex/login/login.fxml");
+//        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");
 //        setStage("/sports/complex/finance/finance.fxml");
 //        setStage("/sports/complex/attendant/attendant.fxml");
 //        setStage("/sports/complex/registration/menu/viewNotice/viewNotice.fxml");
 //        setStage("/sports/complex/maintenance/maintenance.fxml");
 //        setStage("/sports/complex/manager/manager.fxml");
+//        setStage("/sports/complex/manager/comp_sugg.fxml");
+//        setStage("/sports/complex/manager/repairs.fxml");
+//        setStage("/sports/complex/manager/emergencies.fxml");
 //        setStage("/sports/complex/manager/attendance.fxml");
 //        setStage("/sports/complex/coach/coach.fxml");
 //        setStage("/sports/complex/inventory/inventory.fxml");
@@ -40,6 +46,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/finance/bills.fxml");
 //        setStage("/sports/complex/emergency/registeredIndividuals.fxml");
 //        setStage("/sports/complex/finance/ReqFunds/reqFunds.fxml");
+
     }
 
     /**

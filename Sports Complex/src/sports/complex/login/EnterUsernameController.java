@@ -43,14 +43,8 @@ public class EnterUsernameController implements Initializable {
             valid = DbQuery.isCorrectUsername(username.getText());
 
             if (valid) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("passwordRecovery.fxml"));
-                Parent parent = loader.load();
-
-                PasswordRecoveryController controller = loader.getController();
-                controller.setUsername(uname);
-                
-                StageLoader.setStage("Password Recovery", parent, null);
-
+                PasswordRecoveryController.setUsername(uname);
+                StageLoader.loadWindow(getClass().getResource("passwordRecovery.fxml"), "Password Recovery", null);
             } else {
                 AlertMaker.showAlert("Try Again", "Username does not exists");
 
