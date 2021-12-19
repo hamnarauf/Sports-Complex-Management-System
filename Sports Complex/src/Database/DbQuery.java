@@ -165,6 +165,19 @@ public class DbQuery {
         return rs;
     }
 
+    public static String getUsername(String emp_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        String uname;
+
+        final String query = "SELECT username FROM Users WHERE emp_id = \"" + emp_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        uname = rs.getString("username");
+
+        tearDownDb();
+        return uname;
+    }
+
     public static String getEmpCnic(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic;
@@ -386,6 +399,7 @@ public class DbQuery {
         setupDb();
 
         ArrayList<Member> memberList = new ArrayList<Member>();
+        Member m;
 
         final String query = "SELECT Person.cnic, Person.firstName, Person.lastName, Person.dob, "
                 + "Person.gender, Person.contact, Person.email, Member.member_id "
@@ -394,7 +408,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Member m = new Member(rs.getString("firstName"), rs.getString("lastName"),
+            m = new Member(rs.getString("firstName"), rs.getString("lastName"),
                     gender.valueOf(rs.getString("gender")), rs.getDate("dob"),
                     rs.getString("cnic"), rs.getString("contact"),
                     rs.getString("email"), rs.getString("member_id"));
@@ -442,20 +456,21 @@ public class DbQuery {
 
         ArrayList<Coach> coachList = new ArrayList<Coach>();
 
-        final String query = "SELECT Coach.coach_id, Person.firstName, Person.lastName, Person.cnic, "
-                + "Person.gender, Person.dob, Person.contact, Person.email, Sport.sportName "
-                + "FROM (((Coach INNER JOIN Employee ON Coach.coach_id = Employee.emp_id) "
-                + "INNER JOIN Person On Person.cnic = Employee.cnic) "
-                + "INNER JOIN Sport On Sport.sport_id = Coach.coach_id)";
+        final String query = "select Coach.coach_id, Person.firstName, Person.lastName, Person.cnic, \n" +
+        "Person.gender, Person.dob, Person.contact, Person.email, Sport.sportName \n" +
+        "from coach \n" + 
+        "inner join employee on coach.coach_id = employee.emp_id \n" +
+        "inner join person on employee.cnic = person.cnic \n" +
+        "inner join sport on coach.sport_id = sport.sport_id;";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Coach c = new Coach(rs.getString("Person.firstName"), rs.getString("Person.lastName"),
-                    gender.valueOf(rs.getString("Person.gender")), rs.getDate("Person.dob"),
-                    rs.getString("Person.cnic"), rs.getString("Person.contact"), "",
-                    rs.getString("Person.email"), "", rs.getString("Coach.coach_id"),
-                    rs.getString("Sport.sportName"));
+            Coach c = new Coach(rs.getString("firstName"), rs.getString("lastName"),
+                    gender.valueOf(rs.getString("gender")), rs.getDate("dob"),
+                    rs.getString("cnic"), rs.getString("contact"), "",
+                    rs.getString("email"), "", rs.getString("coach_id"),
+                    rs.getString("sportName"));
 
             coachList.add(c);
         }
@@ -469,7 +484,7 @@ public class DbQuery {
         ArrayList<Employee> empList = new ArrayList<Employee>();
 
         final String query = "SELECT Employee.emp_id, Person.firstName, Person.lastName, Person.cnic, "
-                + "Person.gender, Person.dob, Person.contact, Person.email, Departement.deptName "
+                + "Person.gender, Person.dob, Person.contact, Person.email, Department.deptName "
                 + "FROM (((Employee INNER JOIN Person ON Employee.cnic = Person.cnic) "
                 + "INNER JOIN Department On Department.dept_id = Employee.dept_id);";
 
@@ -1047,11 +1062,11 @@ public class DbQuery {
         ArrayList<Report> compList = new ArrayList<>();
         Report r;
 
-        final String query = "SELECT details, status FROM report WHERE type = \"complaint\"";
+        final String query = "SELECT details FROM report WHERE type = \"complaint\" AND status = \"unaddressed\"";
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            r = new Report(rs.getString("details"), rs.getString("status"));
+            r = new Report(rs.getString("details"));
             compList.add(r);
         }
 
@@ -1064,11 +1079,11 @@ public class DbQuery {
         ArrayList<Report> suggList = new ArrayList<>();
         Report r;
 
-        final String query = "SELECT details, status FROM report WHERE type = \"suggestion\"";
+        final String query = "SELECT details, status FROM report WHERE type = \"suggestion\" AND status = \"unaddressed\"";
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            r = new Report(rs.getString("details"), rs.getString("status"));
+            r = new Report(rs.getString("details"));
             suggList.add(r);
         }
 
@@ -1179,7 +1194,7 @@ public class DbQuery {
         ArrayList<Attendance> attList = new ArrayList<>();
         Attendance att;
 
-        final String query = "SELECT emp_id, date, status FROM attendance \n" +
+        final String query = "SELECT Attendance.emp_id, date, status FROM attendance \n" +
                 "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n" +
                 "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
 
@@ -1328,12 +1343,62 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static ArrayList<InventoryItem> displayAvailableItems() throws ClassNotFoundException, SQLException{
+    // public static void returnItem (InventoryLog log) throws
+    // ClassNotFoundException, SQLException{
+    // setupDb();
+    // tearDownDb();
+    // }
+
+    public static ArrayList<AvailableItem> displayAvailableItems() throws ClassNotFoundException, SQLException {
         setupDb();
-        ArrayList<InventoryItem> itemList = new ArrayList<>();
-        InventoryItem item;
+        ArrayList<AvailableItem> itemList = new ArrayList<>();
+        AvailableItem item;
+
+        final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity \n" +
+                "FROM inventory \n" +
+                "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id;";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            item = new AvailableItem(rs.getString("itemName"), rs.getInt("quantity"));
+            itemList.add(item);
+        }
+
+        final String queryNotIssued = "SELECT itemName, quantity \n" +
+                "FROM inventory \n" +
+                "WHERE item_id NOT IN (SELECT item_id FROM issued_items);";
+
+        rs = st.executeQuery(queryNotIssued);
+
+        while (rs.next()) {
+            item = new AvailableItem(rs.getString("itemName"), rs.getInt("quantity"));
+            itemList.add(item);
+        }
 
         tearDownDb();
         return itemList;
+    }
+
+    // EMERGENCY INTERFACE
+
+    public static void registerPatient(Emergency e) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "INSERT INTO Emergency (patient_id, problem, date, time, status) \n"
+                + "VALUES (?, ?, ?, ?, ?);";
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, e.getPatient_id());
+            statement.setString(2, e.getProblem());
+            statement.setDate(3, date);
+            statement.setDate(4, time);
+            statement.setString(5, e.getStatus());
+            statement.executeUpdate();
+        }
     }
 }
