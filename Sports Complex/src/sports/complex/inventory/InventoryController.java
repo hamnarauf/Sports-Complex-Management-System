@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import sports.complex.alert.AlertMaker;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 import utilities.StageLoader;
 
 /**
@@ -30,6 +32,7 @@ public class InventoryController implements Initializable {
     private JFXTextField quantity;
     @FXML
     private JFXComboBox<String> item;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -56,6 +59,14 @@ public class InventoryController implements Initializable {
 
         }
 
+    }
+
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
     }
 
     @FXML
@@ -90,12 +101,14 @@ public class InventoryController implements Initializable {
 
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }

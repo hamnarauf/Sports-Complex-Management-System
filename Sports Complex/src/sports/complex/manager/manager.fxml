@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="661.0" prefWidth="902.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.manager.ManagerController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="626.0" prefWidth="1053.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.manager.ManagerController">
    <children>
       <BorderPane prefHeight="542.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -65,7 +65,6 @@
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <VBox prefHeight="489.0" prefWidth="200.0" />
@@ -100,11 +99,6 @@
                                           <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#loadIssueNotice" prefHeight="250.0" prefWidth="430.0" styleClass="side-button" text="Issue Notice" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                              <graphic>
                                                 <FontAwesomeIconView glyphName="EXCLAMATION" size="25" />
-                                             </graphic>
-                                          </JFXButton>
-                                          <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" onAction="#loadFacilities" prefHeight="250.0" prefWidth="430.0" styleClass="side-button" text="Facilities" textAlignment="CENTER" GridPane.rowIndex="2">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="BRIEFCASE" size="25" />
                                              </graphic>
                                           </JFXButton>
                                        </children>

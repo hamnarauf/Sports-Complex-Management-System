@@ -52,7 +52,30 @@ public class Utility {
     public static Object getRow(TableView<Object> tableView) {
         return tableView.getSelectionModel().getSelectedItem();
     }
-    
 
-    
+    public static boolean passConstraints(String password) {
+        boolean hasUppercase = !password.equals(password.toLowerCase());
+        if (!hasUppercase) {
+            return false;
+        }
+        boolean hasLowercase = !password.equals(password.toUpperCase());
+        if (!hasLowercase) {
+            return false;
+        }
+        boolean isAtLeast8 = password.length() >= 8;//Checks for at least 8 characters
+        if (!isAtLeast8) {
+            return false;
+        }
+        boolean hasSpecial = !password.matches("[A-Za-z0-9 ]*");//Checks at least one char is not alpha numeric
+        if (!hasSpecial) {
+            return false;
+        }
+        boolean hasNumeric = !password.matches(".*\\d.*"); // checks at one digit
+        if (hasNumeric) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

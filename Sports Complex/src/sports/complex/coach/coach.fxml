@@ -25,11 +25,10 @@
                                  <center>
                                     <TableView fx:id="scheduleTable" maxWidth="862.0" prefHeight="419.0" prefWidth="862.0" BorderPane.alignment="CENTER">
                                       <columns>
-                                          <TableColumn fx:id="scheduleDayCol" prefWidth="140.0" text="Day'" />
-                                        <TableColumn fx:id="scheduleStartCol" prefWidth="186.0" text="Start Time" />
-                                          <TableColumn fx:id="scheduleEndCol" prefWidth="196.0" text="End Time" />
-                                          <TableColumn fx:id="scheduleattendeesCol" minWidth="0.0" prefWidth="105.0" text="Attendees" />
-                                          <TableColumn fx:id="scheduleDomainCol" prefWidth="223.0" text="Sport" />
+                                          <TableColumn fx:id="scheduleDayCol" prefWidth="160.0" text="Day'" />
+                                        <TableColumn fx:id="scheduleStartCol" prefWidth="214.0" text="Start Time" />
+                                          <TableColumn fx:id="scheduleEndCol" prefWidth="252.0" text="End Time" />
+                                          <TableColumn fx:id="scheduleattendeesCol" minWidth="0.0" prefWidth="224.0" text="Attendees" />
                                       </columns>
                                        <BorderPane.margin>
                                           <Insets top="10.0" />
@@ -51,10 +50,9 @@
                            <center>
                               <TableView fx:id="traineeTable" maxWidth="888.0" prefHeight="419.0" prefWidth="888.0" BorderPane.alignment="CENTER">
                                 <columns>
-                                  <TableColumn fx:id="traineeIdCol" prefWidth="178.0" text="ID" />
-                                  <TableColumn fx:id="traineeFNameCol" minWidth="0.0" prefWidth="197.0" text="First Name" />
-                                    <TableColumn fx:id="traineeLNameCol" minWidth="0.0" prefWidth="295.0" text="Last Name" />
-                                    <TableColumn fx:id="traineeDomainCol" minWidth="0.0" prefWidth="180.0" text="Domain" />
+                                  <TableColumn fx:id="traineeIdCol" prefWidth="207.0" text="ID" />
+                                  <TableColumn fx:id="traineeFNameCol" minWidth="0.0" prefWidth="309.0" text="First Name" />
+                                    <TableColumn fx:id="traineeLNameCol" minWidth="0.0" prefWidth="334.0" text="Last Name" />
                                 </columns>
                                  <BorderPane.margin>
                                     <Insets top="10.0" />

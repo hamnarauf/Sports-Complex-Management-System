@@ -182,8 +182,9 @@
                                        <children>
                                           <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
                                           <JFXTextField fx:id="regTeamMembers" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
-                                          <JFXComboBox fx:id="regTeamPackage" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Package" GridPane.rowIndex="1" />
-                                          <JFXComboBox fx:id="regTeamTime" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" prefHeight="37.0" prefWidth="352.0" promptText="Set Favourable Time (only for taining teams)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <JFXComboBox fx:id="regTeamPackage" focusColor="#08eff5" onAction="#handlePkgTeam" prefHeight="37.0" prefWidth="352.0" promptText="Package" GridPane.rowIndex="1" />
+                                          <JFXComboBox fx:id="regTeamTime" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" prefHeight="37.0" prefWidth="352.0" promptText="Set Favourable Time (only for taining teams)" GridPane.rowIndex="2" />
+                                          <JFXComboBox fx:id="regTeamDay" focusColor="#08eff5" layoutX="10.0" layoutY="340.0" onAction="#handleDayTeam" prefHeight="37.0" prefWidth="352.0" promptText="Set Day (only for taining teams)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                        <BorderPane.margin>
                                           <Insets left="35.0" right="35.0" top="30.0" />

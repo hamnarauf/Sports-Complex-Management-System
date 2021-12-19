@@ -24,7 +24,7 @@
    <center>
       <JFXTabPane BorderPane.alignment="CENTER">
          <tabs>
-            <Tab text="Inventary">
+            <Tab text="Inventory">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

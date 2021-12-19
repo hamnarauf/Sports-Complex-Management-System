@@ -1,9 +1,13 @@
 package sports.complex.manager;
 
 import Classes.*;
+import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,7 +41,13 @@ public class RepairsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 //        refresh();
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
@@ -48,9 +58,10 @@ public class RepairsController implements Initializable {
 
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
         ArrayList<Repair> allRepairs = new ArrayList<Repair>();
+        allRepairs = DbQuery.displayRepairs();
         for (Repair repair : allRepairs) {
             list.add(repair);
         }
