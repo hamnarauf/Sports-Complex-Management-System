@@ -10,6 +10,8 @@ import java.util.*;
 public class Member extends Person {
     private String member_id;
     
+    public Member(){}
+
     public Member(String fname, String lname, gender gen, Date dob, String cnic, String address, 
                   String contactNo, String emerContact, String email, String bloodGrp, 
                   String allergy, String member_id){

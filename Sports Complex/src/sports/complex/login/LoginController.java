@@ -55,33 +55,33 @@ public class LoginController implements Initializable {
             User user = DbQuery.checkLoginDetails(uname, pass);
             if (user != null) {
                 System.out.println("login");
-//
-//                switch (user.getDept()) {
-//                    case ("registrant"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
-//                        break;
-//                    case ("attendant"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", null);
-//                        break;
-//                    case ("coach"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", null);
-//                        break;
-//                    case ("emergency"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", null);
-//                        break;
-//                    case ("finance"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", null);
-//                        break;
-//                    case ("inventory"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", null);
-//                        break;
-//                    case ("maintenance"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", null);
-//                        break;
-//                    case ("manager"):
-//                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
-//                        break;
-//            }
+
+                switch (DbQuery.getDeptName(user.getDept_id())) {
+                    case ("registration"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
+                        break;
+                    case ("attendant"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", null);
+                        break;
+                    case ("coach"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", null);
+                        break;
+                    case ("emergency"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", null);
+                        break;
+                    case ("finance"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", null);
+                        break;
+                    case ("inventory"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", null);
+                        break;
+                    case ("maintenance"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", null);
+                        break;
+                    case ("manager"):
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
+                        break;
+            }
             } else {
                 AlertMaker.showAlert("Try Again", "Invalid username or password");
                 clearDetails();
