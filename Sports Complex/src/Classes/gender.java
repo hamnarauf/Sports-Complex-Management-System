@@ -2,6 +2,6 @@
 package Classes;
 
 public enum gender{
-    m,
-    f
+    M,
+    F
 }

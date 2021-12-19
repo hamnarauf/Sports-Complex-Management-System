@@ -23,6 +23,11 @@ public class User extends Employee {
         this.setDept_id(dept_id);
     }
 
+    public User(String uname, String pass, String dept_id, String emp_id){
+        this(uname, pass, dept_id);
+        setEmp_id(emp_id);
+    }
+
     public User(String fname, String lname, gender gen, Date dob, String cnic, String contactNo,
             String emerContact, String email, String address, String emp_id, String deptName,
             String secQs, String secAns) {

@@ -4,7 +4,6 @@ import Classes.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +61,7 @@ public class DbQuery {
         User user = null;
 
         // login query
-        final String query = "SELECT username, password, Employee.dept_id FROM Users \n" +
+        final String query = "SELECT username, password, Employee.dept_id, Employee.emp_id FROM Users \n" +
                 "INNER JOIN Employee On Users.emp_id = Employee.emp_id \n" +
                 "WHERE username =\"" + username + "\" \n" +
                 "AND password =\"" + password + "\";";
@@ -70,7 +69,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
-            user = new User(rs.getString("username"), rs.getString("password"),
+            user = new User(rs.getString("emp_id"), rs.getString("username"), rs.getString("password"),
                     rs.getString("dept_id"));
         }
 
@@ -145,7 +144,7 @@ public class DbQuery {
         setupDb();
         int sport_id = 0;
 
-        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sport = \"" + sport + "\"";
+        final String getSportQuery = "SELECT sport_id FROM Sport WHERE sportName = \"" + sport + "\"";
         ResultSet rs = st.executeQuery(getSportQuery);
 
         if (rs.next()) {
@@ -276,9 +275,9 @@ public class DbQuery {
         setupDb();
         String coach_id = "";
 
-        final String query = "SELECT coach_id FROM ((Coach "
+        final String query = "SELECT class.coach_id FROM ((Coach "
                 + "INNER JOIN Class On Class.coach_id = Coach.coach_id)"
-                + "INNER JOIN Team_Schedule On TeamSchedule.class_id = Class.class_id)"
+                + "INNER JOIN Team_Schedule On Team_Schedule.class_id = Class.class_id)"
                 + "WHERE team_id = \"" + team.getTeam_id() + "\"";
 
         ResultSet rs = st.executeQuery(query);
@@ -395,10 +394,10 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Member m = new Member(rs.getString("Person.firstName"), rs.getString("Person.lastName"),
-                    gender.valueOf(rs.getString("Person.gender")), rs.getDate("Person.dob"),
-                    rs.getString("Person.cnic"), rs.getString("Person.contact"),
-                    rs.getString("Person.email"), rs.getString("Member.member_id"));
+            Member m = new Member(rs.getString("firstName"), rs.getString("lastName"),
+                    gender.valueOf(rs.getString("gender")), rs.getDate("dob"),
+                    rs.getString("cnic"), rs.getString("contact"),
+                    rs.getString("email"), rs.getString("member_id"));
 
             memberList.add(m);
         }
@@ -416,7 +415,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            deptName.add(rs.getString("sportName"));
+            deptName.add(rs.getString("deptName"));
         }
 
         tearDownDb();
@@ -969,7 +968,7 @@ public class DbQuery {
         setupDb();
 
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
-        final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
+        final String query = "select purpose, sportName, amount, status from repairs join sport using (sport_id)\n"
                 + "where status = \"Pending\"";
 
         ResultSet rs = st.executeQuery(query);
@@ -1077,6 +1076,41 @@ public class DbQuery {
         return suggList;
     }
 
+    public static String getReportID(String report) throws ClassNotFoundException, SQLException {
+        setupDb();
+        String report_id = "";
+
+        final String query = "SELECT report_id FROM Report WHERE details = \"" + report + "\";";
+
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            report_id = rs.getString("report_id");
+        }
+
+        tearDownDb();
+        return report_id;
+    }
+
+    public static void deleteReport(String report_id) throws ClassNotFoundException, SQLException {
+        setupDb();
+        final String query = "DELETE FROM Report WHERE report_id = \"" + report_id + "\";";
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
+    public static void addressReport(String report_id) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "UPDATE Report \n" +
+                "SET status = addressed \n" +
+                "WHERE report_id = \"" + report_id + "\";";
+
+        st.executeUpdate(query);
+
+        tearDownDb();
+    }
+
     public static ArrayList<Repair> displayRepairs() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<Repair> repList = new ArrayList<>();
@@ -1111,8 +1145,53 @@ public class DbQuery {
             statement.setDate(3, date);
             statement.executeUpdate();
         }
-        
+
         tearDownDb();
+    }
+
+    public static ArrayList<Emergency> displayEmergency() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Emergency> emgList = new ArrayList<>();
+        Emergency emg;
+
+        final String query = "SELECT patient_id, concat(firstName, \" \", lastName) AS name, problem, itemName, status \n"
+                +
+                "FROM emergency \n" +
+                "INNER JOIN member ON emergency.patient_id = member.member_id \n" +
+                "INNER JOIN person ON member.cnic = person.cnic \n" +
+                "INNER JOIN medical_log ON emergency.emer_id = medical_log.emer_id \n" +
+                "INNER JOIN inventory ON medical_log.item_id = inventory.item_id; \n";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            emg = new Emergency(rs.getString("patient_id"), rs.getString("name"),
+                    rs.getString("problem"), rs.getString("itemName"), rs.getString("status"));
+            emgList.add(emg);
+        }
+
+        tearDownDb();
+        return emgList;
+    }
+
+    public static ArrayList<Attendance> displayAttendance() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Attendance> attList = new ArrayList<>();
+        Attendance att;
+
+        final String query = "SELECT emp_id, date, status FROM attendance \n" +
+                "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n" +
+                "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("attendance"));
+            attList.add(att);
+        }
+
+        tearDownDb();
+        return attList;
     }
 
     // INVENTORY INTERFACE
@@ -1249,5 +1328,12 @@ public class DbQuery {
         tearDownDb();
     }
 
-    // available items
+    public static ArrayList<InventoryItem> displayAvailableItems() throws ClassNotFoundException, SQLException{
+        setupDb();
+        ArrayList<InventoryItem> itemList = new ArrayList<>();
+        InventoryItem item;
+
+        tearDownDb();
+        return itemList;
+    }
 }
