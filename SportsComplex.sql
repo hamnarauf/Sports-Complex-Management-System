@@ -1,3 +1,4 @@
+
 CREATE DATABASE SportsComplex;
 USE SportsComplex;
 CREATE TABLE PERSON (
@@ -404,8 +405,8 @@ INSERT INTO inventory(sport_id,itemName,quantity) values
 (1,'Bowling_pins',60),
 (2,'Dumbbells',9),
 (4,'Balls',6),
-(4,'First_Aid_Kit',4),
-(1,'First_Aid_Kit',4);
+(4,'Med_FirstAid_Kit',4),
+(1,'Med_FirstAid_Kit',4);
 
 
 INSERT INTO issued_items(member_id,item_id,time,quantity) values 

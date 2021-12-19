@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.finance;
 
 import com.jfoenix.controls.JFXButton;
@@ -15,6 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utilities.StageLoader;
+import Database.DbQuery;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -35,7 +34,14 @@ public class FinanceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        requestedFundsIcon.getStyleClass().add("notify");
+        try {
+            if (DbQuery.hasReqRepairs()) {
+                requestedFundsIcon.getStyleClass().add("notify");
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FinanceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

@@ -1,11 +1,15 @@
 package sports.complex.finance;
 
 import Classes.*;
+import Database.DbQuery;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,7 +47,11 @@ public class BillsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (SQLException ex) {
+            Logger.getLogger(BillsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initCol() {
@@ -54,11 +62,10 @@ public class BillsController implements Initializable {
 
     }
 
-    private void loadData() {
+    private void loadData() throws SQLException {
 
         ArrayList<Transaction> allTrans = new ArrayList<Transaction>();
-        Transaction trans1 = new Transaction("1223", "Gas Bill", "13456");
-        allTrans.add(trans1);
+        allTrans = DbQuery.viewTransBills();
         for (Transaction trans : allTrans) {
             list.add(trans);
         }
