@@ -52,7 +52,7 @@ public class InventoryController implements Initializable {
         String quant = quantity.getText();
         String items = item.getValue();
 
-        if (id == null || quant == null || items == null) {
+        if (id.equals("") || quant.equals("") || items.equals("")) {
             AlertMaker.showAlert("Empty fields", "Please fill all fields");
 
         } else {

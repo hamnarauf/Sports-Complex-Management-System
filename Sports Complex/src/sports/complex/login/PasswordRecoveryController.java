@@ -58,7 +58,7 @@ public class PasswordRecoveryController implements Initializable {
     @FXML
     private void handleConfirmBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (answer.getText() == null || newPass.getText() == null || retypeNewPass.getText() == null) {
+        if (answer.getText().equals("")|| newPass.getText().equals("")|| retypeNewPass.getText().equals("")) {
             AlertMaker.showAlert("Try Again", "Please enter all data feilds");
 
         } else if (!newPass.getText().equals(retypeNewPass.getText())) {

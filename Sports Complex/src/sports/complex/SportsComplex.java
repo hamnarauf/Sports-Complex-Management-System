@@ -25,12 +25,14 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/registration/members/allMembers.fxml");
 //        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/members/registerGuest.fxml");
-        setStage("/sports/complex/registration/members/registerTrainee.fxml");
+//        setStage("/sports/complex/registration/members/registerTrainee.fxml");
 //        setStage("/sports/complex/registration/members/removeMember.fxml");
 //        setStage("/sports/complex/registration/employees/allCoaches.fxml");
 //        setStage("/sports/complex/registration/employees/allEmployees.fxml");
 //        setStage("/sports/complex/registration/employees/removeEmployee.fxml");
 //        setStage("/sports/complex/registration/employees/coachWorkingHours.fxml");
+//        setStage("/sports/complex/registration/teams/allTeams.fxml");
+//        setStage("/sports/complex/registration/teams/removeTeam.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
 //        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");
@@ -45,6 +47,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/manager/attendance.fxml");
 //        setStage("/sports/complex/coach/coach.fxml");
 //        setStage("/sports/complex/inventory/inventory.fxml");
+        setStage("/sports/complex/inventory/issuedItems.fxml");
 //        setStage("/sports/complex/registration/members/allMembers.fxml");
 //        setStage("/sports/complex/finance/bills.fxml");
 //        setStage("/sports/complex/emergency/registeredIndividuals.fxml");

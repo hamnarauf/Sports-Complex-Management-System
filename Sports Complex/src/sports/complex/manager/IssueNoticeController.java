@@ -35,7 +35,7 @@ public class IssueNoticeController implements Initializable {
 
     @FXML
     private void handleIssueBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
-        if (heading.getText() == null || info.getText() == null) {
+        if (heading.getText().equals("") || info.getText().equals("")) {
             AlertMaker.showAlert("Empty fields", "Please enter both fields");
         } else {
             if (info.getText().length() > 600) {

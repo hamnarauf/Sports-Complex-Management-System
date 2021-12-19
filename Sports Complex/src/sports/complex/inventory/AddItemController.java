@@ -30,7 +30,7 @@ public class AddItemController implements Initializable {
 
     @FXML
     private void handleAddBtn(ActionEvent event) {
-        if (name.getText() == null || quantity.getText() == null) {
+        if (name.getText().equals("") || quantity.getText().equals("")) {
             AlertMaker.showAlert("Empty fields", "Please fill all fields");
 
         } else {

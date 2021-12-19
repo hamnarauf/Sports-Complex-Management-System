@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.menu;
 
 import com.jfoenix.controls.JFXTextArea;
@@ -33,7 +28,7 @@ public class RegisterSuggestionController implements Initializable {
 
     @FXML
     private void handleSuggOkBtn(ActionEvent event) {
-        if(suggestion.getText()==null){
+        if(suggestion.getText().equals("")){
             AlertMaker.showAlert("Empty Field", "Please type your suggestion");
         }
         

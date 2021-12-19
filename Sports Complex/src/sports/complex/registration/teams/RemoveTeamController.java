@@ -57,10 +57,10 @@ public class RemoveTeamController implements Initializable {
 
         if (id != null && DbQuery.isTeam(id)) {
             Team team;
-//            team = DbQuery.getTeam(id);
+            team = DbQuery.removeTeamDetails(id);
 //            name.setText(team.getName());
-//            coach.setText(team.getCoach());
-//            pack.setText(team.getPackage());
+            coach.setText(team.getCoachName());
+            pack.setText(team.getPack());
 
         } else {
             pack.setText("Invalid Member ID");

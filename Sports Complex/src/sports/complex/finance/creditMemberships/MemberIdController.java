@@ -33,7 +33,7 @@ public class MemberIdController implements Initializable {
     private void handleOkBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = memberId.getText();
 
-        if (id == null) {
+        if (id.equals("")) {
             AlertMaker.showAlert("Error", "Please enter a member id");
 
         } else {

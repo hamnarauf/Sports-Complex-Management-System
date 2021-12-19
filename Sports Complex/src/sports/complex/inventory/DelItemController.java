@@ -39,7 +39,7 @@ public class DelItemController implements Initializable {
         clearCache();
 //        String name = itemName.getText();
 //
-//        if (name != null && DbQuery.isItem(name)) {
+//        if (!name.equals("") && DbQuery.isItem(name)) {
 //            InventoryItem item;
 //            item = DbQuery.getItem(name);
 //            name.setText(item.getName());
