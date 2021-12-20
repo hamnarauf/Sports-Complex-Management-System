@@ -156,6 +156,18 @@ public class DbQuery {
         return sport_id;
     }
 
+    public static String getSportMembers(String sport_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        String mem = null;
+
+        final String query = "SELECT teamMember FROM Sport WHERE sport_id = \"" + sport_id + "\";";
+        ResultSet rs = st.executeQuery(query);
+        mem = rs.getString("teamMember");
+
+        tearDownDb();
+        return mem;
+    }
+
     public static ArrayList<String> getCoachOfSport(int sport_id) throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<String> coach_id = new ArrayList();
@@ -310,13 +322,6 @@ public class DbQuery {
 
         tearDownDb();
         return coach_id;
-    }
-
-    public static void deletePerson(String cnic) throws SQLException, ClassNotFoundException {
-        setupDb();
-        final String query = "DELETE FROM Person WHERE cnic = \"" + cnic + "\"";
-        st.executeUpdate(query);
-        tearDownDb();
     }
 
     public static int getCountOfTraineeClasses(String trainee_id) throws SQLException, ClassNotFoundException {
@@ -546,7 +551,7 @@ public class DbQuery {
                 + " contact, emerContact, email, bloodGroup) \n"
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-        final String queryMem = "INSERT INTO Member VALUES (\"" + mem.getCnic() + "\");";
+        final String queryMem = "INSERT INTO Member (cnic) VALUES (\"" + mem.getCnic() + "\");";
 
         java.sql.Date date = new java.sql.Date(mem.getDob().getTime());
 
@@ -607,7 +612,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerEmployee(Employee emp) throws SQLException, ClassNotFoundException {
+    public static void registerEmployee(Employee emp, boolean isCoach) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String queryPer = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address,"
@@ -632,14 +637,31 @@ public class DbQuery {
             statement.setString(10, emp.getBloodGrp());
             statement.executeUpdate();
         }
-
         st.executeUpdate(queryEmp);
+
+        if (emp.getAllergy() != "") {
+            final String query = "INSERT INTO allergies VALUES (\"" + emp.getCnic() + "\", \"" + emp.getAllergy()
+                    + "\")";
+            st.executeUpdate(query);
+        }
+
+        if (isCoach) {
+            final String queryCoach = "INSERT INTO Coach (coach_id, sport_id) VALUES (?,?)";
+
+            String emp_id = getEmpId(emp.getCnic());
+
+            try (PreparedStatement statement = conn.prepareStatement(queryCoach)) {
+                statement.setString(1, emp_id);
+                statement.setInt(2, emp.getSport_id());
+                statement.executeUpdate();
+            }
+        }
         tearDownDb();
     }
 
-    public static void registerUser(User user) throws SQLException, ClassNotFoundException {
+    public static void registerUser(User user, boolean isCoach) throws SQLException, ClassNotFoundException {
         setupDb();
-        registerEmployee(user);
+        registerEmployee(user, isCoach);
         String emp_id = getEmpId(user.getCnic());
         user.setEmp_id(emp_id);
 
@@ -691,7 +713,7 @@ public class DbQuery {
     // deletion methods
     public static Person removeMemberDetails(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
-//        String cnic = getMemberCnic(member_id);
+        // String cnic = getMemberCnic(member_id);
         Person p = null;
 
         final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n"
@@ -711,8 +733,8 @@ public class DbQuery {
 
     public static Person removeEmployeeDetails(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
-//        String cnic = getEmpCnic(emp_id);
-//        System.out.println(cnic);
+        // String cnic = getEmpCnic(emp_id);
+        // System.out.println(cnic);
         Person p = null;
 
         final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n"
@@ -749,15 +771,15 @@ public class DbQuery {
 
     public static void removeMember(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        String cnic = getMemberCnic(member_id);
-        deletePerson(cnic);
+        final String query = "DELETE FROM Member where member_id = \"" + member_id + "\"";
+        st.executeUpdate(query);
         tearDownDb();
     }
 
     public static void removeEmp(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        String cnic = getMemberCnic(emp_id);
-        deletePerson(cnic);
+        final String query = "DELETE FROM Employee where emp_id = \"" + emp_id + "\"";
+        st.executeUpdate(query);
         tearDownDb();
     }
 
@@ -1012,24 +1034,18 @@ public class DbQuery {
 
     public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
-        ArrayList<Repair> repairsList = new ArrayList<Repair>();
+
         final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
                 + "where status = \"Pending\"";
 
         ResultSet rs = st.executeQuery(query);
 
-        if (rs.next()) {
-            tearDownDb();
-            return true;
-        }
         tearDownDb();
-        return false;
-
+        return rs.next();
     }
 
     public static void allocateFunds(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
-        ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "update repairs\n"
                 + "set status = \"Allocated\" where purpose = \"" + r.getPurpose() + "\"";
 
@@ -1039,13 +1055,14 @@ public class DbQuery {
 
     public static void refuseFunds(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
-        ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "update repairs\n"
                 + "set status = \"Refused\" where purpose = \"" + r.getPurpose() + "\"";
 
         st.executeUpdate(query);
         tearDownDb();
     }
+
+    //credit membership has to be done
 
     // MANAGER
     public static ArrayList<Schedule> displaySchedule() throws ClassNotFoundException, SQLException {
@@ -1269,7 +1286,7 @@ public class DbQuery {
     }
 
     public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException {
-//        setupDb();
+        // setupDb();
         int qty = 0;
 
         final String query = "SELECT quantity FROM inventory WHERE itemName = \"" + itemName + "\"";
@@ -1278,7 +1295,7 @@ public class DbQuery {
         if (rs.next()) {
             qty = rs.getInt("quantity");
         }
-//        tearDownDb();
+        // tearDownDb();
         return qty;
     }
 
@@ -1361,11 +1378,42 @@ public class DbQuery {
         tearDownDb();
     }
 
-    // public static void returnItem (InventoryLog log) throws
-    // ClassNotFoundException, SQLException{
-    // setupDb();
-    // tearDownDb();
-    // }
+    public static String getIssueId(String mem_id, String item_id) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "SELECT issue_id FROM issued_items \n" +
+                "WHERE member_id = \"" + mem_id + "\" AND item_id = \"" + item_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        String issue_id = rs.getString("issue_id");
+
+        tearDownDb();
+        return issue_id;
+    }
+
+    public static void returnItem(InventoryItem log) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String inventoryLogQuery = "INSERT INTO inventory_log (issue_id, date, borrowedTime, " +
+                "returnedTime, damaged) VALUES (?,?,?,?,?)";
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        try (PreparedStatement statement = conn.prepareStatement(inventoryLogQuery)) {
+            statement.setString(1, log.getIssue_id());
+            statement.setDate(2, date);
+            statement.setTime(3, log.getTime());
+            statement.setTime(4, log.getReturnedTime());
+            statement.setInt(5, log.getDamaged());
+            statement.executeUpdate();
+        }
+
+        final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + log.getIssue_id() +"\"";
+        st.executeUpdate(removeIssuedQuery);
+        tearDownDb();
+    }
+
     public static ArrayList<AvailableItem> displayAvailableItems() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<AvailableItem> itemList = new ArrayList<>();
@@ -1434,7 +1482,7 @@ public class DbQuery {
 
         while (rs.next()) {
             String allergy;
-            if (rs.getString("allergy")== null) {
+            if (rs.getString("allergy") == null) {
                 allergy = "null";
 
             } else {
@@ -1496,7 +1544,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    //ATTENDANT
+    // ATTENDANT
     public static void markAttendance(Attendance att) throws SQLException, ClassNotFoundException {
         setupDb();
 
@@ -1512,7 +1560,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    //MAINTENANCE INTERFACE
+    // MAINTENANCE INTERFACE
     public static void registerRepair(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
 
