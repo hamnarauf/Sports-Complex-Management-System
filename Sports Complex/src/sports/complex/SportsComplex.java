@@ -21,7 +21,7 @@ public class SportsComplex extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-//        setStage("/sports/complex/registration/registration.fxml");
+        setStage("/sports/complex/registration/registration.fxml");
 //        setStage("/sports/complex/registration/members/allMembers.fxml");
 //        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/members/registerGuest.fxml");
@@ -41,7 +41,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/menu/viewNotice.fxml");
 //        setStage("/sports/complex/editProfile.fxml");
 //        setStage("/sports/complex/maintenance/maintenance.fxml");
-        setStage("/sports/complex/manager/manager.fxml");
+//        setStage("/sports/complex/manager/manager.fxml");
 //        setStage("/sports/complex/manager/comp_sugg.fxml");
 //        setStage("/sports/complex/manager/repairs.fxml");
 //        setStage("/sports/complex/manager/emergencies.fxml");

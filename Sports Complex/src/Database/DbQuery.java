@@ -1269,7 +1269,7 @@ public class DbQuery {
     }
 
     public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException {
-        setupDb();
+//        setupDb();
         int qty = 0;
 
         final String query = "SELECT quantity FROM inventory WHERE itemName = \"" + itemName + "\"";
@@ -1278,7 +1278,7 @@ public class DbQuery {
         if (rs.next()) {
             qty = rs.getInt("quantity");
         }
-        tearDownDb();
+//        tearDownDb();
         return qty;
     }
 
@@ -1433,9 +1433,16 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
+            String allergy;
+            if (rs.getString("allergy")== null) {
+                allergy = "null";
+
+            } else {
+                allergy = rs.getString("allergy");
+            }
             p = new Person(rs.getString("firstName"), rs.getString("lastName"), gender.valueOf(rs.getString("gender")),
                     rs.getString("cnic"), rs.getString("contact"), rs.getString("emerContact"),
-                    rs.getString("bloodGroup"), rs.getString("allergy"));
+                    rs.getString("bloodGroup"), allergy);
 
             detailsList.add(p);
         }

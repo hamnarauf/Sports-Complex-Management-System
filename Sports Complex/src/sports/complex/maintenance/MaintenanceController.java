@@ -1,6 +1,7 @@
 package sports.complex.maintenance;
 
 import Classes.Member;
+import Classes.Repair;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -238,18 +239,18 @@ public class MaintenanceController implements Initializable {
     }
 
     @FXML
-    private void handleRegRepairBtn(ActionEvent event) {
-        String repair = repairRequired.getText();
+    private void handleRegRepairBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String purpose = repairRequired.getText();
         String sport = sportCombo.getValue();
         String amount = expenditure.getText();
-        if (repair.equals("") || sport.equals("") || amount.equals("")) {
+        if (purpose.equals("") || sport.equals("") || amount.equals("")) {
             AlertMaker.showAlert("Empty Fields", "Please enter all fields");
 
         } else {
-//            Repair repair = new Repair(repair, sport, amount);
-//            DbQuery.registerRepair(repair);
+            Repair repair = new Repair(purpose, sport, amount, "");
+            DbQuery.registerRepair(repair);
 
-            AlertMaker.showAlert("Success", "Succesfully registered reapir...");
+            AlertMaker.showAlert("Success", "Succesfully registered repair");
 
         }
     }

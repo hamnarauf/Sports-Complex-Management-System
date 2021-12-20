@@ -43,16 +43,16 @@ public class InventoryItem {
         this.setAvailable(available);
     }
 
-    public int getUseQuantity() {
-        return useQuantity;
+    public String getUseQuantity() {
+        return Integer.toString(useQuantity);
     }
 
     public void setUseQuantity(int useQuantity) {
         this.useQuantity = useQuantity;
     }
 
-    public int getAvailable() {
-        return available;
+    public String getAvailable() {
+        return Integer.toString(available);
     }
 
     public void setAvailable(int available) {

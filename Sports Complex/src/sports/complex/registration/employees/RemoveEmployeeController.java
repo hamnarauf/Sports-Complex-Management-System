@@ -72,7 +72,7 @@ public class RemoveEmployeeController implements Initializable {
             address.setText(emp.getAddress());
 
         } else {
-            dept.setText("Invalid Member ID");
+            dept.setText("Invalid Employee ID");
         }
     }
 

@@ -45,15 +45,28 @@ public class RegisterGuestController implements Initializable {
         if (fname.equals("") || lname.equals("") || CNIC.equals("") || id.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
-            if (DbQuery.isMember(id)) {
+            if (DbQuery.isMember(DbQuery.getMemberCnic(id))) {
                 Guest g = new Guest(CNIC, id, fname, lname);
-                DbQuery.registerGuest(g);
-                AlertMaker.showAlert("Registeration successfull", "Success");
-                
+                try {
+                    DbQuery.registerGuest(g);
+                    AlertMaker.showAlert("Success", "Registeration Successfull.");
+                    clearCache() ;
+                } catch (Exception e) {
+                    AlertMaker.showAlert("Error", "Invalid Cnic");
+                }
+
             } else {
                 AlertMaker.showAlert("Try Again", "Invalid Member id");
             }
         }
+    }
+
+    private void clearCache() {
+        firstName.setText("");
+        lastName.setText("");
+        cnic.setText("");
+        memberId.setText("");
+
     }
 
 }
