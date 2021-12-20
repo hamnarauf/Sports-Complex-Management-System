@@ -2,6 +2,7 @@ package Database;
 
 import Classes.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.DriverManager;
@@ -11,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 /**
  *
@@ -1291,7 +1294,8 @@ public class DbQuery {
                 + "INNER JOIN inventory_log ON issued_items.issue_id = inventory_log.issue_id \n"
                 + "INNER JOIN member on member.member_id = issued_items.member_id \n"
                 + "INNER JOIN person on member.cnic = person.cnic \n"
-                + "INNER JOIN inventory on issued_items.item_id = inventory.item_id;";
+                + "INNER JOIN inventory on issued_items.item_id = inventory.item_id \n" 
+                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1347,9 +1351,10 @@ public class DbQuery {
         ArrayList<AvailableItem> itemList = new ArrayList<>();
         AvailableItem item;
 
-        final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity \n"
-                + "FROM inventory \n"
-                + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id;";
+        final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity \n" +
+                "FROM inventory \n" +
+                "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id \n" +
+                "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1358,9 +1363,10 @@ public class DbQuery {
             itemList.add(item);
         }
 
-        final String queryNotIssued = "SELECT itemName, quantity \n"
-                + "FROM inventory \n"
-                + "WHERE item_id NOT IN (SELECT item_id FROM issued_items);";
+        final String queryNotIssued = "SELECT itemName, quantity \n" +
+                "FROM inventory \n" +
+                "WHERE item_id NOT IN (SELECT item_id FROM issued_items) AND \n" +
+                "SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         rs = st.executeQuery(queryNotIssued);
 
@@ -1392,7 +1398,109 @@ public class DbQuery {
             statement.setString(5, e.getStatus());
             statement.executeUpdate();
         }
+        tearDownDb();
     }
 
-    // public static ArrayListPerson>
+    public static ArrayList<Person> getMedicalDetails() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Person> detailsList = new ArrayList<>();
+        Person p;
+
+        final String query = "SELECT Person.cnic, firstName, lastName, gender, bloodGroup, allergy, contact, emerContact \n"
+                +
+                "FROM Person \n" +
+                "LEFT JOIN allergies on person.cnic = allergies.cnic";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            p = new Person(rs.getString("firstName"), rs.getString("lastName"), gender.valueOf(rs.getString("gender")),
+                    rs.getString("cnic"), rs.getString("contact"), rs.getString("emerContact"),
+                    rs.getString("bloodGroup"), rs.getString("allergy"));
+
+            detailsList.add(p);
+        }
+
+        tearDownDb();
+        return detailsList;
+    }
+
+    public static ArrayList<InventoryItem> getMedicalEquipment() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<InventoryItem> equList = new ArrayList<>();
+        InventoryItem item;
+
+        final String query = "SELECT distinct(SUBSTRING(itemName, 5)), inventory.quantity, medical_log.quantity, \n" +
+                "(inventory.quantity - medical_log.quantity) AS available \n" +
+                "FROM inventory \n" +
+                "LEFT JOIN medical_log ON inventory.item_id = medical_log.item_id \n" +
+                "WHERE SUBSTRING(itemName, 1, 3) = \"Med_\";";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            item = new InventoryItem(rs.getString("itemName"), rs.getInt("inventory.quantity"),
+            rs.getInt("medical_log.quantity"), rs.getInt("available"));
+
+            equList.add(item);
+        }
+
+        tearDownDb();
+        return equList;
+    }
+
+    public static void maintainMedicalLog(String item_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        ResultSet rs;
+
+        final String query = "SELECT count(*) FROM emergency;";
+        rs = st.executeQuery(query);
+
+        int emer_id = rs.getInt("count(*)");
+
+        final String queryLog = "INSERT INTO medical_log (emer_id, item_id, quantity) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+            statement.setInt(1, emer_id);
+            statement.setString(2, item_id);
+            statement.setInt(3, 1);
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    //ATTENDANT
+    public static void markAttendance(Attendance att) throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        final String queryLog = "INSERT INTO attendance (emp_id, date, status) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+            statement.setString(1, att.getEmp_id());
+            statement.setDate(2, att.getDate());
+            statement.setString(3, att.getAttendance());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    //MAINTENANCE INTERFACE
+
+    public static void registerRepair(Repair r) throws SQLException, ClassNotFoundException{
+        setupDb();
+
+        final String query = "INSERT INTO repairs (sport_id, purpose, amount) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, getSportID(r.getSport()));
+            statement.setString(2, r.getPurpose());
+            statement.setString(3, r.getAmount());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
 }

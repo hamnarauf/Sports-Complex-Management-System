@@ -52,6 +52,19 @@ public class Person {
         this.allergy = allergy;
     }
 
+    public Person(String fname, String lname, gender gender, String cnic, String contactNo, 
+            String emerContact, String bloodGrp, String allergy) {
+        
+        this.fname = fname;
+        this.lname = lname;
+        this.gen = gender;
+        this.cnic = cnic;
+        this.contactNo = contactNo;
+        this.emerContact = emerContact;
+        this.bloodGrp = bloodGrp;
+        this.allergy = allergy;
+    }
+
     public String getFname() {
         return fname;
     }
