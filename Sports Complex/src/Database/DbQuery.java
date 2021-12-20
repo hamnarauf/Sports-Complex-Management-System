@@ -2,6 +2,7 @@ package Database;
 
 import Classes.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.DriverManager;
@@ -11,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 /**
  *
@@ -1462,6 +1465,22 @@ public class DbQuery {
             statement.setInt(1, emer_id);
             statement.setString(2, item_id);
             statement.setInt(3, 1);
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    //ATTENDANT
+    public static void markAttendance(Attendance att) throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        final String queryLog = "INSERT INTO attendance (emp_id, date, status) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+            statement.setString(1, att.getEmp_id());
+            statement.setDate(2, att.getDate());
+            statement.setString(3, att.getAttendance());
             statement.executeUpdate();
         }
         tearDownDb();
