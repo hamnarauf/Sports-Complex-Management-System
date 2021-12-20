@@ -139,7 +139,7 @@ public class CoachController implements Initializable {
     }
 
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 

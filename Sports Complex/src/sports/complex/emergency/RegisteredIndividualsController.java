@@ -31,8 +31,6 @@ public class RegisteredIndividualsController implements Initializable {
     @FXML
     private TableView<Person> tableView;
     @FXML
-    private TableColumn<Person, String> idCol;
-    @FXML
     private TableColumn<Person, String> genderCol;
     @FXML
     private TableColumn<Person, String> bloodGCol;
@@ -48,6 +46,8 @@ public class RegisteredIndividualsController implements Initializable {
     private TableColumn<Person, String> lnameCol;
 
     ObservableList<Person> list = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<Person, String> cnicCol;
 
     /**
      * Initializes the controller class.
@@ -56,11 +56,12 @@ public class RegisteredIndividualsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
         loadData();
+        filterByName() ;
     }
 
     private void initCol() {
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        cnicCol.setCellValueFactory(new PropertyValueFactory<>("cnic"));
         genderCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
         bloodGCol.setCellValueFactory(new PropertyValueFactory<>("bloodGrp"));
         allergiesCol.setCellValueFactory(new PropertyValueFactory<>("allergy"));
@@ -81,7 +82,7 @@ public class RegisteredIndividualsController implements Initializable {
         tableView.setItems(list);
     }
 
-    private void filterByName(String property) {
+    private void filterByName() {
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Person> filteredData = new FilteredList<>(list, b -> true);
 

@@ -163,7 +163,7 @@ public class RegistrationController implements Initializable {
 
     void populateComboBox() throws SQLException, ClassNotFoundException {
         populateSportsCombo();
-//        populateDeptCombo();
+        populateDeptCombo();
         populateCoachCombo();
         populatePackageCombo();
         populateQuesCombo();
@@ -309,7 +309,7 @@ public class RegistrationController implements Initializable {
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 
@@ -366,8 +366,8 @@ public class RegistrationController implements Initializable {
         String BloodGrp = regMemBloodGroup.getText();
         String allergies = regMemAllergies.getText();
 
-        if (fname == null || lname == null || memGender == null || localDob == null || cnic == null || address == null
-                || contact == null || email == null || BloodGrp == null) {
+        if (fname.equals("") || lname.equals("") || memGender.equals("") || localDob.equals("") || cnic.equals("")
+                || address.equals("") || contact.equals("") || email.equals("") || BloodGrp.equals("")) {
             AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
@@ -397,7 +397,8 @@ public class RegistrationController implements Initializable {
         Time time = regTeamTime.getValue();
         String day = regTeamDay.getValue();
 
-        if (sport == null || mem == null || pkg == null || (pkg == "Training" && time == null && day == null)) {
+        if (sport.equals("") || mem.equals("") || pkg.equals("")
+                || (pkg.equals("") && time.equals("") && day.equals(""))) {
             AlertMaker.showAlert("Try again", "Please enter all required feilds");
         } else {
             if (pkg.equals("Training")) {
@@ -433,9 +434,9 @@ public class RegistrationController implements Initializable {
         String ques = SecurityQues.getValue();
         String ans = regEmpSecurityAns.getText();
 
-        if (fname == null || lname == null || empGender == null || localDob == null || cnic == null || address == null
-                || contact == null || email == null || bloodgrp == null || dept == null
-                || domain == null || ques == null || ans == null) {
+        if (fname.equals("") || lname.equals("") || empGender.equals("") || localDob.equals("") || cnic.equals("")
+                || address.equals("") || contact.equals("") || email.equals("") || bloodgrp.equals("") || dept.equals("")
+                || domain.equals("") || ques.equals("") || ans.equals("")) {
             AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
@@ -463,7 +464,7 @@ public class RegistrationController implements Initializable {
         String id = tourMemId.getText();
         String sport = sports1.getValue();
 
-        if (id == null || sport == null) {
+        if (id.equals("") || sport.equals("")) {
             AlertMaker.showAlert("Try Again", "Please enter all fields");
         } else {
             AlertMaker.showAlert("Success", "Registeration successfull");
@@ -476,7 +477,7 @@ public class RegistrationController implements Initializable {
         String id = tourTeamId.getText();
         String sport = sports2.getValue();
 
-        if (id == null || sport == null) {
+        if (id.equals("") || sport.equals("")) {
             AlertMaker.showAlert("Try Again", "Please enter all fields");
         } else {
             AlertMaker.showAlert("Success", "Registeration successfull");

@@ -462,12 +462,12 @@ public class DbQuery {
 
         ArrayList<Coach> coachList = new ArrayList<Coach>();
 
-        final String query = "select Coach.coach_id, Person.firstName, Person.lastName, Person.cnic, \n" +
-                "Person.gender, Person.dob, Person.contact, Person.email, Sport.sportName \n" +
-                "from coach \n" +
-                "inner join employee on coach.coach_id = employee.emp_id \n" +
-                "inner join person on employee.cnic = person.cnic \n" +
-                "inner join sport on coach.sport_id = sport.sport_id;";
+        final String query = "select Coach.coach_id, Person.firstName, Person.lastName, Person.cnic, \n"
+                + "Person.gender, Person.dob, Person.contact, Person.email, Sport.sportName \n"
+                + "from coach \n"
+                + "inner join employee on coach.coach_id = employee.emp_id \n"
+                + "inner join person on employee.cnic = person.cnic \n"
+                + "inner join sport on coach.sport_id = sport.sport_id;";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -492,7 +492,7 @@ public class DbQuery {
         final String query = "SELECT Employee.emp_id, firstName, lastName, Person.cnic, "
                 + "gender, dob, contact, email, Department.deptName "
                 + "FROM (((Employee INNER JOIN Person ON Employee.cnic = Person.cnic) "
-                + "INNER JOIN Department On Department.dept_id = Employee.dept_id);";
+                + "INNER JOIN Department On Department.dept_id = Employee.dept_id));";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -514,13 +514,13 @@ public class DbQuery {
 
         ArrayList<Team> teamList = new ArrayList<Team>();
 
-        final String query = "SELECT Team.team_id, package, teamMember, firstName \n" +
-                "FROM (Team \n" +
-                "LEFT JOIN (((Team_Schedule INNER JOIN Class ON team_schedule.class_id = class.class_id \n" +
-                "INNER JOIN Coach ON Coach.coach_id = class.coach_id) \n" +
-                "INNER JOIN Employee ON employee.emp_id = Coach.coach_id) \n" +
-                "INNER JOIN Person ON person.cnic = employee.cnic) \n" +
-                "ON Team.team_id = Team_Schedule.team_id) LEFT JOIN Sport ON Sport.sport_id = Team.sport_id";
+        final String query = "SELECT Team.team_id, package, teamMember, firstName \n"
+                + "FROM (Team \n"
+                + "LEFT JOIN (((Team_Schedule INNER JOIN Class ON team_schedule.class_id = class.class_id \n"
+                + "INNER JOIN Coach ON Coach.coach_id = class.coach_id) \n"
+                + "INNER JOIN Employee ON employee.emp_id = Coach.coach_id) \n"
+                + "INNER JOIN Person ON person.cnic = employee.cnic) \n"
+                + "ON Team.team_id = Team_Schedule.team_id) LEFT JOIN Sport ON Sport.sport_id = Team.sport_id";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -686,9 +686,9 @@ public class DbQuery {
     }
 
     // deletion methods
-    public static Person removeMemberDetails(String member_id) throws SQLException, ClassNotFoundException {
+    public static Person removeMemberDetails(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
-        String cnic = getMemberCnic(member_id);
+//        String cnic = getMemberCnic(member_id);
         Person p = null;
 
         final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n"
@@ -706,13 +706,14 @@ public class DbQuery {
         return p;
     }
 
-    public static Person removeEmployeeDetails(String emp_id) throws SQLException, ClassNotFoundException {
+    public static Person removeEmployeeDetails(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
-        String cnic = getEmpCnic(emp_id);
+//        String cnic = getEmpCnic(emp_id);
+//        System.out.println(cnic);
         Person p = null;
 
         final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n"
-                + "FROM Person where cnic = \"" + cnic + "\"";
+                + "FROM Person where cnic = \""  + cnic + "\"";
 
         ResultSet rs = st.executeQuery(getDetailsQuery);
 
@@ -730,21 +731,14 @@ public class DbQuery {
         setupDb();
         Team team = null;
 
-        final String query = "SELECT Team.team_id, Team.package, firstName \n" +
-                "FROM (Team \n" +
-                "LEFT JOIN ((((Team_Schedule \n" +
-                "INNER JOIN Class ON team_schedule.class_id = class.class_id) \n" +
-                "INNER JOIN Coach ON Coach.coach_id = class.coach_id) \n" +
-                "INNER JOIN Employee ON employee.emp_id = Coach.coach_id) \n" +
-                "INNER JOIN Person ON person.cnic = employee.cnic) \n" +
-                "ON Team.team_id = Team_Schedule.team_id) \n" +
-                "WHERE Team.team_id = \"" + team_id + "\"";
+        final String query = "SELECT package, sportName, teamMember FROM team inner join sport on team.sport_id = sport.sport_id\n"
+                + "where team_id=\""  + team_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) {
-            team = new Team(rs.getString("Team.team_id"), rs.getInt("Sport.teamMember"),
-                    rs.getString("Team.package"), rs.getString("Person.firstName"));
+            team = new Team("", rs.getString("sportName"),rs.getInt("Sport.teamMember"),
+                    rs.getString("Team.package"), new Time(3,4,5));
         }
         tearDownDb();
         return team;
@@ -914,9 +908,9 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
-                    rs.getString("transactions.type"),
-                    rs.getString("transactions.amount"));
+            Transaction trans = new Transaction(rs.getString("repair_id"),
+                    rs.getString("purpose"),
+                    rs.getString("amount"));
             transList.add(trans);
         }
         tearDownDb();
@@ -1196,14 +1190,14 @@ public class DbQuery {
         ArrayList<Attendance> attList = new ArrayList<>();
         Attendance att;
 
-        final String query = "SELECT Attendance.emp_id, date, status FROM attendance \n" +
-                "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n" +
-                "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
+        final String query = "SELECT Attendance.emp_id, date, status FROM attendance \n"
+                + "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n"
+                + "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("attendance"));
+            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("status"));
             attList.add(att);
         }
 
@@ -1349,7 +1343,6 @@ public class DbQuery {
     // setupDb();
     // tearDownDb();
     // }
-
     public static ArrayList<AvailableItem> displayAvailableItems() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<AvailableItem> itemList = new ArrayList<>();
@@ -1384,7 +1377,6 @@ public class DbQuery {
     }
 
     // EMERGENCY INTERFACE
-
     public static void registerPatient(Emergency e) throws ClassNotFoundException, SQLException {
         setupDb();
 

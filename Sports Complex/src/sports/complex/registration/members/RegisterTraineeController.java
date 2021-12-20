@@ -42,7 +42,7 @@ public class RegisterTraineeController implements Initializable {
         try {
             populateDaysCombo();
             populateSportsCombo();
-            populateTimeCombo();
+//            populateTimeCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -76,15 +76,10 @@ public class RegisterTraineeController implements Initializable {
         ArrayList<Time> times = new ArrayList<Time>();
         String sport = sportCombo.getValue();
         String day = dayCombo.getValue();
-        
-        System.out.println(sport);
-        System.out.println(day);
 
-        if (sport != null && day != null) {
-            times = DbQuery.getTime(sport, day);
-            for (Time time : times) {
-                timeCombo.getItems().add(time);
-            }
+        times = DbQuery.getTime(sport, day);
+        for (Time time : times) {
+            timeCombo.getItems().add(time);
         }
     }
 

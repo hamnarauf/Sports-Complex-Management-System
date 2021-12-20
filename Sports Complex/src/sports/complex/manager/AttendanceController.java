@@ -47,8 +47,6 @@ public class AttendanceController implements Initializable {
     @FXML
     private TableColumn<Attendance, String> deptCol;
     @FXML
-    private TableColumn<Attendance, String> roleCol;
-    @FXML
     private TableColumn<Attendance, Date> dateCol;
     @FXML
     private TableColumn<Attendance, String> attendanceCol;
@@ -64,6 +62,7 @@ public class AttendanceController implements Initializable {
             initCol();
             loadData();
             populateDeptCombo();
+            filterById();
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -86,7 +85,6 @@ public class AttendanceController implements Initializable {
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
-        roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         attendanceCol.setCellValueFactory(new PropertyValueFactory<>("attendance"));
 
@@ -155,7 +153,7 @@ public class AttendanceController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (employee.getDept_id().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (employee.getDeptName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches first name.
                 } else {
                     return false; // Does not match.

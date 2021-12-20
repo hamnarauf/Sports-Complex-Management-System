@@ -15,7 +15,7 @@
    <center>
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="idCol" prefWidth="135.0" text="ID" />
+            <TableColumn fx:id="cnicCol" prefWidth="135.0" text="CNIC" />
             <TableColumn fx:id="fnameCol" prefWidth="171.0" text="First Name" />
             <TableColumn fx:id="lnameCol" prefWidth="165.0" text="Last Name" />
             <TableColumn fx:id="genderCol" prefWidth="69.0" text="Gender" />

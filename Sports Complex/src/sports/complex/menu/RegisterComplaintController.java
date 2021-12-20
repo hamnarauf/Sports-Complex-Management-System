@@ -28,7 +28,7 @@ public class RegisterComplaintController implements Initializable {
 
     @FXML
     private void handleRegOkBtn(ActionEvent event) {
-        if(complaint.getText()==null){
+        if(complaint.getText().equals("")){
             AlertMaker.showAlert("Empty Field", "Please type your complaint");
         }
         

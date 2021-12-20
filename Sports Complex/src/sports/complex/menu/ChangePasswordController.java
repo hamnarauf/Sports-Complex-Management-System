@@ -48,7 +48,7 @@ public class ChangePasswordController implements Initializable {
         String nPass = newPass.getText();
         String retypePass = retypeNewPass.getText();
 
-        if (cPass == null || nPass == null || retypePass == null) {
+        if (cPass.equals("") || nPass.equals("") || retypePass.equals("")) {
             AlertMaker.showAlert("Empty fields", "Please enter all feilds");
         } else if (!cPass.equals(retypePass)) {
 

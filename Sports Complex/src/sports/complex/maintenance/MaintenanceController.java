@@ -242,7 +242,7 @@ public class MaintenanceController implements Initializable {
         String repair = repairRequired.getText();
         String sport = sportCombo.getValue();
         String amount = expenditure.getText();
-        if (repair == null || sport == null || amount == null) {
+        if (repair.equals("") || sport.equals("") || amount.equals("")) {
             AlertMaker.showAlert("Empty Fields", "Please enter all fields");
 
         } else {
@@ -270,7 +270,7 @@ public class MaintenanceController implements Initializable {
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 
