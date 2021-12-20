@@ -1427,7 +1427,7 @@ public class DbQuery {
         ArrayList<InventoryItem> equList = new ArrayList<>();
         InventoryItem item;
 
-        final String query = "SELECT SUBSTRING(itemName, 5), inventory.quantity, medical_log.quantity, \n" +
+        final String query = "SELECT distinct(SUBSTRING(itemName, 5)), inventory.quantity, medical_log.quantity, \n" +
                 "(inventory.quantity - medical_log.quantity) AS available \n" +
                 "FROM inventory \n" +
                 "LEFT JOIN medical_log ON inventory.item_id = medical_log.item_id \n" +
