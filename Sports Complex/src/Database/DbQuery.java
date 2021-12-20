@@ -794,17 +794,13 @@ public class DbQuery {
     public static void editWorkingHrs(CoachSchedule[] cs) throws SQLException, ClassNotFoundException {
         setupDb();
 
-        final String query = "INSERT INTO Class (coach_id, day, startTime, endTime) "
-                + "VALUES (?, ?, ?, ?)";
-
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            for (int i = 0; i < 6; i++) {
-                statement.setString(1, cs[i].getCoach_id());
-                statement.setString(2, cs[i].getDay());
-                statement.setTime(3, cs[i].getStartTime());
-                statement.setTime(4, cs[i].getEndTime());
-                statement.executeUpdate();
-            }
+        String query;
+        
+        for (int i = 0; i < 6; i++) {
+            query = "UPDATE Class SET coach_id = \"" + cs[i].getCoach_id() + "\", " +
+            "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", " +
+            "endTime = \"" + cs[i].getEndTime() + "\";"; 
+            st.executeUpdate(query);
         }
         tearDownDb();
     }
