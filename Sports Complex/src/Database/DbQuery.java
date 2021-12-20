@@ -1485,4 +1485,22 @@ public class DbQuery {
         }
         tearDownDb();
     }
+
+    //MAINTENANCE INTERFACE
+
+    public static void registerRepair(Repair r) throws SQLException, ClassNotFoundException{
+        setupDb();
+
+        final String query = "INSERT INTO repairs (sport_id, purpose, amount) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, getSportID(r.getSport()));
+            statement.setString(2, r.getPurpose());
+            statement.setString(3, r.getAmount());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
 }
