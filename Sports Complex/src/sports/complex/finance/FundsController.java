@@ -29,7 +29,6 @@ import javafx.stage.Stage;
  */
 public class FundsController implements Initializable {
 
-    
     @FXML
     private Label totalLabel;
     @FXML
@@ -50,11 +49,17 @@ public class FundsController implements Initializable {
         initCol();
         try {
             loadData();
+            updateLabel();
         } catch (SQLException ex) {
             Logger.getLogger(FundsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FundsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void updateLabel() throws SQLException, ClassNotFoundException {
+        String total = DbQuery.getBillsTransTotal();
+        totalLabel.setText(total);
     }
 
     private void initCol() {
@@ -74,7 +79,8 @@ public class FundsController implements Initializable {
         }
         tableView.setItems(list);
     }
-   @FXML
+
+    @FXML
     private void handleExportPdf(ActionEvent event) {
         List<List> printData = new ArrayList<>();
         String[] headers = {"         id         ", "        Type       ", "       Payment       "};
@@ -92,5 +98,5 @@ public class FundsController implements Initializable {
     private Stage getStage() {
         return (Stage) tableView.getScene().getWindow();
     }
-    
+
 }

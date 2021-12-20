@@ -38,7 +38,7 @@ public class BillsController implements Initializable {
     private TableColumn<Transaction, String> typeCol;
     @FXML
     private TableColumn<Transaction, String> paymentCol;
-    
+
     ObservableList<Transaction> list = FXCollections.observableArrayList();
 
     /**
@@ -49,11 +49,17 @@ public class BillsController implements Initializable {
         initCol();
         try {
             loadData();
+            updateLabel();
         } catch (SQLException ex) {
             Logger.getLogger(BillsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BillsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void updateLabel() throws SQLException, ClassNotFoundException {
+        String total = DbQuery.getBillsTransTotal();
+        totalLabel.setText(total);
     }
 
     private void initCol() {

@@ -53,6 +53,7 @@ public class ExtrasController implements Initializable {
         initCol();
         try {
             loadData();
+            updateLabel();
         } catch (SQLException ex) {
             Logger.getLogger(ExtrasController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -66,6 +67,11 @@ public class ExtrasController implements Initializable {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         paymentCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
+    }
+
+    private void updateLabel() throws SQLException, ClassNotFoundException {
+        String total = DbQuery.getExtraTransTotal();
+        totalLabel.setText(total);
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {

@@ -52,11 +52,17 @@ public class EmployeesController implements Initializable {
         initCol();
         try {
             loadData();
+            updateLabel();
         } catch (SQLException ex) {
             Logger.getLogger(EmployeesController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeesController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void updateLabel() throws SQLException, ClassNotFoundException {
+        String total = DbQuery.getExtraTransTotal();
+        totalLabel.setText(total);
     }
 
     private void initCol() {
@@ -72,7 +78,7 @@ public class EmployeesController implements Initializable {
 
         ArrayList<Employee> allEmployees = new ArrayList<Employee>();
         allEmployees = DbQuery.viewTransEmp();
-        for (Employee emp: allEmployees) {
+        for (Employee emp : allEmployees) {
             list.add(emp);
         }
         tableView.setItems(list);
@@ -88,7 +94,7 @@ public class EmployeesController implements Initializable {
             row.add(emp.getEmp_id());
             row.add(emp.getFname());
             row.add(emp.getDeptName());
-//            row.add(emp.getSalary);
+            row.add(emp.getSalary());
             printData.add(row);
         }
         Utility.initPDFExprot(getStage(), printData);
@@ -97,6 +103,5 @@ public class EmployeesController implements Initializable {
     private Stage getStage() {
         return (Stage) tableView.getScene().getWindow();
     }
-
 
 }

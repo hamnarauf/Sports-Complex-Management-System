@@ -68,7 +68,6 @@ public class AttendanceController implements Initializable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        filterById();
     }
 
     private void populateDeptCombo() throws SQLException, ClassNotFoundException {
@@ -84,7 +83,7 @@ public class AttendanceController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
+        deptCol.setCellValueFactory(new PropertyValueFactory<>("deptName"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         attendanceCol.setCellValueFactory(new PropertyValueFactory<>("attendance"));
 
