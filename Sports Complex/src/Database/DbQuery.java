@@ -2,7 +2,6 @@ package Database;
 
 import Classes.*;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.DriverManager;
@@ -12,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 /**
  *
@@ -32,8 +29,7 @@ public class DbQuery {
         try {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/sportscomplex?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
+            Connection connection = DriverManager.getConnection(FILE + "?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
                     "root", "root");
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
@@ -795,11 +791,11 @@ public class DbQuery {
         setupDb();
 
         String query;
-        
+
         for (int i = 0; i < 6; i++) {
             query = "UPDATE Class SET coach_id = \"" + cs[i].getCoach_id() + "\", " +
-            "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", " +
-            "endTime = \"" + cs[i].getEndTime() + "\";"; 
+                    "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", " +
+                    "endTime = \"" + cs[i].getEndTime() + "\";";
             st.executeUpdate(query);
         }
         tearDownDb();
@@ -1058,7 +1054,27 @@ public class DbQuery {
         tearDownDb();
     }
 
-    //credit membership has to be done
+    public static Member detailsTransForm(String member_id) throws SQLException, ClassNotFoundException {
+        final String query = "SELECT creditMembership.member_id, firstName, lastName, duedate, amount \n" +
+                "FROM creditMembership INNER JOIN Member ON creditMembership.member_id = Member.member_id \n" +
+                "INNER JOIN Person On Member.cnic = Person.cnic \n" +
+                "WHERE member_id = \"" + member_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+
+        Member m = new Member(rs.getString("member_id"), rs.getString("firstName"),
+                rs.getString("lastName"), rs.getDate("duedate"), rs.getInt("amount"));
+
+        tearDownDb();
+        return m;
+    }
+
+   public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        final String query = "UPDATE creditMembership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
+        st.executeUpdate(query);
+        tearDownDb();
+   }
 
     // MANAGER
     public static ArrayList<Schedule> displaySchedule() throws ClassNotFoundException, SQLException {
@@ -1405,7 +1421,7 @@ public class DbQuery {
             statement.executeUpdate();
         }
 
-        final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + log.getIssue_id() +"\"";
+        final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + log.getIssue_id() + "\"";
         st.executeUpdate(removeIssuedQuery);
         tearDownDb();
     }
