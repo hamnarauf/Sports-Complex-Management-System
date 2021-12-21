@@ -37,7 +37,8 @@ public class MemberIdController implements Initializable {
             AlertMaker.showAlert("Error", "Please enter a member id");
 
         } else {
-            if (DbQuery.isMember(id)) {
+            if (DbQuery.isMember(DbQuery.getMemberCnic(id))) {
+                TransactionFormController.id = id;
                 StageLoader.loadWindow(getClass().getResource("TransactionForm.fxml"), "Credit Membership", null);
 
             } else {

@@ -80,14 +80,14 @@ public class InventoryController implements Initializable {
             try {
                 int q = new Integer(quantity.getText());
                 InventoryItem item = new InventoryItem(id, "", items, q, Time.valueOf(LocalTime.now()));
+
                 try {
                     DbQuery.issueItem(item);
-                }
-                catch(Exception e){
-                     AlertMaker.showAlert("Error", "Invalid Member ID.");
+                    AlertMaker.showAlert("Success", "Item Issue successfully");
+                } catch (Exception e) {
+                    AlertMaker.showAlert("Error", "Invalid Member ID.");
                 }
 
-                AlertMaker.showAlert("Success", "Item Issue successfully");
             } catch (Exception e) {
                 AlertMaker.showAlert("Error", "Quanity can only be an integer");
             }

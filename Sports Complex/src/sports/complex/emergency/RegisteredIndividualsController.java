@@ -148,6 +148,7 @@ public class RegisteredIndividualsController implements Initializable {
         tableView.setItems(sortedData);
     }
 
+    @FXML
     private void filterByBloodG() {
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Person> filteredData = new FilteredList<>(list, b -> true);

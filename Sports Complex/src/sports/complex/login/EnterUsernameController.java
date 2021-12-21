@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import utilities.StageLoader;
@@ -26,6 +27,8 @@ public class EnterUsernameController implements Initializable {
 
     @FXML
     private JFXTextField username;
+    @FXML
+    private BorderPane rootPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -44,12 +47,16 @@ public class EnterUsernameController implements Initializable {
 
             if (valid) {
                 PasswordRecoveryController.setUsername(uname);
-                StageLoader.loadWindow(getClass().getResource("passwordRecovery.fxml"), "Password Recovery", null);
+                StageLoader.loadWindow(getClass().getResource("passwordRecovery.fxml"), "Password Recovery", getStage());
             } else {
                 AlertMaker.showAlert("Try Again", "Username does not exists");
 
             }
         }
+    }
+    
+     private Stage getStage() {
+        return (Stage) rootPane.getScene().getWindow();
     }
 
 }

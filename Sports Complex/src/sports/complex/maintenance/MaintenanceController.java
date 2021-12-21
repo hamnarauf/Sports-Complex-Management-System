@@ -247,12 +247,25 @@ public class MaintenanceController implements Initializable {
             AlertMaker.showAlert("Empty Fields", "Please enter all fields");
 
         } else {
-            Repair repair = new Repair(purpose, sport, amount, "");
-            DbQuery.registerRepair(repair);
+            try {
+                int a = new Integer(amount);
+                Repair repair = new Repair(purpose, sport, amount, "");
+                DbQuery.registerRepair(repair);
 
-            AlertMaker.showAlert("Success", "Succesfully registered repair");
+                AlertMaker.showAlert("Success", "Succesfully registered repair");
+                clearCache();
 
+            } catch (Exception e) {
+                AlertMaker.showAlert("Error", "Amount can only be numeric.");
+            }
         }
+    }
+
+    private void clearCache() {
+        repairRequired.setText("");
+        sportCombo.setValue(null);
+        expenditure.setText("");
+
     }
 
     @FXML
