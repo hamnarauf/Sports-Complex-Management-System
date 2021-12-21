@@ -60,6 +60,8 @@ public class ExtrasController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(ExtrasController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ExtrasController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -71,7 +73,7 @@ public class ExtrasController implements Initializable {
 
     }
 
-    private void loadData() throws SQLException {
+    private void loadData() throws SQLException, ClassNotFoundException {
 
         ArrayList<Transaction> allTrans = new ArrayList<Transaction>();
         allTrans = DbQuery.viewTransExtras();

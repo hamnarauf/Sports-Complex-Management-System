@@ -4,6 +4,7 @@ import Classes.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,21 +21,26 @@ import java.util.logging.Logger;
 public class DbQuery {
 
     // "jdbc:mysql://hostname:portNumber/databaseName"
-    private final static String FILE = "jdbc:mysql://root:33060/sportscomplex";
-
-    private static Connection conn;
+    private final static String FILE = "jdbc:mysql://localhost:3306/sportscomplex";
+    private static Connection conn = null;
     private static Statement st;
 
     // GENERAL-PURPOSE METHODS
-    private static void setupDb() {
+    private static void setupDb() throws ClassNotFoundException {
         // for making connection to the database
         try {
-            Connection connection = DriverManager.getConnection(FILE);
+
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/sportscomplex?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
+                    "root", "root");
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
             DbQuery.st = statement;
-        } catch (SQLException exc) {
-            exc.toString();
+        } catch (SQLException | ClassNotFoundException exc) {
+            System.out.println(exc.toString());
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(DbQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -56,7 +62,7 @@ public class DbQuery {
         User user = null;
 
         // login query
-        final String query = "SELECT Users.username, Users.password, Employee.dept_id FROM Users \n" +
+        final String query = "SELECT username, password, Employee.dept_id FROM Users \n" +
                 "INNER JOIN Employee On Users.emp_id = Employee.emp_id \n" +
                 "WHERE username =\"" + username + "\" \n" +
                 "AND password =\"" + password + "\";";
@@ -65,15 +71,15 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
-            user = new User(rs.getString("username"), rs.getString("password"), 
-            rs.getString("Employee.dept_id"));
+            user = new User(rs.getString("username"), rs.getString("password"),
+                    rs.getString("dept_id"));
         }
 
         tearDownDb();
         return user;
     }
 
-    public static boolean isCorrectUsername(String uname) throws SQLException {
+    public static boolean isCorrectUsername(String uname) throws SQLException, ClassNotFoundException {
         setupDb();
         boolean valid;
 
@@ -86,33 +92,25 @@ public class DbQuery {
         return valid;
     }
 
-    public static String getSecurityQs(String uname) throws SQLException {
+    public static String getSecurityQs(String uname) throws SQLException, ClassNotFoundException {
         setupDb();
-        String ques_id = "";
         String secQs = "";
 
         // retreive stored security question of the provided user
-        final String query = "SELECT ques_id FROM Users WHERE username = \"" + uname + "\"";
+        final String query = "SELECT ques FROM security_qs WHERE ques_id = " +
+                "(SELECT security_qs_id FROM Users WHERE username = \"" + uname + "\");";
 
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) {
-            ques_id = rs.getString("ques_id");
-        }
-
-        final String getQsQuery = "SELECT ques FROM security_qs WHERE ques_id = \"" + ques_id + "\"";
-
-        rs = st.executeQuery(getQsQuery);
-
-        if (rs.next()) {
-            secQs = rs.getString("securityQues");
+            secQs = rs.getString("ques");
         }
 
         tearDownDb();
         return secQs;
     }
 
-    public static boolean checkSecAns(String uname, String ans) throws SQLException {
+    public static boolean checkSecAns(String uname, String ans) throws SQLException, ClassNotFoundException {
         setupDb();
         boolean valid = false;
 
@@ -131,7 +129,7 @@ public class DbQuery {
         return valid;
     }
 
-    public static void passwordNew(String uname, String passNew) throws SQLException {
+    public static void passwordNew(String uname, String passNew) throws SQLException, ClassNotFoundException {
         setupDb();
 
         // updates the password of the given user
@@ -143,7 +141,8 @@ public class DbQuery {
 
     // REGISTRATION INTERFACE
     // utilities
-    public static int getSportID(String sport) throws SQLException {
+
+    public static int getSportID(String sport) throws SQLException, ClassNotFoundException {
         setupDb();
         int sport_id = 0;
 
@@ -158,7 +157,7 @@ public class DbQuery {
         return sport_id;
     }
 
-    public static ResultSet getCoachOfSport(int sport_id) throws SQLException {
+    public static ResultSet getCoachOfSport(int sport_id) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String getCoachQuery = "SELECT coach_id FROM Coach WHERE sport_id = \"" + sport_id + "\"";
@@ -168,7 +167,7 @@ public class DbQuery {
         return rs;
     }
 
-    public static String getEmpCnic(String emp_id) throws SQLException {
+    public static String getEmpCnic(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic;
 
@@ -181,7 +180,7 @@ public class DbQuery {
         return cnic;
     }
 
-    public static String getEmpId(String cnic) throws SQLException {
+    public static String getEmpId(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
         String emp_id;
 
@@ -194,22 +193,36 @@ public class DbQuery {
         return emp_id;
     }
 
-    public static int getDeptID(String dept) throws SQLException {
+    public static String getDeptID(String dept) throws SQLException, ClassNotFoundException {
         setupDb();
-        int dept_id = 0;
+        String dept_id = "";
 
         final String getDeptQuery = "SELECT dept_id FROM Department WHERE deptName = \"" + dept + "\"";
         ResultSet rs = st.executeQuery(getDeptQuery);
 
         if (rs.next()) {
-            dept_id = rs.getInt("dept_id");
+            dept_id = rs.getString("dept_id");
         }
 
         tearDownDb();
         return dept_id;
     }
 
-    public static boolean isEmployee(String emp_id) throws SQLException {
+    public static String getDeptName(String dept_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        String deptName = "";
+
+        final String query = "SELECT deptName FROM Department WHERE dept_id = \"" + dept_id + "\"";
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            deptName = rs.getString("deptName");
+        }
+        tearDownDb();
+        return deptName;
+    }
+
+    public static boolean isEmployee(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         boolean valid = false;
 
@@ -222,7 +235,7 @@ public class DbQuery {
         return valid;
     }
 
-    public static boolean isMember(String cnic) throws SQLException {
+    public static boolean isMember(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
         boolean valid;
 
@@ -235,7 +248,7 @@ public class DbQuery {
         return valid;
     }
 
-    public static boolean isTeam(String team_id) throws SQLException {
+    public static boolean isTeam(String team_id) throws SQLException, ClassNotFoundException {
         setupDb();
         boolean valid;
         final String query = "SELECT team_id FROM Team WHERE team_id = \"" + team_id + "\"";
@@ -247,7 +260,7 @@ public class DbQuery {
         return valid;
     }
 
-    public static String getMemberCnic(String member_id) throws SQLException {
+    public static String getMemberCnic(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic;
 
@@ -260,7 +273,7 @@ public class DbQuery {
         return cnic;
     }
 
-    public static String getCoachOfTeam(Team team) throws SQLException {
+    public static String getCoachOfTeam(Team team) throws SQLException, ClassNotFoundException {
         setupDb();
         String coach_id = "";
 
@@ -279,14 +292,14 @@ public class DbQuery {
         return coach_id;
     }
 
-    public static void deletePerson(String cnic) throws SQLException {
+    public static void deletePerson(String cnic) throws SQLException, ClassNotFoundException {
         setupDb();
         final String query = "DELETE FROM Person WHERE cnic = \"" + cnic + "\"";
         st.executeUpdate(query);
         tearDownDb();
     }
 
-    public static int getCountOfTraineeClasses(String trainee_id) throws SQLException {
+    public static int getCountOfTraineeClasses(String trainee_id) throws SQLException, ClassNotFoundException {
         setupDb();
         int count = 0;
 
@@ -299,7 +312,7 @@ public class DbQuery {
         return count;
     }
 
-    public static int getCountOfTraineesOfCoach(String coach_id) throws SQLException {
+    public static int getCountOfTraineesOfCoach(String coach_id) throws SQLException, ClassNotFoundException {
         setupDb();
         int count = 0;
 
@@ -314,7 +327,7 @@ public class DbQuery {
         return count;
     }
 
-    public static int getCountOfTeamsOfCoach(String coach_id) throws SQLException {
+    public static int getCountOfTeamsOfCoach(String coach_id) throws SQLException, ClassNotFoundException {
         setupDb();
         int count = 0;
 
@@ -330,7 +343,7 @@ public class DbQuery {
     }
 
     // display list methods
-    public static ArrayList<String> getSportsList() throws SQLException {
+    public static ArrayList<String> getSportsList() throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<String> sportName = new ArrayList<String>();
 
@@ -346,7 +359,7 @@ public class DbQuery {
         return sportName;
     }
 
-    public static ArrayList<Time> getTime(String sport, String day) throws SQLException {
+    public static ArrayList<Time> getTime(String sport, String day) throws SQLException, ClassNotFoundException {
         setupDb();
         String coach_id = "";
         ResultSet rs;
@@ -359,11 +372,9 @@ public class DbQuery {
         while (rs.next()) {
             coach_id = rs.getString("coach_id");
 
-
             if ((getCountOfTeamsOfCoach(coach_id) <= 2) && (getCountOfTraineesOfCoach(coach_id) <= 5)) {
                 final String getClassTimeQuery = "SELECT startTime FROM Class WHERE coach_id = \"" + coach_id + "\"" +
                         "AND day = \"" + day + "\"";
-
 
                 rs2 = st.executeQuery(getClassTimeQuery);
                 startTime.add(rs2.getTime("startTime"));
@@ -373,7 +384,7 @@ public class DbQuery {
         return startTime;
     }
 
-    public static ArrayList<Member> displayMembers() throws SQLException {
+    public static ArrayList<Member> displayMembers() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Member> memberList = new ArrayList<Member>();
@@ -397,7 +408,7 @@ public class DbQuery {
         return memberList;
     }
 
-    public static ArrayList<String> getDeptList() throws SQLException {
+    public static ArrayList<String> getDeptList() throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<String> deptName = new ArrayList<String>();
 
@@ -413,7 +424,7 @@ public class DbQuery {
         return deptName;
     }
 
-    public static ArrayList<String> getQsList() throws SQLException {
+    public static ArrayList<String> getQsList() throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<String> qs = new ArrayList<String>();
 
@@ -428,7 +439,7 @@ public class DbQuery {
         return qs;
     }
 
-    public static ArrayList<Coach> displayCoachList() throws SQLException {
+    public static ArrayList<Coach> displayCoachList() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Coach> coachList = new ArrayList<Coach>();
@@ -454,7 +465,7 @@ public class DbQuery {
         return coachList;
     }
 
-    public static ArrayList<Employee> displayEmployeeList() throws SQLException {
+    public static ArrayList<Employee> displayEmployeeList() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Employee> empList = new ArrayList<Employee>();
@@ -479,7 +490,7 @@ public class DbQuery {
         return empList;
     }
 
-    public static ArrayList<Team> displayTeamList() throws SQLException {
+    public static ArrayList<Team> displayTeamList() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Team> teamList = new ArrayList<Team>();
@@ -506,7 +517,8 @@ public class DbQuery {
     }
 
     // registration methods
-    public static void registerMember(Member mem) throws SQLException {
+
+    public static void registerMember(Member mem) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String queryPer = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address,"
@@ -535,7 +547,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerTrainee(Trainee t1) throws SQLException {
+    public static void registerTrainee(Trainee t1) throws SQLException, ClassNotFoundException {
         setupDb();
 
         int sport_id = getSportID(t1.getSport());
@@ -558,7 +570,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerGuest(Guest g) throws SQLException {
+    public static void registerGuest(Guest g) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String query = "INSERT INTO Guest (cnic, member_id, firstName, lastName) VALUES (?, ?, ?, ?)";
@@ -574,7 +586,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerEmployee(Employee emp) throws SQLException {
+    public static void registerEmployee(Employee emp) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String queryPer = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address,"
@@ -604,7 +616,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerUser(User user) throws SQLException {
+    public static void registerUser(User user) throws SQLException, ClassNotFoundException {
         setupDb();
         registerEmployee(user);
         String emp_id = getEmpId(user.getCnic());
@@ -618,7 +630,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerTeam(Team team) throws SQLException {
+    public static void registerTeam(Team team) throws SQLException, ClassNotFoundException {
         setupDb();
         int sport_id = getSportID(team.getSport());
 
@@ -632,7 +644,7 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static void registerTeamforTraining(Team t1) throws SQLException {
+    public static void registerTeamforTraining(Team t1) throws SQLException, ClassNotFoundException {
         setupDb();
 
         int sport_id = getSportID(t1.getSport());
@@ -656,7 +668,8 @@ public class DbQuery {
     }
 
     // deletion methods
-    public static Person removeMemberDetails(String member_id) throws SQLException {
+
+    public static Person removeMemberDetails(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic = getMemberCnic(member_id);
         Person p = null;
@@ -676,7 +689,7 @@ public class DbQuery {
         return p;
     }
 
-    public static Person removeEmployeeDetails(String emp_id) throws SQLException {
+    public static Person removeEmployeeDetails(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic = getEmpCnic(emp_id);
         Person p = null;
@@ -696,7 +709,7 @@ public class DbQuery {
         return p;
     }
 
-    public static Team removeTeamDetails(String team_id) throws SQLException {
+    public static Team removeTeamDetails(String team_id) throws SQLException, ClassNotFoundException {
         setupDb();
         Team team = null;
 
@@ -719,21 +732,21 @@ public class DbQuery {
         return team;
     }
 
-    public static void removeMember(String member_id) throws SQLException {
+    public static void removeMember(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic = getMemberCnic(member_id);
         deletePerson(cnic);
         tearDownDb();
     }
 
-    public static void removeEmp(String emp_id) throws SQLException {
+    public static void removeEmp(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic = getMemberCnic(emp_id);
         deletePerson(cnic);
         tearDownDb();
     }
 
-    public static void removeTeam(String team_id) throws SQLException {
+    public static void removeTeam(String team_id) throws SQLException, ClassNotFoundException {
         setupDb();
         final String query = "DELETE FROM Team WHERE team_id = \"" + team_id + "\"";
         st.executeUpdate(query);
@@ -741,7 +754,8 @@ public class DbQuery {
     }
 
     // other methods
-    public static void editWorkingHrs(CoachSchedule[] cs) throws SQLException {
+
+    public static void editWorkingHrs(CoachSchedule[] cs) throws SQLException, ClassNotFoundException {
         setupDb();
 
         final String query = "INSERT INTO Class (coach_id, day, startTime, endTime) "
@@ -760,7 +774,8 @@ public class DbQuery {
     }
 
     // COACH INTERFACE
-    public static ArrayList<CoachSchedule> getCoachSchedule(String coach_id) throws SQLException {
+    public static ArrayList<CoachSchedule> getCoachSchedule(String coach_id)
+            throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<CoachSchedule> schedule = new ArrayList<CoachSchedule>();
         CoachSchedule cs;
@@ -771,11 +786,16 @@ public class DbQuery {
                 + "INNER JOIN Trainee t ON c.class_id = t.class_id \n"
                 + "WHERE Coach.coach_id = \"" + coach_id + "\" \n"
                 + "GROUP BY c.day;";
+        final String query = "SELECT day, startTime, endTime, count(trainee.member_id) \n" +
+                "FROM Class INNER JOIN coach ON class.coach_id = coach.coach_id \n" +
+                "INNER JOIN trainee ON class.class_id = trainee.class_id \n" +
+                "WHERE class.coach_id = \"" + coach_id + "\"\n" +
+                "GROUP BY class.day;";
 
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            cs = new CoachSchedule(coach_id, rs.getString("c.day"), rs.getTime("c.startTime"),
-                    rs.getTime("c.endTime"), rs.getString("s.sportName"), rs.getInt("COUNT(t.member_id)"));
+            cs = new CoachSchedule(coach_id, rs.getString("day"), rs.getTime("startTime"),
+                    rs.getTime("endTime"), rs.getInt("count(trainee.member_id)"));
             schedule.add(cs);
         }
 
@@ -783,24 +803,22 @@ public class DbQuery {
         return schedule;
     }
 
-    public static ArrayList<Trainee> viewTrainees(String coach_id) throws SQLException {
+    public static ArrayList<Trainee> viewTrainees(String coach_id) throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Trainee> traineeList = new ArrayList<Trainee>();
         Trainee t;
 
-        final String query = "SELECT t.member_id, p.firstName, p.lastName, Sport.sportName \n"
-                + "FROM Trainee t, Member m, Person p, Class c, Coach, Sport s \n"
-                + "WHERE t.member_id = m.member_id    AND \n"
-                + "m.cnic = p.cnic    AND \n"
-                + "t.class_id = c.class_id    AND \n"
-                + "c.coach_id = Coach.coach_id    AND \n"
-                + "Coach.sport_id = s.sport_id    AND \n"
-                + "Coach.coach_id = \"" + coach_id + "\"";
+        final String query = "SELECT trainee.member_id, person.firstName, person.lastName \n" +
+                "FROM Trainee, Member, Person, Class, Coach \n" +
+                "WHERE trainee.member_id = member.member_id    AND \n" +
+                "member.cnic = person.cnic    AND \n" +
+                "trainee.class_id = class.class_id    AND \n" +
+                "class.coach_id = Coach.coach_id    AND \n" +
+                "Coach.coach_id = \"" + coach_id + "\";";
 
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            t = new Trainee(rs.getString("t.member_id"), rs.getString("Sport.sportName"),
-                    rs.getString("p.firstName"), rs.getString("p.lastName"));
+            t = new Trainee(rs.getString("member_id"), rs.getString("firstName"), rs.getString("lastName"));
             traineeList.add(t);
         }
 
@@ -808,8 +826,8 @@ public class DbQuery {
         return traineeList;
     }
 
-    // finance
-    public static ArrayList<Transaction> viewTransSummary() throws SQLException {
+    // FINANCE INTERFACE
+    public static ArrayList<Transaction> viewTransSummary() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -819,7 +837,8 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"), rs.getString("transactions.type"),
+            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
+                    rs.getString("transactions.type"),
                     rs.getString("transactions.amount"));
 
             transList.add(trans);
@@ -829,7 +848,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static double getSummaryTransTotal() throws SQLException {
+    public static double getSummaryTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -842,7 +861,7 @@ public class DbQuery {
         return total;
     }
 
-    public static ArrayList<Transaction> viewTransBills() throws SQLException {
+    public static ArrayList<Transaction> viewTransBills() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -850,7 +869,8 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"), rs.getString("transactions.type"),
+            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
+                    rs.getString("transactions.type"),
                     rs.getString("transactions.amount"));
             transList.add(trans);
         }
@@ -858,7 +878,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Transaction> viewTransFunds() throws SQLException {
+    public static ArrayList<Transaction> viewTransFunds() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -866,7 +886,8 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"), rs.getString("transactions.type"),
+            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
+                    rs.getString("transactions.type"),
                     rs.getString("transactions.amount"));
             transList.add(trans);
         }
@@ -874,7 +895,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Transaction> viewTransExtras() throws SQLException {
+    public static ArrayList<Transaction> viewTransExtras() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Transaction> transList = new ArrayList<Transaction>();
@@ -882,7 +903,8 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"), rs.getString("transactions.type"),
+            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
+                    rs.getString("transactions.type"),
                     rs.getString("transactions.amount"));
             transList.add(trans);
         }
@@ -890,7 +912,7 @@ public class DbQuery {
         return transList;
     }
 
-    public static ArrayList<Employee> viewTransEmp() throws SQLException {
+    public static ArrayList<Employee> viewTransEmp() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Employee> transList = new ArrayList<Employee>();
@@ -905,14 +927,14 @@ public class DbQuery {
             emp.setFname(rs.getString("firstName"));
             emp.setLname(rs.getString("lastName"));
             emp.setDeptName(rs.getString("deptName"));
-//            emp.setSalary(rs.getString("salary"));
+            // emp.setSalary(rs.getString("salary"));
             transList.add(emp);
         }
         tearDownDb();
         return transList;
     }
 
-    public static double getBillsTransTotal() throws SQLException {
+    public static double getBillsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -925,7 +947,7 @@ public class DbQuery {
         return total;
     }
 
-    public static double getFundsTransTotal() throws SQLException {
+    public static double getFundsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -938,7 +960,7 @@ public class DbQuery {
         return total;
     }
 
-    public static double getExtraTransTotal() throws SQLException {
+    public static double getExtraTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
         double total = 0;
 
@@ -951,7 +973,7 @@ public class DbQuery {
         return total;
     }
 
-    public static ArrayList<Repair> getRepairs() throws SQLException {
+    public static ArrayList<Repair> getRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
 
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
@@ -961,7 +983,7 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"));
+            Repair rep = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"), "");
             repairsList.add(rep);
         }
 
@@ -969,7 +991,7 @@ public class DbQuery {
         return repairsList;
     }
 
-    public static boolean hasReqRepairs() throws SQLException {
+    public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
@@ -986,24 +1008,351 @@ public class DbQuery {
 
     }
 
-    public static void allocateFunds(Repair r) throws SQLException {
+    public static void allocateFunds(Repair r) throws SQLException, ClassNotFoundException {
         setupDb();
         ArrayList<Repair> repairsList = new ArrayList<Repair>();
         final String query = "update repairs\n"
-                + "set status = \"Allocated\" where purpose = \""+r.getPurpose()+"\"";
+                + "set status = \"Allocated\" where purpose = \"" + r.getPurpose() + "\"";
 
         ResultSet rs = st.executeQuery(query);
         tearDownDb();
     }
+
+    public static void refuseFunds(Repair r) throws SQLException, ClassNotFoundException {
+        setupDb();
+        ArrayList<Repair> repairsList = new ArrayList<Repair>();
+        final String query = "update repairs\n"
+                + "set status = \"Refused\" where purpose = \"" + r.getPurpose() + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        tearDownDb();
+    }
+    // EMERGENCY INTERFACE
+
+    // MANAGER
+
+    public static ArrayList<Schedule> displaySchedule() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Schedule> sch = new ArrayList<>();
+        Schedule schedule;
+
+        final String query = "SELECT * FROM Schedule";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            schedule = new Schedule(rs.getString("event_id"), rs.getString("eventName"),
+                    rs.getDate("date"), rs.getTime("time"), rs.getString("venue"));
+
+            sch.add(schedule);
+        }
+
+        tearDownDb();
+        return sch;
+    }
+
+    public static ArrayList<Report> displayComplaints() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Report> compList = new ArrayList<>();
+        Report r;
+
+        final String query = "SELECT details, status FROM report WHERE type = \"complaint\"";
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            r = new Report(rs.getString("details"), rs.getString("status"));
+            compList.add(r);
+        }
+
+        tearDownDb();
+        return compList;
+    }
+
+    public static ArrayList<Report> displaySuggestions() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Report> suggList = new ArrayList<>();
+        Report r;
+
+        final String query = "SELECT details, status FROM report WHERE type = \"suggestion\"";
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            r = new Report(rs.getString("details"), rs.getString("status"));
+            suggList.add(r);
+        }
+
+        tearDownDb();
+        return suggList;
+    }
+
+    public static ArrayList<Repair> displayRepairs() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Repair> repList = new ArrayList<>();
+        Repair r;
+
+        final String query = "SELECT purpose, sportName, amount, status \n" +
+                "FROM repairs INNER JOIN sport ON repairs.sport_id = sport.sport_id;";
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            r = new Repair(rs.getString("purpose"), rs.getString("sportName"), rs.getString("amount"),
+                    rs.getString("status"));
+            repList.add(r);
+        }
+
+        tearDownDb();
+        return repList;
+    }
+
+    public static void issueNotice(Notice notice) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "INSERT INTO Notice (title, text, date) \n" +
+                "VALUES (?,?,?)";
+
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, notice.getTitle());
+            statement.setString(2, notice.getText());
+            statement.setDate(3, date);
+            statement.executeUpdate();
+        }
+        
+        tearDownDb();
+    }
+
+    // INVENTORY INTERFACE
+    public static ArrayList<InventoryItem> displayIssuedItems() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<InventoryItem> invList = new ArrayList<>();
+        InventoryItem item;
+
+        final String query = "SELECT issued_items.member_id, concat(firstName, \" \", lastName) AS name, itemName, issued_items.quantity, time \n"
+                +
+                "FROM issued_items \n" +
+                "INNER JOIN member ON issued_items.member_id = member.member_id \n" +
+                "INNER JOIN person ON member.cnic = person.cnic \n" +
+                "INNER JOIN inventory ON issued_items.item_id = inventory.item_id;";
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            item = new InventoryItem(rs.getString("member_id"), rs.getString("name"),
+                    rs.getString("itemName"), rs.getInt("quantity"), rs.getTime("time"));
+            invList.add(item);
+        }
+
+        tearDownDb();
+        return invList;
+    }
+
+    public static InventoryItem showDeleteItemDetails(String itemName) throws ClassNotFoundException, SQLException {
+        setupDb();
+        InventoryItem item = null;
+
+        final String query = "SELECT sportName, quantity FROM inventory \n" +
+                "INNER JOIN sport ON inventory.sport_id = sport.sport_id \n" +
+                "WHERE itemName = \"" + itemName + "\";";
+
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            item = new InventoryItem(rs.getString("sportName"), rs.getInt("quantity"));
+        }
+
+        tearDownDb();
+        return item;
+    }
+
+    public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException {
+        setupDb();
+        int qty = 0;
+
+        final String query = "SELECT quantity FROM inventory WHERE itemName = \"" + itemName + "\"";
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            qty = rs.getInt("quantity");
+        }
+        tearDownDb();
+        return qty;
+    }
+
+    public static void deleteItem(String itemName) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "UPDATE inventory \n" +
+                "SET quantity = " + (getQuantity(itemName) - 1) + "\n" +
+                "WHERE itemName = \"" + itemName + "\";";
+
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
+    public static void addItem(String itemName, int qty) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "UPDATE inventory \n" +
+                "SET quantity = " + (getQuantity(itemName) + qty) + "\n" +
+                "WHERE itemName = \"" + itemName + "\";";
+
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
+    public static ArrayList<InventoryItem> displayHistory() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<InventoryItem> logList = new ArrayList<>();
+        InventoryItem itemLog;
+
+        final String query = "SELECT issued_items.member_id, concat(firstName, \" \", lastName) AS name, itemName, issued_items.quantity, borrowedTime, returnedTime, damaged \n"
+                +
+                "FROM issued_items \n" +
+                "INNER JOIN inventory_log ON issued_items.issue_id = inventory_log.issue_id \n" +
+                "INNER JOIN member on member.member_id = issued_items.member_id \n" +
+                "INNER JOIN person on member.cnic = person.cnic \n" +
+                "INNER JOIN inventory on issued_items.item_id = inventory.item_id;";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            itemLog = new InventoryItem(rs.getString("member_id"), rs.getString("name"),
+                    rs.getString("itemName"), rs.getInt("quantity"), rs.getTime("borrowedTime"),
+                    rs.getTime("returnedTime"), rs.getInt("damaged"));
+            logList.add(itemLog);
+        }
+
+        tearDownDb();
+        return logList;
+    }
+
+    public static String getItemID(String itemName) throws ClassNotFoundException, SQLException {
+        setupDb();
+        String item_id = "";
+
+        final String query = "SELECT item_id FROM inventory WHERE itemName = \"" + itemName + "\";";
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            item_id = rs.getString("item_id");
+        }
+
+        tearDownDb();
+        return item_id;
+    }
+
+    public static void issueItem(InventoryItem item) throws ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "INSERT INTO issued_items (member_id, item_id, time, quantity) \n" +
+                "VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, item.getMember_id());
+            statement.setString(2, getItemID(item.getItemName()));
+            statement.setTime(3, item.getTime());
+            statement.setInt(4, item.getQuantity());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    // available items
+
+    //menue
+
     
-    public static void refuseFunds(Repair r) throws SQLException {
-        setupDb();
-        ArrayList<Repair> repairsList = new ArrayList<Repair>();
-        final String query = "update repairs\n"
-                + "set status = \"Refused\" where purpose = \""+r.getPurpose()+"\"";
 
-        ResultSet rs = st.executeQuery(query);
+    public static void editProfile(User u1) throws SQLException {
+        setupDb();      
+        final String query = "UPDATE person SET 
+        contactNo = \"" + u1.getContactNo() + "\" , 
+        emerContact =\"" + u1.getEmerContact() +"\" , 
+        email =\"" + u1.getEmail() "\" ,
+        address =\"" + u1.getAddress() + "\" " + 
+        "where cnic = \"" + getEmpCnic(u1.getemp_id()) + \"" ;
+
+        st.executeUpdate(query);
+
+        final String query2="INSERT INTO allergies values(cnic,allergy)" +
+         "VALUES (?, ?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            
+                statement.setString(1, getEmpCnic(u1.getemp_id());
+                statement.setString(2, u1.getAllergy());
+                statement.executeUpdate(query2);          
+        }
         tearDownDb();
     }
+
+    public static void registerComplaint(String details) throws SQLException {
+        setupDb();      
+       
+        final String query="INSERT INTO report values(details)" +
+         "VALUES (?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            
+                statement.setString(1,details); 
+                st.executeUpdate(query);     
+        }
+        tearDownDb();
+    }
+
+    
+
+    public static void registerSuggestion(String details) throws SQLException {
+        setupDb();      
+        
+        st.executeUpdate(query);
+
+        final String query="INSERT INTO report values(details)" +
+         "VALUES (?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            
+                statement.setString(1,details); 
+                st.executeUpdate(query);     
+        }
+        tearDownDb();
+    }
+
+    public static void registerSuggestion(String details) throws SQLException {
+        setupDb();      
+        
+        st.executeUpdate(query);
+
+        final String query="INSERT INTO report values(details)" +
+         "VALUES (?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            
+                statement.setString(1,details); 
+                st.executeUpdate(query);     
+        }
+        tearDownDb();
+    }
+
+    public static ArrayList<Notice> viewNotice() throws SQLException {
+        setupDb();
+
+        ArrayList<Notice> empList = new ArrayList<Notice>();
+
+        final String query = "SELECT Notice.title, Notice.text, Notice.date +
+                "FROM (((Employee INNER JOIN Person ON Employee.cnic = Person.cnic) " +
+                "INNER JOIN Department On Department.dept_id = Employee.dept_id);";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Employee emp = new Employee(rs.getString("Person.firstName"), rs.getString("Person.lastName"),
+                    gender.valueOf(rs.getString("Person.gender")), rs.getDate("Person.dob"),
+                    rs.getString("Person.cnic"), rs.getString("Person.contact"), "",
+                    rs.getString("Person.email"), "", rs.getString("Coach.coach_id"),
+                    rs.getString("Sport.sportName"));
+
+            empList.add(emp);
+        }
+        tearDownDb();
+        return empList;
+    }
+
 
 }

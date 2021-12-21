@@ -1,14 +1,24 @@
 package Classes;
 
 public class Repair {
-    String purpose;
-    String sport;
-    String amount;
+    private String purpose;
+    private String sport;
+    private String amount;
+    private String status;
 
-    public Repair(String purpose, String sport, String amount) {
+    public Repair(String purpose, String sport, String amount, String status) {
         this.purpose = purpose;
         this.sport = sport;
         this.amount = amount;
+        this.setStatus(status);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getPurpose() {

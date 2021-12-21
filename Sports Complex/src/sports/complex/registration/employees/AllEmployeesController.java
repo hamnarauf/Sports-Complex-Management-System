@@ -54,6 +54,8 @@ public class AllEmployeesController implements Initializable {
             loadData();
         } catch (SQLException ex) {
             Logger.getLogger(AllEmployeesController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AllEmployeesController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -69,7 +71,7 @@ public class AllEmployeesController implements Initializable {
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
     }
 
-    public void loadData() throws SQLException {
+    public void loadData() throws SQLException, ClassNotFoundException {
         ArrayList<Employee> allEmployee = new ArrayList<Employee>();
         allEmployee = DbQuery.displayEmployeeList();
         for (Employee employee : allEmployee) {

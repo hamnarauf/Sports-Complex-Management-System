@@ -43,11 +43,13 @@ public class RegisterTraineeController implements Initializable {
             populateSportsCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    void populateSportsCombo() throws SQLException {
+    void populateSportsCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> sports = new ArrayList<String>();
         sports = DbQuery.getSportsList();
         for (String sport : sports) {
@@ -68,7 +70,7 @@ public class RegisterTraineeController implements Initializable {
 
     }
 
-    void populateTimeCombo() throws SQLException {
+    void populateTimeCombo() throws SQLException, ClassNotFoundException {
         ArrayList<Time> times = new ArrayList<Time>();
         String sport = sportCombo.getValue();
         String day = dayCombo.getValue();
@@ -82,7 +84,7 @@ public class RegisterTraineeController implements Initializable {
     }
 
     @FXML
-    private void handleRegisterBtn(ActionEvent event) throws SQLException {
+    private void handleRegisterBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String tId = id.getText();
         String sport = sportCombo.getValue();
         Time time = timeCombo.getValue();
@@ -104,7 +106,7 @@ public class RegisterTraineeController implements Initializable {
     }
 
     @FXML
-    private void handleTime(MouseEvent event) throws SQLException {
+    private void handleTime(MouseEvent event) throws SQLException, ClassNotFoundException {
         populateTimeCombo();
     }
 

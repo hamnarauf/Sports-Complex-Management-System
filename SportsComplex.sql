@@ -287,7 +287,8 @@ CREATE TABLE Transactions (
 (3740520208014,'Ubaida','Waheed','2002-09-04','F','03200087643','03205980073','u.waheed@hsh.com','AB-','DHA_phase5_street12'),
 (3740520208015,'Maryam','Amjad','1998-08-21','F','03205987600','03215583098','m.amjad@hsh.com','A+','TajResidency_street 2'),
 (3740520208016,'Ali','Faheem','2002-11-21','M','03210583698','03003609887','a.faheem@hsh.com','O-','DHA_phase6_street 8'),
-(3740520208017,'Javeria','Nadeem','1999-11-01','F','03203609000','03210583008','j.nadeem@hsh.com','AB+','I9_Block2_street17')
+(3740520208017,'Javeria','Nadeem','1999-11-01','F','03203609000','03210583008','j.nadeem@hsh.com','AB+','I9_Block2_street17'),
+(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9')
 ;
 
 INSERT INTO member(cnic) values 
@@ -310,7 +311,8 @@ INSERT INTO department(deptName,supervisor_id,salary)   values
 ('finance',	10003,           50000),
 ('emergency',	10002,            25000),
 ('maintenance',	10001,         25000),
-('coach',	10000,             40000);
+('coach',	10000,             40000),
+('attendant',	10008,	25000);
 
 
 
@@ -322,7 +324,8 @@ INSERT INTO employee(cnic,dept_id)   values
 (3740520208014,	3),
 (3740520208015,	2),
 (3740520208016,	1),
-(3740520208017,	7);
+(3740520208017,	7),
+(3740520208018,	8);
 
 ALTER TABLE department
 ADD FOREIGN KEY (supervisor_id) REFERENCES Employee(emp_id) ON DELETE SET NULL;
@@ -369,17 +372,17 @@ INSERT INTO users  values
 ('U.waheed02',	10004	,'ubaida@150',	4,	'abaida'),
 ('M.amjad98',	10005	,'Mary@1998',	4,	'farzana'),
 ('A.faheem02',	10006	,'March#543',	2,	'brown'),
-('J.nadeem99',	10007	,'Gvry@875',	3,	'fish');
+('J.nadeem99',	10007	,'Gvry@875',	3,	'fish'),
+('h.malik00',	10008	,'hsaan@195',	3,	'fish');
+
+
+
 
 INSERT INTO team(sport_id,package)   values 
 (4	,'training'),
 (1	,'non-training');
 INSERT INTO team_schedule  values 
-(1,	1),
-(1,	4),
-(1,	5),
-(1,	6);
-
+(1,	4);
 INSERT INTO attendance values 
 (10000,	'2021-12-07',	'P'),
 (10001,	'2021-12-07',	'A'),
@@ -388,11 +391,12 @@ INSERT INTO attendance values
 (10004,	'2021-12-07',	'P'),
 (10005,	'2021-12-07',	'P'),
 (10006,	'2021-12-07',	'P'),
-(10007,	'2021-12-07',	'P');
+(10007,	'2021-12-07',	'P'),
+(10008,	'2021-12-07',	'P');
 
 INSERT INTO schedule(eventName,date,time,venue)   values 
-('Swimming Tournament',	'2021-12-6',	'12:30:00',	'MainSwimmingPool,floor1'),
-('Bowling Competition',	'2021-12-20',	'14:00:00',	'BowlingCourt4,floor2');
+('Swimming Tournament',	'2021-12-6',	'12:30:00',	'Main Swimming Pool,floor1'),
+('Bowling Competition',	'2021-12-20',	'14:00:00',	'Bowling Court 4,floor2');
 
 INSERT INTO emergency(patient_id,problem,date,time,status)  values 
 (10000,'fractured','2021-06-19','10:30:49','resolved'),
@@ -401,12 +405,12 @@ INSERT INTO emergency(patient_id,problem,date,time,status)  values
 (10003,'Asthma attack','2021-12-04','12:30:49','unresolved');
 
 INSERT INTO inventory(sport_id,itemName,quantity) values 
-(1,'Bowling_balls',35),
-(1,'Bowling_pins',60),
+(1,'Bowling balls',35),
+(1,'Bowling pins',60),
 (2,'Dumbbells',9),
 (4,'Balls',6),
-(4,'Med_FirstAid_Kit',4),
-(1,'Med_FirstAid_Kit',4);
+(4,'Med First Aid Kit',4),
+(1,'Med First Aid Kit',4);
 
 
 INSERT INTO issued_items(member_id,item_id,time,quantity) values 
@@ -449,7 +453,7 @@ INSERT INTO notice(title,text,date)   values
 
 INSERT INTO transactions(type,amount) values 
 ('Electricity_bill',	30000),
-('maintenance',	15000),
-('inventory',	25000),
-('repair',	7000);
+('maintenanceFunds',	15000),
+('inventoryFunds',	25000),
+('repairFunds',	7000);
 

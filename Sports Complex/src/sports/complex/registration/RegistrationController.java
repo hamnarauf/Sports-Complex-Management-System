@@ -133,6 +133,8 @@ public class RegistrationController implements Initializable {
             populateComboBox();
         } catch (SQLException ex) {
             Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -144,7 +146,7 @@ public class RegistrationController implements Initializable {
         return toogleGroupValue;
     }
 
-    void populateComboBox() throws SQLException {
+    void populateComboBox() throws SQLException, ClassNotFoundException {
         populateSportsCombo();
         populateDeptCombo();
         populateCoachCombo();
@@ -153,7 +155,7 @@ public class RegistrationController implements Initializable {
 
     }
 
-    void populateSportsCombo() throws SQLException {
+    void populateSportsCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> sports = new ArrayList<String>();
         sports = DbQuery.getSportsList();
         for (String sport : sports) {
@@ -163,7 +165,7 @@ public class RegistrationController implements Initializable {
         }
     }
 
-    void populateDeptCombo() throws SQLException {
+    void populateDeptCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> depts = new ArrayList<String>();
         depts = DbQuery.getDeptList();
         for (String dept : depts) {
@@ -171,7 +173,7 @@ public class RegistrationController implements Initializable {
         }
     }
 
-    void populateCoachCombo() throws SQLException {
+    void populateCoachCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> sports = new ArrayList<String>();
         sports = DbQuery.getSportsList();
         for (String s : sports) {
@@ -185,7 +187,7 @@ public class RegistrationController implements Initializable {
         regTeamPackage.getItems().add("Non-Training");
     }
 
-    void populateQuesCombo() throws SQLException {
+    void populateQuesCombo() throws SQLException, ClassNotFoundException {
         ArrayList<String> ques = new ArrayList<String>();
         ques = DbQuery.getQsList();
         for (String q : ques) {
@@ -323,7 +325,7 @@ public class RegistrationController implements Initializable {
     }
 
     @FXML
-    private void handleRegMemBtn(ActionEvent event) throws SQLException {
+    private void handleRegMemBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String fname = regMemFN.getText();
         String lname = regMemLN.getText();
         String memGender = getSelectedRadio(regMemGender);
@@ -360,7 +362,7 @@ public class RegistrationController implements Initializable {
     }
 
     @FXML
-    private void handleRegTeamBtn(ActionEvent event) throws SQLException {
+    private void handleRegTeamBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String sport = regTeamSport.getValue();
         String mem = regTeamMembers.getText();
         String pkg = regTeamPackage.getValue();
@@ -385,7 +387,7 @@ public class RegistrationController implements Initializable {
     }
 
     @FXML
-    private void handleRegEmpBtn(ActionEvent event) throws SQLException {
+    private void handleRegEmpBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String fname = regEmpFN.getText();
         String lname = regEmpLN.getText();
         String empGender = getSelectedRadio(regEmpGender);
@@ -419,7 +421,7 @@ public class RegistrationController implements Initializable {
             }
 
             Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
-                    emerContact, email, address, bloodgrp, allergy, "", Integer.toString(DbQuery.getDeptID(dept)));
+                    emerContact, email, address, bloodgrp, allergy, "", DbQuery.getDeptID(dept));
             DbQuery.registerEmployee(emp);
 
             AlertMaker.showAlert("Registeration successfull", "Success");
