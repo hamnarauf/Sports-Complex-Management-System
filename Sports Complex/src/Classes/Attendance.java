@@ -1,6 +1,6 @@
 package Classes;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
@@ -14,7 +14,7 @@ public class Attendance extends Employee{
     public Attendance(Employee e, Date date, String attendance) {
 
         super(e.getFname(), e.getLname(), e.getGen(), e.getDob(), e.getCnic(), e.getContactNo(), e.getEmerContact(),
-                e.getEmail(), e.getAddress(), e.getBloodGrp(), e.getAllergy(), e.getEmp_id(), e.getDept_id());
+                e.getEmail(), e.getAddress(), e.getBloodGrp(), e.getAllergy(), e.getEmp_id(), e.getDept_id(), e.getDeptName());
         this.attendance = attendance;
         this.date = date;
     }

@@ -35,9 +35,6 @@ public class Comp_suggController implements Initializable {
     @FXML
     private TableColumn<Report, String> suggCol;
 
-    ObservableList<Report> complaintlist = FXCollections.observableArrayList();
-    ObservableList<Report> suggList = FXCollections.observableArrayList();
-
     /**
      * Initializes the controller class.
      */
@@ -53,7 +50,8 @@ public class Comp_suggController implements Initializable {
     }
 
     private void loadData() throws ClassNotFoundException, SQLException {
-
+        ObservableList<Report> complaintlist = FXCollections.observableArrayList();
+        ObservableList<Report> suggList = FXCollections.observableArrayList();
         ArrayList<Report> complaints = new ArrayList<Report>();
         complaints = DbQuery.displayComplaints();
         for (Report complaint : complaints) {
@@ -88,8 +86,8 @@ public class Comp_suggController implements Initializable {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
-//            refresh();
+            DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
+            refresh();
         }
     }
 
@@ -100,8 +98,8 @@ public class Comp_suggController implements Initializable {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
-//            refresh();
+            DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
+            refresh();
         }
     }
 
@@ -112,8 +110,8 @@ public class Comp_suggController implements Initializable {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
-//            refresh();
+            DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
+            refresh();
         }
     }
 
@@ -124,8 +122,8 @@ public class Comp_suggController implements Initializable {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
-//            refresh();
+            DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
+            refresh();
         }
     }
 

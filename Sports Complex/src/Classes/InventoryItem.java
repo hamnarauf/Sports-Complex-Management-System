@@ -11,6 +11,8 @@ public class InventoryItem {
     private String name;
     private String itemName;
     private int quantity;
+    private int useQuantity;
+    private int available;
     private Time time;
     private Time returnedTime;
     private int damaged;
@@ -20,7 +22,6 @@ public class InventoryItem {
         this.sportName = sportName;
         this.quantity = quantity;
     }
-
     public InventoryItem(String member_id, String name, String itemName, int quantity, Time time) {
         this.setMember_id(member_id);
         this.setName(name);
@@ -35,6 +36,29 @@ public class InventoryItem {
         this.damaged = damaged;
     }
 
+    public InventoryItem(String itemName, int quantity, int useQuantity, int available) {
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.setUseQuantity(useQuantity);
+        this.setAvailable(available);
+    }
+
+    public String getUseQuantity() {
+        return Integer.toString(useQuantity);
+    }
+
+    public void setUseQuantity(int useQuantity) {
+        this.useQuantity = useQuantity;
+    }
+
+    public String getAvailable() {
+        return Integer.toString(available);
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+    
     public Time getReturnedTime() {
         return returnedTime;
     }

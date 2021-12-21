@@ -24,7 +24,7 @@
          <contextMenu>
             <ContextMenu>
                <items>
-                  <MenuItem mnemonicParsing="false" text="Returned" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleReturnItem" text="Returned" />
                </items>
             </ContextMenu>
          </contextMenu>

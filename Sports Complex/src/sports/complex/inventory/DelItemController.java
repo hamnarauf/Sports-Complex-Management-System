@@ -31,7 +31,7 @@ public class DelItemController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        clearCache();
     }
 
     @FXML
@@ -40,6 +40,8 @@ public class DelItemController implements Initializable {
         if(!name.equals("") && !DbQuery.getItemID(name).equals("")){
             DbQuery.deleteItem(name);
             AlertMaker.showAlert("Success", "Item deleted successfuly");
+            itemName.setText("");
+            clearCache();
         }
         else{
             AlertMaker.showAlert("Invalid", "Please Try again.");
@@ -58,7 +60,7 @@ public class DelItemController implements Initializable {
             sportName.setText(item.getSportName());
 
         } else {
-            sportName.setText("Invalid Member ID");
+            sportName.setText("Item does not exist.");
         }
     }
 

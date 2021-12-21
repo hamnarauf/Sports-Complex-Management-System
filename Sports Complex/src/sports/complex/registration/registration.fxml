@@ -88,7 +88,7 @@
                                           <JFXDatePicker fx:id="regMemDOB" defaultColor="#08eff5" prefHeight="38.0" prefWidth="251.0" promptText="Date of Birth" GridPane.rowIndex="1" />
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                              <children>
-                                                <RadioButton fx:id="memberGender" layoutX="71.0" layoutY="46.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
+                                                <RadioButton fx:id="memGenM" layoutX="71.0" layoutY="46.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -97,7 +97,7 @@
                                                    </toggleGroup>
                                                 </RadioButton>
                                                 <Label layoutY="43.0" text="Gender" />
-                                                <RadioButton layoutX="146.0" layoutY="45.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regMemGender">
+                                                <RadioButton fx:id="memGenF" layoutX="146.0" layoutY="45.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regMemGender">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -180,8 +180,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
-                                          <JFXTextField fx:id="regTeamMembers" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
+                                          <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" onAction="#handleRegTeamSport" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
+                                          <JFXTextField fx:id="regTeamMembers" disable="true" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
                                           <JFXComboBox fx:id="regTeamPackage" focusColor="#08eff5" onAction="#handlePkgTeam" prefHeight="37.0" prefWidth="352.0" promptText="Package" GridPane.rowIndex="1" />
                                           <JFXComboBox fx:id="regTeamTime" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" prefHeight="37.0" prefWidth="352.0" promptText="Set Favourable Time (only for taining teams)" GridPane.rowIndex="2" />
                                           <JFXComboBox fx:id="regTeamDay" focusColor="#08eff5" layoutX="10.0" layoutY="340.0" onAction="#handleDayTeam" prefHeight="37.0" prefWidth="352.0" promptText="Set Day (only for taining teams)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -234,7 +234,7 @@
                                           <JFXDatePicker fx:id="regEmpDOB" defaultColor="#08eff5" prefHeight="38.0" prefWidth="356.0" promptText="Date of Birth" GridPane.rowIndex="1" />
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                              <children>
-                                                <RadioButton layoutX="71.0" layoutY="41.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
+                                                <RadioButton fx:id="empGenM" layoutX="71.0" layoutY="41.0" mnemonicParsing="false" text="Male" textFill="#08eff5">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -242,7 +242,7 @@
                                                       <ToggleGroup fx:id="regEmpGender" />
                                                    </toggleGroup>
                                                 </RadioButton>
-                                                <RadioButton layoutX="143.0" layoutY="41.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regEmpGender">
+                                                <RadioButton fx:id="empGenF" layoutX="143.0" layoutY="41.0" mnemonicParsing="false" text="Female" textFill="#08eff5" toggleGroup="$regEmpGender">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>

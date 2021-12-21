@@ -8,8 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.*;
+import Database.DbQuery;
+import com.jfoenix.controls.JFXComboBox;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -26,7 +31,7 @@ public class RegisteredIndividualsController implements Initializable {
     @FXML
     private JFXTextField search;
     @FXML
-    private JFXTextField bloodGroup;
+    private JFXComboBox<String> bloodGroup;
 
     @FXML
     private TableView<Person> tableView;
@@ -55,8 +60,31 @@ public class RegisteredIndividualsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
-        filterByName() ;
+        populateBloodCombo();
+        try {
+            loadData();
+            filterByBloodG();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RegisteredIndividualsController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisteredIndividualsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void populateBloodCombo() {
+        ArrayList<String> bloodGroups = new ArrayList<String>();
+
+        bloodGroup.getItems().add("A+");
+        bloodGroup.getItems().add("B+");
+        bloodGroup.getItems().add("A-");
+        bloodGroup.getItems().add("B-");
+        bloodGroup.getItems().add("O-");
+        bloodGroup.getItems().add("O+");
+        bloodGroup.getItems().add("AB+");
+        bloodGroup.getItems().add("AB-");
+
     }
 
     private void initCol() {
@@ -72,16 +100,17 @@ public class RegisteredIndividualsController implements Initializable {
 
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
         ArrayList<Person> allPersons = new ArrayList<Person>();
-
+        allPersons = DbQuery.getMedicalDetails();
         for (Person person : allPersons) {
             list.add(person);
         }
         tableView.setItems(list);
     }
 
+    @FXML
     private void filterByName() {
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Person> filteredData = new FilteredList<>(list, b -> true);
@@ -98,12 +127,11 @@ public class RegisteredIndividualsController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-
-                    if (person.getFname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                        return true; // Filter matches first name.
-                    } else {
-                        return false; // Does not match.
-                    }
+                if (person.getFname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
             });
         }
         );
@@ -119,12 +147,13 @@ public class RegisteredIndividualsController implements Initializable {
         // 5. Add sorted (and filtered) data to the table.
         tableView.setItems(sortedData);
     }
-    private void filterByBloodG(String property) {
+
+    private void filterByBloodG() {
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Person> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
-        bloodGroup.textProperty().addListener((observable, oldValue, newValue) -> {
+        bloodGroup.valueProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(person -> {
                 // If filter text is empty, display all persons.
 
@@ -135,12 +164,11 @@ public class RegisteredIndividualsController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-
-                    if (person.getBloodGrp().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                        return true; // Filter matches first name.
-                    } else {
-                        return false; // Does not match.
-                    }
+                if (person.getBloodGrp().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else {
+                    return false; // Does not match.
+                }
             });
         }
         );

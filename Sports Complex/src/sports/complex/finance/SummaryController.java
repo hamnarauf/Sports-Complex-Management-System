@@ -48,11 +48,17 @@ public class SummaryController implements Initializable {
         initCol();
         try {
             loadData();
+            updateLabel();
         } catch (SQLException ex) {
             Logger.getLogger(SummaryController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SummaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void updateLabel() throws SQLException, ClassNotFoundException {
+        String total = DbQuery.getSummaryTransTotal();
+        totalLabel.setText(total);
     }
 
     private void initCol() {
@@ -71,10 +77,9 @@ public class SummaryController implements Initializable {
             list.add(trans);
         }
         tableView.setItems(list);
-    }  
+    }
 
-    
-@FXML
+    @FXML
     private void handleExportPdf(ActionEvent event) {
         List<List> printData = new ArrayList<>();
         String[] headers = {"         id         ", "        Type       ", "       Payment       "};

@@ -34,14 +34,10 @@ public class ReqFundsController implements Initializable {
     @FXML
     private TableColumn<Repair, String> sportCol;
 
-    ObservableList<Repair> list = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             refresh();
-            initCol();
-            loadData();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ReqFundsController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,7 +50,7 @@ public class ReqFundsController implements Initializable {
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {
-
+        ObservableList<Repair> list = FXCollections.observableArrayList();
         ArrayList<Repair> allRepairs = new ArrayList<Repair>();
         allRepairs = DbQuery.getRepairs();
         for (Repair repair : allRepairs) {
@@ -66,7 +62,6 @@ public class ReqFundsController implements Initializable {
 //    private Repair getRow() {
 //        return tableView.getSelectionModel().getSelectedItem();
 //    }
-
     @FXML
     private void handleAllocateBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         Repair selectedRepair = (Repair) Utility.getRow((TableView<Object>) (Object) tableView);
@@ -75,20 +70,20 @@ public class ReqFundsController implements Initializable {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.allocateFunds(selectedRepair);
+            DbQuery.allocateFunds(selectedRepair);
             refresh();
         }
     }
 
     @FXML
     private void handleRejectBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
-        Repair selectedRepair =(Repair) Utility.getRow((TableView<Object>)(Object)tableView);
+        Repair selectedRepair = (Repair) Utility.getRow((TableView<Object>) (Object) tableView);
 
         if (selectedRepair == null) {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-               DbQuery.refuseFunds(selectedRepair);
+            DbQuery.refuseFunds(selectedRepair);
             refresh();
         }
     }

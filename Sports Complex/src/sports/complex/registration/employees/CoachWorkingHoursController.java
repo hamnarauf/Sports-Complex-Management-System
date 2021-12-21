@@ -92,6 +92,8 @@ public class CoachWorkingHoursController implements Initializable {
                     cs[4] = fri;
                     cs[5] = sat;
                     DbQuery.editWorkingHrs(cs);
+                    AlertMaker.showAlert("Success", "Working hours have been set successfully.");
+                    clearCache();
                 } else {
                     AlertMaker.showAlert("Invalid", "Invalid Coach Id");
                 }
@@ -99,5 +101,23 @@ public class CoachWorkingHoursController implements Initializable {
                 AlertMaker.showAlert("Try Again", "Please enter all fields");
             }
         }
+    }
+
+    private void clearCache() {
+        monStart.setValue(null);
+        tuesStart.setValue(null);
+        wedStart.setValue(null);
+        friStart.setValue(null);
+        thursStart.setValue(null);
+        satStart.setValue(null);
+        monEnd.setValue(null);
+        tuesEnd.setValue(null);
+        wedEnd.setValue(null);
+        thursEnd.setValue(null);
+        friEnd.setValue(null);
+        satEnd.setValue(null);
+        
+        id.setText("");
+
     }
 }

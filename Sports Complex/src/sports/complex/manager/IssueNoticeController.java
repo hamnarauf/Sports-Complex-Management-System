@@ -41,7 +41,7 @@ public class IssueNoticeController implements Initializable {
             if (info.getText().length() > 600) {
                 AlertMaker.showAlert("Invalid", "Notice should not be greater than 600 words.");
             }
-            Notice n = new Notice(heading.getText(), info.getText(), (java.sql.Date) new Date());
+            Notice n = new Notice(heading.getText(), info.getText());
             DbQuery.issueNotice(n);
             AlertMaker.showAlert("Success", "Notice issued succesfully");
             clearCache();

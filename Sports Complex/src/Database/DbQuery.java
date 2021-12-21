@@ -2,6 +2,7 @@ package Database;
 
 import Classes.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.DriverManager;
@@ -11,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 /**
  *
@@ -714,7 +717,7 @@ public class DbQuery {
         Person p = null;
 
         final String getDetailsQuery = "SELECT firstName, lastName, contact, dob, address, email \n"
-                + "FROM Person where cnic = \""  + cnic + "\"";
+                + "FROM Person where cnic = \"" + cnic + "\"";
 
         ResultSet rs = st.executeQuery(getDetailsQuery);
 
@@ -733,13 +736,13 @@ public class DbQuery {
         Team team = null;
 
         final String query = "SELECT package, sportName, teamMember FROM team inner join sport on team.sport_id = sport.sport_id\n"
-                + "where team_id=\""  + team_id + "\"";
+                + "where team_id=\"" + team_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) {
-            team = new Team("", rs.getString("sportName"),rs.getInt("Sport.teamMember"),
-                    rs.getString("Team.package"), new Time(3,4,5));
+            team = new Team("", rs.getString("sportName"), rs.getInt("Sport.teamMember"),
+                    rs.getString("Team.package"), new Time(3, 4, 5));
         }
         tearDownDb();
         return team;
@@ -850,18 +853,29 @@ public class DbQuery {
             transList.add(trans);
         }
 
+        final String repairs = "select repair_id, purpose, amount from repairs;";
+        ResultSet r = st.executeQuery(repairs);
+
+        while (r.next()) {
+            Transaction repair = new Transaction(r.getString("repair_id"),
+                    r.getString("purpose"),
+                    r.getString("amount"));
+
+            transList.add(repair);
+        }
+
         tearDownDb();
         return transList;
     }
 
-    public static double getSummaryTransTotal() throws SQLException, ClassNotFoundException {
+    public static String getSummaryTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
-        double total = 0;
+        String total = "";
 
         final String query = "select sum(amount) from transactions;";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            total = rs.getDouble("COUNT(*)");
+            total = rs.getString("sum(amount)");
         }
         tearDownDb();
         return total;
@@ -933,47 +947,47 @@ public class DbQuery {
             emp.setFname(rs.getString("firstName"));
             emp.setLname(rs.getString("lastName"));
             emp.setDeptName(rs.getString("deptName"));
-            // emp.setSalary(rs.getString("salary"));
+            emp.setSalary(rs.getString("salary"));
             transList.add(emp);
         }
         tearDownDb();
         return transList;
     }
 
-    public static double getBillsTransTotal() throws SQLException, ClassNotFoundException {
+    public static String getBillsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
-        double total = 0;
+        String total = "";
 
         final String query = "select sum(amount) from transactions where type like \"%bill%\";";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            total = rs.getDouble("COUNT(*)");
+            total = rs.getString("sum(amount)");
         }
         tearDownDb();
         return total;
     }
 
-    public static double getFundsTransTotal() throws SQLException, ClassNotFoundException {
+    public static String getFundsTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
-        double total = 0;
+        String total = "";
 
         final String query = "select sum(amount) from transactions where type like \"%fund%\";";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            total = rs.getDouble("COUNT(*)");
+            total = rs.getString("sum(amount)");
         }
         tearDownDb();
         return total;
     }
 
-    public static double getExtraTransTotal() throws SQLException, ClassNotFoundException {
+    public static String getExtraTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
-        double total = 0;
+        String total = "";
 
         final String query = "select sum(amount) from transactions where type like \"%extra%\";";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
-            total = rs.getDouble("COUNT(*)");
+            total = rs.getString("sum(amount)");
         }
         tearDownDb();
         return total;
@@ -1020,7 +1034,7 @@ public class DbQuery {
         final String query = "update repairs\n"
                 + "set status = \"Allocated\" where purpose = \"" + r.getPurpose() + "\"";
 
-        ResultSet rs = st.executeQuery(query);
+        st.executeUpdate(query);
         tearDownDb();
     }
 
@@ -1030,7 +1044,7 @@ public class DbQuery {
         final String query = "update repairs\n"
                 + "set status = \"Refused\" where purpose = \"" + r.getPurpose() + "\"";
 
-        ResultSet rs = st.executeQuery(query);
+        st.executeUpdate(query);
         tearDownDb();
     }
 
@@ -1116,7 +1130,7 @@ public class DbQuery {
         setupDb();
 
         final String query = "UPDATE Report \n"
-                + "SET status = addressed \n"
+                + "SET status = \"addressed\" \n"
                 + "WHERE report_id = \"" + report_id + "\";";
 
         st.executeUpdate(query);
@@ -1190,15 +1204,24 @@ public class DbQuery {
         setupDb();
         ArrayList<Attendance> attList = new ArrayList<>();
         Attendance att;
+        Employee e = new Employee();
 
-        final String query = "SELECT Attendance.emp_id, date, status FROM attendance \n"
-                + "INNER JOIN employee ON attendance.emp_id = employee.emp_id \n"
-                + "WHERE employee.emp_id in (SELECT supervisor_id FROM department);";
+        final String query = "SELECT e.emp_id, concat(p.firstName, \" \", p.lastName) as name, p.contact, p.email, d.deptName, a.date, a.status \n"
+                + "FROM attendance a\n"
+                + "JOIN employee e using(emp_id)\n"
+                + "join person p using(cnic)\n"
+                + "join department d using (dept_id)\n"
+                + " WHERE e.emp_id in (SELECT supervisor_id FROM department);";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            att = new Attendance(rs.getString("emp_id"), rs.getDate("date"), rs.getString("status"));
+            e.setEmp_id(rs.getString("e.emp_id"));
+            e.setFname(rs.getString("name"));
+            e.setContactNo(rs.getString("p.contact"));
+            e.setEmail(rs.getString("p.email"));
+            e.setDeptName(rs.getString("d.deptName"));
+            att = new Attendance(e, rs.getDate("a.date"), rs.getString("a.status"));
             attList.add(att);
         }
 
@@ -1247,7 +1270,7 @@ public class DbQuery {
     }
 
     public static int getQuantity(String itemName) throws ClassNotFoundException, SQLException {
-        setupDb();
+//        setupDb();
         int qty = 0;
 
         final String query = "SELECT quantity FROM inventory WHERE itemName = \"" + itemName + "\"";
@@ -1256,7 +1279,7 @@ public class DbQuery {
         if (rs.next()) {
             qty = rs.getInt("quantity");
         }
-        tearDownDb();
+//        tearDownDb();
         return qty;
     }
 
@@ -1292,7 +1315,8 @@ public class DbQuery {
                 + "INNER JOIN inventory_log ON issued_items.issue_id = inventory_log.issue_id \n"
                 + "INNER JOIN member on member.member_id = issued_items.member_id \n"
                 + "INNER JOIN person on member.cnic = person.cnic \n"
-                + "INNER JOIN inventory on issued_items.item_id = inventory.item_id;";
+                + "INNER JOIN inventory on issued_items.item_id = inventory.item_id \n"
+                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1350,7 +1374,8 @@ public class DbQuery {
 
         final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity \n"
                 + "FROM inventory \n"
-                + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id;";
+                + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id \n"
+                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1361,7 +1386,8 @@ public class DbQuery {
 
         final String queryNotIssued = "SELECT itemName, quantity \n"
                 + "FROM inventory \n"
-                + "WHERE item_id NOT IN (SELECT item_id FROM issued_items);";
+                + "WHERE item_id NOT IN (SELECT item_id FROM issued_items) AND \n"
+                + "SUBSTRING(itemName, 0, 4) != \"Med_\";";
 
         rs = st.executeQuery(queryNotIssued);
 
@@ -1393,7 +1419,114 @@ public class DbQuery {
             statement.setString(5, e.getStatus());
             statement.executeUpdate();
         }
+        tearDownDb();
     }
 
-    // public static ArrayListPerson>
+    public static ArrayList<Person> getMedicalDetails() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Person> detailsList = new ArrayList<>();
+        Person p;
+
+        final String query = "SELECT Person.cnic, firstName, lastName, gender, bloodGroup, allergy, contact, emerContact \n"
+                + "FROM Person \n"
+                + "LEFT JOIN allergies on person.cnic = allergies.cnic";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            String allergy;
+            if (rs.getString("allergy")== null) {
+                allergy = "null";
+
+            } else {
+                allergy = rs.getString("allergy");
+            }
+            p = new Person(rs.getString("firstName"), rs.getString("lastName"), gender.valueOf(rs.getString("gender")),
+                    rs.getString("cnic"), rs.getString("contact"), rs.getString("emerContact"),
+                    rs.getString("bloodGroup"), allergy);
+
+            detailsList.add(p);
+        }
+
+        tearDownDb();
+        return detailsList;
+    }
+
+    public static ArrayList<InventoryItem> getMedicalEquipment() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<InventoryItem> equList = new ArrayList<>();
+        InventoryItem item;
+
+        final String query = "SELECT distinct(SUBSTRING(itemName, 5)), inventory.quantity, medical_log.quantity, \n"
+                + "(inventory.quantity - medical_log.quantity) AS available \n"
+                + "FROM inventory \n"
+                + "LEFT JOIN medical_log ON inventory.item_id = medical_log.item_id \n"
+                + "WHERE SUBSTRING(itemName, 1, 3) = \"Med_\";";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            item = new InventoryItem(rs.getString("itemName"), rs.getInt("inventory.quantity"),
+                    rs.getInt("medical_log.quantity"), rs.getInt("available"));
+
+            equList.add(item);
+        }
+
+        tearDownDb();
+        return equList;
+    }
+
+    public static void maintainMedicalLog(String item_id) throws SQLException, ClassNotFoundException {
+        setupDb();
+        ResultSet rs;
+
+        final String query = "SELECT count(*) FROM emergency;";
+        rs = st.executeQuery(query);
+
+        int emer_id = rs.getInt("count(*)");
+
+        final String queryLog = "INSERT INTO medical_log (emer_id, item_id, quantity) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+            statement.setInt(1, emer_id);
+            statement.setString(2, item_id);
+            statement.setInt(3, 1);
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    //ATTENDANT
+    public static void markAttendance(Attendance att) throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        final String queryLog = "INSERT INTO attendance (emp_id, date, status) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+            statement.setString(1, att.getEmp_id());
+            statement.setDate(2, att.getDate());
+            statement.setString(3, att.getAttendance());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
+    //MAINTENANCE INTERFACE
+    public static void registerRepair(Repair r) throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        final String query = "INSERT INTO repairs (sport_id, purpose, amount) \n"
+                + "VALUES (?, ?, ?);";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, getSportID(r.getSport()));
+            statement.setString(2, r.getPurpose());
+            statement.setString(3, r.getAmount());
+            statement.executeUpdate();
+        }
+        tearDownDb();
+    }
+
 }

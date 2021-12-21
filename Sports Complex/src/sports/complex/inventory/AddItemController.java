@@ -40,10 +40,17 @@ public class AddItemController implements Initializable {
                 int q = new Integer(quantity.getText());
                 DbQuery.addItem(name.getText(), q);
                 AlertMaker.showAlert("Success", "Item added successfully.");
+                clearCache();
             } catch (Exception e) {
                 AlertMaker.showAlert("Error", "Quanity can only be an integer");
             }
         }
 
+    }
+    
+    private void clearCache(){
+        name.setText("");
+        quantity.setText("");
+    
     }
 }

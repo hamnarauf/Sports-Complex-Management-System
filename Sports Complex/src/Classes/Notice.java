@@ -16,6 +16,10 @@ public class Notice {
         this.setText(text);
         this.setDate(date);
     }
+    public Notice(String title, String text) {
+        this.setTitle(title);
+        this.setText(text);
+    }
 
     public Date getDate() {
         return date;

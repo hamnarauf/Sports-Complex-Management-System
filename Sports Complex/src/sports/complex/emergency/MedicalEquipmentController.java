@@ -7,7 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.InventoryItem;
+import Database.DbQuery;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,20 +39,27 @@ public class MedicalEquipmentController  implements Initializable {
    @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
+        try {
+            loadData();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MedicalEquipmentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MedicalEquipmentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void initCol() {
 
-        equipmentCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        totalCol.setCellValueFactory(new PropertyValueFactory<>("total"));
-        inUseCol.setCellValueFactory(new PropertyValueFactory<>("inUse"));
+        equipmentCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        totalCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        inUseCol.setCellValueFactory(new PropertyValueFactory<>("useQuantity"));
         availableCol.setCellValueFactory(new PropertyValueFactory<>("available"));
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
         ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
+        items = DbQuery.getMedicalEquipment();
         for (InventoryItem item : items) {
             list.add(item);
         }
