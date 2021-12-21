@@ -9,6 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import sports.complex.alert.AlertMaker;
+import Classes.*;
+import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * FXML Controller class
@@ -31,21 +34,24 @@ public class IssueNoticeController implements Initializable {
     }
 
     @FXML
-    private void handleIssueBtn(ActionEvent event) {
-        if (heading.getText() == null || info.getText() == null) {
+    private void handleIssueBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
+        if (heading.getText().equals("") || info.getText().equals("")) {
             AlertMaker.showAlert("Empty fields", "Please enter both fields");
         } else {
-//            Notice n = new Notice(heading.getText(), info.getText());
-//            DbQuery.issueNotice();
+            if (info.getText().length() > 600) {
+                AlertMaker.showAlert("Invalid", "Notice should not be greater than 600 words.");
+            }
+            Notice n = new Notice(heading.getText(), info.getText(), (java.sql.Date) new Date());
+            DbQuery.issueNotice(n);
             AlertMaker.showAlert("Success", "Notice issued succesfully");
             clearCache();
         }
     }
-    
-    private void clearCache(){
+
+    private void clearCache() {
         heading.setText("");
         info.setText("");
-    
+
     }
 
 }

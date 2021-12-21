@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import sports.complex.alert.AlertMaker;
 
@@ -29,9 +30,9 @@ public class RegisterTraineeController implements Initializable {
     @FXML
     private JFXComboBox<String> sportCombo;
     @FXML
-    private JFXComboBox<Time> timeCombo;
+    private ComboBox<Time> timeCombo;
     @FXML
-    private JFXComboBox<String> dayCombo;
+    private ComboBox<String> dayCombo;
 
     /**
      * Initializes the controller class.
@@ -41,6 +42,7 @@ public class RegisterTraineeController implements Initializable {
         try {
             populateDaysCombo();
             populateSportsCombo();
+//            populateTimeCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -75,11 +77,9 @@ public class RegisterTraineeController implements Initializable {
         String sport = sportCombo.getValue();
         String day = dayCombo.getValue();
 
-        if (sport != null && day != null) {
-            times = DbQuery.getTime(sport, day);
-            for (Time time : times) {
-                timeCombo.getItems().add(time);
-            }
+        times = DbQuery.getTime(sport, day);
+        for (Time time : times) {
+            timeCombo.getItems().add(time);
         }
     }
 
@@ -90,7 +90,7 @@ public class RegisterTraineeController implements Initializable {
         Time time = timeCombo.getValue();
         String day = dayCombo.getValue();
 
-        if (tId == null || sport == null || time == null) {
+        if (tId.equals("") || sport.equals("") || time.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(tId)) {
@@ -107,6 +107,7 @@ public class RegisterTraineeController implements Initializable {
 
     @FXML
     private void handleTime(MouseEvent event) throws SQLException, ClassNotFoundException {
+        System.out.println("time");
         populateTimeCombo();
     }
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.manager;
 
 import java.net.URL;
@@ -14,7 +9,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import Classes.*;
+import Database.DbQuery;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -53,15 +52,17 @@ public class Comp_suggController implements Initializable {
 
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
         ArrayList<Report> complaints = new ArrayList<Report>();
+        complaints = DbQuery.displayComplaints();
         for (Report complaint : complaints) {
             complaintlist.add(complaint);
         }
         complaintTable.setItems(complaintlist);
 
         ArrayList<Report> suggs = new ArrayList<Report>();
+        suggs = DbQuery.displaySuggestions();
         for (Report sugg : suggs) {
             suggList.add(sugg);
         }
@@ -69,32 +70,62 @@ public class Comp_suggController implements Initializable {
     }
 
     private void refresh() {
-        initCol();
-        loadData();
+        try {
+            initCol();
+            loadData();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Comp_suggController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Comp_suggController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     @FXML
-    private void handleAddressedComp(ActionEvent event) {
-        Report selectedRepair = (Report) Utility.getRow((TableView<Object>) (Object) complaintTable);
-        if (selectedRepair == null) {
+    private void handleAddressedComp(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Report selectedReport = (Report) Utility.getRow((TableView<Object>) (Object) complaintTable);
+        if (selectedReport == null) {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-//               DbQuery.addressReport();
-            refresh();
+               DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
+//            refresh();
         }
     }
 
     @FXML
-    private void handleAddressedSugg(ActionEvent event) {
-        Report selectedRepair = (Report) Utility.getRow((TableView<Object>) (Object) suggTable);
-        if (selectedRepair == null) {
+    private void handleAddressedSugg(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Report selectedReport = (Report) Utility.getRow((TableView<Object>) (Object) suggTable);
+        if (selectedReport == null) {
             AlertMaker.showAlert("Error", "No Row selected");
 
         } else {
-//               DbQuery.addressReport();
-            refresh();
+               DbQuery.addressReport(DbQuery.getReportID(selectedReport.getDetails()));
+//            refresh();
+        }
+    }
+
+    @FXML
+    private void handleRemoveComp(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Report selectedReport = (Report) Utility.getRow((TableView<Object>) (Object) suggTable);
+        if (selectedReport == null) {
+            AlertMaker.showAlert("Error", "No Row selected");
+
+        } else {
+               DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
+//            refresh();
+        }
+    }
+
+    @FXML
+    private void handleRemoveSugg(ActionEvent event) throws ClassNotFoundException, SQLException {
+        Report selectedReport = (Report) Utility.getRow((TableView<Object>) (Object) suggTable);
+        if (selectedReport == null) {
+            AlertMaker.showAlert("Error", "No Row selected");
+
+        } else {
+               DbQuery.deleteReport(DbQuery.getReportID(selectedReport.getDetails()));
+//            refresh();
         }
     }
 

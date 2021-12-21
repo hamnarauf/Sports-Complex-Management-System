@@ -1,5 +1,6 @@
 package sports.complex.login;
 
+import Classes.Utility;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -30,7 +31,7 @@ public class PasswordRecoveryController implements Initializable {
     @FXML
     private JFXPasswordField retypeNewPass;
 
-    private String username;
+    private static String username;
 
     /**
      * Initializes the controller class.
@@ -46,7 +47,7 @@ public class PasswordRecoveryController implements Initializable {
         }
     }
 
-    public void setUsername(String uname) {
+    public static void setUsername(String uname) {
         username = uname;
     }
 
@@ -57,17 +58,24 @@ public class PasswordRecoveryController implements Initializable {
     @FXML
     private void handleConfirmBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (answer.getText() == null || newPass.getText() == null || retypeNewPass.getText() == null) {
+        if (answer.getText().equals("")|| newPass.getText().equals("")|| retypeNewPass.getText().equals("")) {
             AlertMaker.showAlert("Try Again", "Please enter all data feilds");
 
         } else if (!newPass.getText().equals(retypeNewPass.getText())) {
             AlertMaker.showAlert("Try Again", "Please re-type same password");
         } else {
-            if (DbQuery.checkSecAns(username, answer.getText())) {
-                DbQuery.passwordNew(username, newPass.getText());
+            if (!Utility.passConstraints(newPass.getText())) {
+                AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character");
             } else {
-                AlertMaker.showAlert("Try Again", "Answer does not match with the records.");
+                if (DbQuery.checkSecAns(username, answer.getText())) {
+                    DbQuery.passwordNew(username, newPass.getText());
+                } else {
+                    AlertMaker.showAlert("Try Again", "Answer does not match with the records.");
+                }
             }
+
         }
     }
+
+
 }

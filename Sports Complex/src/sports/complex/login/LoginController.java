@@ -18,6 +18,14 @@ import Classes.User;
 import java.sql.SQLException;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sports.complex.attendant.AttendantController;
+import sports.complex.coach.CoachController;
+import sports.complex.emergency.EmergencyController;
+import sports.complex.finance.FinanceController;
+import sports.complex.inventory.InventoryController;
+import sports.complex.maintenance.MaintenanceController;
+import sports.complex.manager.ManagerController;
+import sports.complex.registration.RegistrationController;
 
 /**
  * FXML Controller class
@@ -49,45 +57,50 @@ public class LoginController implements Initializable {
         //if user has not entered username or password
         if (uname.equals("") || pass.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter username and password");
+            clearPass();
 
         } else {
-
+            
             User user = DbQuery.checkLoginDetails(uname, pass);
             if (user != null) {
-                System.out.println("login");
-
                 switch (DbQuery.getDeptName(user.getDept_id())) {
                     case ("registration"):
+                        RegistrationController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
                         break;
                     case ("attendant"):
+                        AttendantController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", null);
                         break;
                     case ("coach"):
+                        CoachController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", null);
                         break;
                     case ("emergency"):
+                        EmergencyController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", null);
                         break;
                     case ("finance"):
+                        FinanceController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", null);
                         break;
                     case ("inventory"):
+                        InventoryController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", null);
                         break;
                     case ("maintenance"):
+                        MaintenanceController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", null);
                         break;
                     case ("manager"):
+                        ManagerController.setId(user.getEmp_id());
                         StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
                         break;
-            }
+                }
             } else {
                 AlertMaker.showAlert("Try Again", "Invalid username or password");
                 clearDetails();
-
             }
-
         }
     }
 
@@ -112,6 +125,10 @@ public class LoginController implements Initializable {
 
     private void clearDetails() {
         username.setText("");
+        clearPass();
+    }
+
+    private void clearPass() {
         pass_hidden.setText("");
         pass_text.setText("");
     }

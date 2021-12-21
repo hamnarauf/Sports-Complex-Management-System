@@ -42,7 +42,7 @@ public class RegisterGuestController implements Initializable {
         String CNIC = cnic.getText();
         String id = memberId.getText();
 
-        if (fname == null || lname == null || CNIC == null || id == null) {
+        if (fname.equals("") || lname.equals("") || CNIC.equals("") || id.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
             if (DbQuery.isMember(id)) {

@@ -47,8 +47,6 @@ public class AttendanceController implements Initializable {
     @FXML
     private TableColumn<Attendance, String> deptCol;
     @FXML
-    private TableColumn<Attendance, String> roleCol;
-    @FXML
     private TableColumn<Attendance, Date> dateCol;
     @FXML
     private TableColumn<Attendance, String> attendanceCol;
@@ -59,13 +57,17 @@ public class AttendanceController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initCol();
-        loadData();
-//        try {
-////            populateDeptCombo();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
+        try {
+            initCol();
+            loadData();
+            populateDeptCombo();
+            filterById();
+        } catch (SQLException ex) {
+            Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AttendanceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         filterById();
     }
 
@@ -83,27 +85,15 @@ public class AttendanceController implements Initializable {
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
-        roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         attendanceCol.setCellValueFactory(new PropertyValueFactory<>("attendance"));
 
     }
 
-    private void loadData() {
+    private void loadData() throws ClassNotFoundException, SQLException {
 
         ArrayList<Attendance> employees = new ArrayList<Attendance>();
-        Employee e = new Employee("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
-                "email", "address", "bloodGrp", "allergy", "emp_id", "dept_id" );
-
-        Attendance a1 = new Attendance("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
-                "email", "address", "bloodGrp", "allergy", "2", "dept_id",
-                0, "", new Date(), "p");
-        Attendance a2 = new Attendance("fname", "l", gender.f, new Date(), "cnic", "contactNo", "emerContact",
-                "email", "address", "bloodGrp", "allergy", "1", "dept_id",
-                0, "", new Date(), "p");
-
-        employees.add(a1);
-        employees.add(a2);
+        employees = DbQuery.displayAttendance();
         for (Attendance employee : employees) {
             list.add(employee);
         }
@@ -146,10 +136,9 @@ public class AttendanceController implements Initializable {
 
     }
 
-
     @FXML
     private void filterByDept(MouseEvent event) {
-     // Wrap the ObservableList in a FilteredList (initially display all data).
+        // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
@@ -164,7 +153,7 @@ public class AttendanceController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (employee.getDept_id().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (employee.getDeptName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches first name.
                 } else {
                     return false; // Does not match.

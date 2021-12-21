@@ -1,12 +1,16 @@
 package sports.complex.inventory;
 
+import Classes.InventoryItem;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -31,24 +35,31 @@ public class DelItemController implements Initializable {
     }
 
     @FXML
-    private void handleDeleteBtn(ActionEvent event) {
+    private void handleDeleteBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
+        String name = itemName.getText();
+        if(!name.equals("") && !DbQuery.getItemID(name).equals("")){
+            DbQuery.deleteItem(name);
+            AlertMaker.showAlert("Success", "Item deleted successfuly");
+        }
+        else{
+            AlertMaker.showAlert("Invalid", "Please Try again.");
+        }
     }
 
     @FXML
-    private void updateFields(ActionEvent event) {
+    private void updateFields(ActionEvent event) throws ClassNotFoundException, SQLException {
         clearCache();
-//        String name = itemName.getText();
-//
-//        if (name != null && DbQuery.isItem(name)) {
-//            InventoryItem item;
-//            item = DbQuery.getItem(name);
-//            name.setText(item.getName());
-//            coach.setText(item.getCoach());
-//            pack.setText(item.getPackage());
-//
-//        } else {
-//            sportName.setText("Invalid Member ID");
-//        }
+        String name = itemName.getText();
+
+        if (!name.equals("") && !DbQuery.getItemID(name).equals("")) {
+            InventoryItem item;
+            item = DbQuery.showDeleteItemDetails(name);
+            quantity.setText(Integer.toString(item.getQuantity()));
+            sportName.setText(item.getSportName());
+
+        } else {
+            sportName.setText("Invalid Member ID");
+        }
     }
 
     public void clearCache() {

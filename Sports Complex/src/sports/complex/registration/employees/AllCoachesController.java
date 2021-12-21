@@ -63,15 +63,15 @@ public class AllCoachesController implements Initializable {
     }
 
     public void initCol() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("coach_id"));
         fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
         lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
         cnicCol.setCellValueFactory(new PropertyValueFactory<>("cnic"));
-        genderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        genderCol.setCellValueFactory(new PropertyValueFactory<>("gen"));
         dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactNo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        domainCol.setCellValueFactory(new PropertyValueFactory<>("domain"));
+        domainCol.setCellValueFactory(new PropertyValueFactory<>("sportName"));
 
     }
 

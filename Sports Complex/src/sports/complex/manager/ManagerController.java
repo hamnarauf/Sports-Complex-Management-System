@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.manager;
 
 import java.net.URL;
@@ -12,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 import utilities.StageLoader;
 
 /**
@@ -23,6 +20,7 @@ public class ManagerController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -30,6 +28,14 @@ public class ManagerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
     }
 
     @FXML
@@ -69,27 +75,22 @@ public class ManagerController implements Initializable {
     }
 
     @FXML
-    private void loadFacilities(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("facilities.fxml"), "Facilities", null);
-
-    }
-
-    @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
-
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
     }
 
     @FXML

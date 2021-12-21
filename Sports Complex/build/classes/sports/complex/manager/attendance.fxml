@@ -14,14 +14,13 @@
    <center>
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="nameCol" prefWidth="210.0" text="Name" />
-            <TableColumn fx:id="contactCol" prefWidth="139.0" text="Contact" />
-            <TableColumn fx:id="emailCol" prefWidth="148.0" text="Email" />
-            <TableColumn fx:id="deptCol" prefWidth="168.0" text="Department" />
-            <TableColumn fx:id="roleCol" prefWidth="157.0" text="Role" />
-            <TableColumn fx:id="dateCol" prefWidth="111.0" text="Date" />
-            <TableColumn fx:id="attendanceCol" prefWidth="111.0" text="Attendance" />
+            <TableColumn fx:id="idCol" prefWidth="133.0" text="ID" />
+            <TableColumn fx:id="nameCol" prefWidth="221.0" text="Name" />
+            <TableColumn fx:id="contactCol" prefWidth="172.0" text="Contact" />
+            <TableColumn fx:id="emailCol" prefWidth="223.0" text="Email" />
+            <TableColumn fx:id="deptCol" prefWidth="177.0" text="Department" />
+            <TableColumn fx:id="dateCol" prefWidth="164.0" text="Date" />
+            <TableColumn fx:id="attendanceCol" prefWidth="130.0" text="Attendance" />
          </columns>
          <BorderPane.margin>
             <Insets />

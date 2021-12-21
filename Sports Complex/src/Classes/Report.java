@@ -9,6 +9,10 @@ public class Report {
     private String details;
     private String status;
 
+    public Report(String details){
+        this.details = details;
+    }
+
     public Report(String details, String status) {
         this.setDetails(details);
         this.setStatus(status);

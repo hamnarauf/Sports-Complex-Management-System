@@ -36,9 +36,9 @@
             </Label>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
-                  <JFXTextField fx:id="search" prefHeight="37.0" prefWidth="336.0" promptText="Member ID">
+                  <JFXTextField fx:id="search" prefHeight="37.0" prefWidth="336.0" promptText="Member Name">
                      <padding>
-                        <Insets left="70.0" right="70.0" />
+                        <Insets left="60.0" right="60.0" />
                      </padding>
                   </JFXTextField>
                </children>

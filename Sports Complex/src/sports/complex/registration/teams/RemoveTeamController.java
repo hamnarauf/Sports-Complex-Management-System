@@ -20,13 +20,11 @@ import sports.complex.alert.AlertMaker;
 public class RemoveTeamController implements Initializable {
 
     @FXML
-    private Label name;
-    @FXML
-    private Label coach;
-    @FXML
     private Label pack;
     @FXML
     private JFXTextField teamId;
+    @FXML
+    private Label sport;
 
     /**
      * Initializes the controller class.
@@ -44,10 +42,8 @@ public class RemoveTeamController implements Initializable {
     }
 
     private void clearCache() {
-        name.setText("");
-        coach.setText("");
+        sport.setText("");
         pack.setText("");
-
     }
 
     @FXML
@@ -57,10 +53,9 @@ public class RemoveTeamController implements Initializable {
 
         if (id != null && DbQuery.isTeam(id)) {
             Team team;
-//            team = DbQuery.getTeam(id);
-//            name.setText(team.getName());
-//            coach.setText(team.getCoach());
-//            pack.setText(team.getPackage());
+            team = DbQuery.removeTeamDetails(id);
+            sport.setText(team.getSport());
+            pack.setText(team.getPack());
 
         } else {
             pack.setText("Invalid Member ID");

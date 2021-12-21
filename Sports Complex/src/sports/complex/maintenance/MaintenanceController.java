@@ -32,6 +32,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sports.complex.alert.AlertMaker;
 import sports.complex.attendant.AttendantController;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 import utilities.StageLoader;
 
 /**
@@ -99,6 +101,7 @@ public class MaintenanceController implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private JFXComboBox<String> sportCombo;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -114,6 +117,14 @@ public class MaintenanceController implements Initializable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MaintenanceController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
     }
 
     void populateSportsCombo() throws SQLException, ClassNotFoundException {
@@ -231,7 +242,7 @@ public class MaintenanceController implements Initializable {
         String repair = repairRequired.getText();
         String sport = sportCombo.getValue();
         String amount = expenditure.getText();
-        if (repair == null || sport == null || amount == null) {
+        if (repair.equals("") || sport.equals("") || amount.equals("")) {
             AlertMaker.showAlert("Empty Fields", "Please enter all fields");
 
         } else {
@@ -245,19 +256,21 @@ public class MaintenanceController implements Initializable {
 
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 

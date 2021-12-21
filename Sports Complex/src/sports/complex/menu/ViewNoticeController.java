@@ -50,7 +50,7 @@ public class ViewNoticeController implements Initializable {
     
     private void updateNotice(Label outerHead, Label innerHead, Label text){
         Notice note;
-        note = notices.remove(0);
+//        note = notices.remove(0);
         
 //        outerHead.setText(note.getTitle());
 //        innerHead.setText(note.getTitle());

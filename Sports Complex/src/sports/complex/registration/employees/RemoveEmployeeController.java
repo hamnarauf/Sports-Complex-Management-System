@@ -1,5 +1,7 @@
 package sports.complex.registration.employees;
 
+import Classes.Employee;
+import Classes.Person;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -38,12 +40,11 @@ public class RemoveEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
-       @FXML
+    @FXML
     private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeEmp(empId.getText());
-
 
     }
 
@@ -57,23 +58,22 @@ public class RemoveEmployeeController implements Initializable {
     }
 
     @FXML
-    private void updateFields(ActionEvent event) {
-            clearCache();
+    private void updateFields(ActionEvent event) throws SQLException, ClassNotFoundException {
+        clearCache();
         String id = empId.getText();
-//        if (id != null && DbQuery.isEmployee(id)) {
-//            Employee emp;
-//            emp = DbQuery.getEmployee(id);
-//            name.setText(emp.getFname() + emp.getLname());
-//            contact.setText(emp.getContact());
-//            dob.setText(emp.getDob().toString());
-//            email.setText(emp.getEmail());
-//            address.setText(emp.getAddress());
-//            domain.setText(emp.getDept());
-//
-//        }
-//        else {
-//            dept.setText("Invalid Member ID");
-//        }
+        if (id != null && DbQuery.isEmployee(id)) {
+            Person emp;
+            emp = DbQuery.removeEmployeeDetails(DbQuery.getEmpCnic(id));
+            name.setText(emp.getFname() + emp.getLname());
+            contact.setText(emp.getContactNo());
+//            dept.setText(emp.getDeptName());
+            dob.setText(emp.getDob().toString());
+            email.setText(emp.getEmail());
+            address.setText(emp.getAddress());
+
+        } else {
+            dept.setText("Invalid Member ID");
+        }
     }
-    
+
 }

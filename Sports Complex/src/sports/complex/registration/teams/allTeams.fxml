@@ -17,11 +17,10 @@
    <center>
       <TableView fx:id="tableView" prefHeight="475.0" prefWidth="781.0" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
-            <TableColumn fx:id="nameCol" prefWidth="210.0" text="Name" />
-            <TableColumn fx:id="packageCol" prefWidth="180.0" text="Package" />
-            <TableColumn fx:id="coachCol" prefWidth="210.0" text="Coach" />
-            <TableColumn fx:id="totalMembersCol" prefWidth="210.0" text="Number of Members" />
+            <TableColumn fx:id="idCol" prefWidth="150.0" text="ID" />
+            <TableColumn fx:id="packageCol" prefWidth="226.0" text="Package" />
+            <TableColumn fx:id="coachCol" prefWidth="267.0" text="Coach" />
+            <TableColumn fx:id="totalMembersCol" prefWidth="203.0" text="Number of Members" />
          </columns>
          <BorderPane.margin>
             <Insets />

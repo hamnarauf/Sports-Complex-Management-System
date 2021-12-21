@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Classes;
 
 import java.util.Date;
@@ -35,12 +30,26 @@ public class Attendance extends Employee{
 
     }
 
+    public Attendance(String emp_id, Date date, String attendance){
+        this.setEmp_id(emp_id);
+        this.setDate(date);
+        this.setAttendance(attendance);
+    }
+
     public Date getDate() {
         return date;
     }
 
+    public void setDate(Date d){
+        this.date = d;
+    }
+
     public String getAttendance() {
         return attendance;
+    }
+
+    public void setAttendance(String attendance){
+        this.attendance = attendance;
     }
 
 }

@@ -230,3 +230,28 @@
 .col{
     -fx-rotate: 180;
 }
+
+/*.combo-box{
+    -fx-border-color:-fx-secondary;
+    -fx-background-color:red;
+    -fx-text-fill: white;
+    -fx-border-top:solid;
+    -fx-border-width:0 0 1 0;
+}*/
+
+.combo-box .cell:selected {
+    -fx-text-fill: -fx-secondary;
+}
+/*.combo-box .arrow{
+    -fx-background-color:#2478E9;
+}
+.combo-box .arrow-button{
+    -fx-background-color:white;
+    -fx-border-style:none;
+}
+.combo-box .arrow-button{
+    -fx-background-color:white;
+}
+.combo-box .list-cell{
+    -fx-background-color:white;
+}*/

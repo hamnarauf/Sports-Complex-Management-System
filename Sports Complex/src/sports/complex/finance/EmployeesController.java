@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.finance;
 
 import java.net.URL;
@@ -65,10 +60,10 @@ public class EmployeesController implements Initializable {
     }
 
     private void initCol() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("emp_id"));
         fnameCol.setCellValueFactory(new PropertyValueFactory<>("fname"));
         lnameCol.setCellValueFactory(new PropertyValueFactory<>("lname"));
-        deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
+        deptCol.setCellValueFactory(new PropertyValueFactory<>("deptName"));
         salaryCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
     }

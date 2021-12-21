@@ -24,6 +24,7 @@
                               <ContextMenu>
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#handleAddressedComp" text="Addressed" />
+                                    <MenuItem mnemonicParsing="false" onAction="#handleRemoveComp" text="Remove" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
@@ -43,6 +44,7 @@
                               <ContextMenu>
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#handleAddressedSugg" text="Addressed" />
+                                    <MenuItem mnemonicParsing="false" onAction="#handleRemoveSugg" text="Remove" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>

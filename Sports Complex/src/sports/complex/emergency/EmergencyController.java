@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sports.complex.emergency;
 
+import Classes.Emergency;
+import Database.DbQuery;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +17,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sports.complex.alert.AlertMaker;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 import utilities.StageLoader;
 
 /**
@@ -31,13 +34,12 @@ public class EmergencyController implements Initializable {
     @FXML
     private JFXCheckBox checkbox;
     @FXML
-    private JFXButton registerBtn;
-    @FXML
     private JFXTextField patientId;
     @FXML
     private JFXTextField problem;
     @FXML
-    private JFXTextField facilitiesUsed;
+    private JFXComboBox<String> facilitiesUsed;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -45,6 +47,46 @@ public class EmergencyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
+    }
+
+    public void populateFacility() {
+        ArrayList<String> facilities = new ArrayList<String>();
+//        facilities = DbQuery.getFacilitiesList();
+        for (String f : facilities) {
+            facilitiesUsed.getItems().add(f);
+        }
+
+    }
+
+    @FXML
+    private void handleRegisterBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
+        String id = patientId.getText();
+        String p = problem.getText();
+        String facility = facilitiesUsed.getValue();
+
+        if (id.equals("") || p.equals("") || facility.equals("")) {
+            AlertMaker.showAlert("Try Again", "Please enter all feilds.");
+
+        } else {
+            String status;
+
+            if (checkbox.isSelected()) {
+                status = "Resolved";
+            } else {
+                status = "Unresolved";
+            }
+            Emergency e = new Emergency(id, "", p, facility, status);
+            DbQuery.registerPatient(e);
+        }
+
     }
 
     @FXML
@@ -61,18 +103,20 @@ public class EmergencyController implements Initializable {
 
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
 
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 
@@ -95,10 +139,6 @@ public class EmergencyController implements Initializable {
 
     private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
-    }
-
-    @FXML
-    private void handleRegisterBtn(ActionEvent event) {
     }
 
 }

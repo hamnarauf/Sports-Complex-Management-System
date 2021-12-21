@@ -36,6 +36,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import sports.complex.alert.AlertMaker;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 
 /**
  * FXML Controller class
@@ -44,6 +46,7 @@ import sports.complex.alert.AlertMaker;
  */
 public class RegistrationController implements Initializable {
 
+    public static String emp_id;
     @FXML
     private Label fileLabel;
     @FXML
@@ -74,7 +77,6 @@ public class RegistrationController implements Initializable {
     private JFXTextField regMemCnic;
     @FXML
     private JFXComboBox<String> regTeamSport;
-    private JFXComboBox<String> regTeamCoach;
     @FXML
     private JFXTextField regTeamMembers;
     @FXML
@@ -123,6 +125,8 @@ public class RegistrationController implements Initializable {
     private JFXComboBox<String> SecurityQues;
     @FXML
     private JFXComboBox<Time> regTeamTime;
+    @FXML
+    private JFXComboBox<String> regTeamDay;
 
     /**
      * Initializes the controller class.
@@ -138,11 +142,22 @@ public class RegistrationController implements Initializable {
         }
     }
 
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
+    }
+
     public String getSelectedRadio(ToggleGroup toggle) {
-
-        RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
-        String toogleGroupValue = selectedRadioButton.getText();
-
+        String toogleGroupValue = "";
+        try {
+            RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
+            toogleGroupValue = selectedRadioButton.getText();
+        } catch (Exception e) {
+            System.out.println("no radio btn selected");
+        }
         return toogleGroupValue;
     }
 
@@ -152,6 +167,7 @@ public class RegistrationController implements Initializable {
         populateCoachCombo();
         populatePackageCombo();
         populateQuesCombo();
+        populateDaysCombo();
 
     }
 
@@ -194,13 +210,23 @@ public class RegistrationController implements Initializable {
             SecurityQues.getItems().add(q);
         }
     }
-    
-    void populateTimeCombo() throws SQLException {
+
+    void populateTimeCombo(String day, String sport) throws SQLException, ClassNotFoundException {
         ArrayList<Time> times = new ArrayList<Time>();
-//        ques = DbQuery.getTime();
+        times = DbQuery.getTime(day, sport);
         for (Time t : times) {
             regTeamTime.getItems().add(t);
         }
+    }
+
+    void populateDaysCombo() {
+        regTeamDay.getItems().add("Monday");
+        regTeamDay.getItems().add("Tuesday");
+        regTeamDay.getItems().add("Wednesday");
+        regTeamDay.getItems().add("Thursday");
+        regTeamDay.getItems().add("Friday");
+        regTeamDay.getItems().add("Saturday");
+        regTeamDay.getItems().add("Sunday");
     }
 
     @FXML
@@ -269,19 +295,21 @@ public class RegistrationController implements Initializable {
 //    }
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
     @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 
@@ -338,17 +366,17 @@ public class RegistrationController implements Initializable {
         String BloodGrp = regMemBloodGroup.getText();
         String allergies = regMemAllergies.getText();
 
-        if (fname == null || lname == null || memGender == null || localDob == null || cnic == null || address == null
-                || contact == null || email == null || BloodGrp == null) {
-            AlertMaker.showAlert("Tryagain", "One or more feild is empty.");
+        if (fname.equals("") || lname.equals("") || memGender.equals("") || localDob.equals("") || cnic.equals("")
+                || address.equals("") || contact.equals("") || email.equals("") || BloodGrp.equals("")) {
+            AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
             Date dob = getDate(localDob);
             gender gen;
             if (memGender.equals("Male")) {
-                gen = gender.m;
+                gen = gender.M;
             } else {
-                gen = gender.f;
+                gen = gender.F;
 
             }
 
@@ -356,7 +384,7 @@ public class RegistrationController implements Initializable {
                     contact, emerContact, email, BloodGrp, allergies, "");
             DbQuery.registerMember(mem);
 
-            AlertMaker.showAlert("Registeration successfull", "Success");
+            AlertMaker.showAlert("Success", "Registeration successfull");
 
         }
     }
@@ -367,8 +395,10 @@ public class RegistrationController implements Initializable {
         String mem = regTeamMembers.getText();
         String pkg = regTeamPackage.getValue();
         Time time = regTeamTime.getValue();
+        String day = regTeamDay.getValue();
 
-        if (sport == null || mem == null || pkg == null || (pkg == "Training" && time == null)) {
+        if (sport.equals("") || mem.equals("") || pkg.equals("")
+                || (pkg.equals("") && time.equals("") && day.equals(""))) {
             AlertMaker.showAlert("Try again", "Please enter all required feilds");
         } else {
             if (pkg.equals("Training")) {
@@ -404,9 +434,9 @@ public class RegistrationController implements Initializable {
         String ques = SecurityQues.getValue();
         String ans = regEmpSecurityAns.getText();
 
-        if (fname == null || lname == null || empGender == null || localDob == null || cnic == null || address == null
-                || contact == null || email == null || bloodgrp == null || dept == null
-                || domain == null || ques == null || ans == null) {
+        if (fname.equals("") || lname.equals("") || empGender.equals("") || localDob.equals("") || cnic.equals("")
+                || address.equals("") || contact.equals("") || email.equals("") || bloodgrp.equals("") || dept.equals("")
+                || domain.equals("") || ques.equals("") || ans.equals("")) {
             AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
@@ -414,9 +444,9 @@ public class RegistrationController implements Initializable {
             gender gen;
 
             if (empGender.equals("Male")) {
-                gen = gender.m;
+                gen = gender.M;
             } else {
-                gen = gender.f;
+                gen = gender.F;
 
             }
 
@@ -424,17 +454,49 @@ public class RegistrationController implements Initializable {
                     emerContact, email, address, bloodgrp, allergy, "", DbQuery.getDeptID(dept));
             DbQuery.registerEmployee(emp);
 
-            AlertMaker.showAlert("Registeration successfull", "Success");
+            AlertMaker.showAlert("Succes", "Registeration successfull");
 
         }
     }
 
     @FXML
     private void handleTourMemBtn(ActionEvent event) {
+        String id = tourMemId.getText();
+        String sport = sports1.getValue();
+
+        if (id.equals("") || sport.equals("")) {
+            AlertMaker.showAlert("Try Again", "Please enter all fields");
+        } else {
+            AlertMaker.showAlert("Success", "Registeration successfull");
+        }
+
     }
 
     @FXML
     private void handleTourTeamBtn(ActionEvent event) {
+        String id = tourTeamId.getText();
+        String sport = sports2.getValue();
+
+        if (id.equals("") || sport.equals("")) {
+            AlertMaker.showAlert("Try Again", "Please enter all fields");
+        } else {
+            AlertMaker.showAlert("Success", "Registeration successfull");
+        }
+    }
+
+    @FXML
+    private void handlePkgTeam(ActionEvent event) {
+
+        if (regTeamPackage.getValue().equals("Non-Training")) {
+            populateDaysCombo();
+        }
+    }
+
+    @FXML
+    private void handleDayTeam(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if (!regTeamSport.getValue().equals("")) {
+            populateTimeCombo(regTeamDay.getValue(), regTeamSport.getValue());
+        }
     }
 
 }

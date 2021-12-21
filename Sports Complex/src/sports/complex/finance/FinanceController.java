@@ -14,6 +14,8 @@ import Database.DbQuery;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sports.complex.menu.ChangePasswordController;
+import sports.complex.menu.EditProfileController;
 
 /**
  * FXML Controller class
@@ -28,6 +30,7 @@ public class FinanceController implements Initializable {
     private JFXButton requestedFundsLabel;
     @FXML
     private AnchorPane rootPane;
+    public static String emp_id;
 
     /**
      * Initializes the controller class.
@@ -37,7 +40,7 @@ public class FinanceController implements Initializable {
         try {
             if (DbQuery.hasReqRepairs()) {
                 requestedFundsIcon.getStyleClass().add("notify");
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(FinanceController.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,20 +49,31 @@ public class FinanceController implements Initializable {
         }
     }
 
+    public static void setId(String id) {
+        emp_id = id;
+    }
+
+    public static String getId() {
+        return emp_id;
+    }
+
     @FXML
     private void menuChangePassword(ActionEvent event) {
+        ChangePasswordController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/changePassword.fxml"), "Change Password", null);
 
     }
 
+    @FXML
     private void menuEditProfile(ActionEvent event) {
+        EditProfileController.setId(emp_id);
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/editProfile.fxml"), "Edit Profile", null);
 
     }
 
     @FXML
     private void menuViewNotice(ActionEvent event) {
-        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/menu/viewNotice/viewNotice.fxml"), "Notices", null);
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
     }
 
