@@ -171,7 +171,7 @@ CREATE TABLE EMERGENCY(
     status enum('resolved', 'unresolved'),
     
     constraint emergency_pk PRIMARY KEY (emer_id),
-    constraint emergency_fk FOREIGN KEY (patient_id) references MEMBER (member_id)
+    constraint emergency_fk FOREIGN KEY (patient_id) references MEMBER (member_id) 	ON DELETE cascade
 );
 
 CREATE TABLE INVENTORY(
@@ -227,7 +227,7 @@ CREATE TABLE MEDICAL_LOG(
     quantity int,
     
     constraint medical_pk PRIMARY KEY (emer_id, item_id),
-    constraint medical_emer_fk FOREIGN KEY (emer_id) references EMERGENCY (emer_id),
+    constraint medical_emer_fk FOREIGN KEY (emer_id) references EMERGENCY (emer_id) ON DELETE cascade,
     constraint medical_item_fk FOREIGN KEY (item_id) references INVENTORY (item_id) ON DELETE cascade
 
 );
@@ -270,6 +270,15 @@ CREATE TABLE Transactions (
     constraint transactions_pk PRIMARY KEY (transaction_id),
     CONSTRAINT check_amount_positive CHECK (amount >= 0)
 );
+
+CREATE TABLE credit_membership (
+    member_id int(5) ,
+    date date,
+    amount float,
+    status enum('paid', 'unpaid') default 'unpaid',
+    constraint credit_Membership_fk FOREIGN KEY (member_id) REFERENCES MEMBER (member_id) ON DELETE cascade
+);
+
 
 
 
@@ -410,7 +419,10 @@ INSERT INTO inventory(sport_id,itemName,quantity) values
 (2,'Dumbbells',9),
 (4,'Balls',6),
 (4,'Med First Aid Kit',4),
-(1,'Med First Aid Kit',4);
+(1,'Med First Aid Kit',4),
+(3	,'Med Oxygen tank',	3),
+(2	,'Med  Hot bags',	7),
+(2	,'Med  Drips',	8);
 
 
 INSERT INTO issued_items(member_id,item_id,time,quantity) values 
@@ -425,6 +437,8 @@ INSERT INTO inventory_log values
 (2,'2021-10-15','12:25:30','15:30:30',0),
 (3,'2021-10-15','12:30:45','15:34:45',1),
 (4,'2021-10-25','9:12:25','13:12:25',0);
+
+
 
 INSERT INTO maintenance(sport_id,date,activity,level)  values 
 (3,'2021-01-21','Checking','Partial'),
@@ -456,4 +470,12 @@ INSERT INTO transactions(type,amount) values
 ('maintenanceFunds',	15000),
 ('inventoryFunds',	25000),
 ('repairFunds',	7000);
+
+INSERT INTO credit_membership(member_id,date,amount,status) values 
+(10000,	'2020-11-01' ,5000,	'paid'),
+(10001,	'2020-11-10',	8000,	'unpaid'),
+(10002	,'2020-10-01',	5000,	'unpaid'),
+(10003	,'2020-10-21',	1000,	'paid');
+
+
 
