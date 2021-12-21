@@ -43,5 +43,8 @@ public class Repair {
 
     public void setAmount(String amount) {
         this.amount = amount;
-    }    
+    }
+    
+    
+    
 }

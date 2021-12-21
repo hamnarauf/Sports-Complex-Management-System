@@ -64,6 +64,7 @@ public class DbQuery {
                 + "WHERE username =\"" + username + "\" \n"
                 + "AND password =\"" + password + "\";";
 
+                
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
