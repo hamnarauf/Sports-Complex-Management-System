@@ -12,9 +12,16 @@ public class Employee extends Person {
     private String deptName;
     private String dept_id;
     private String salary;
+    private int sport_id;
 
     public Employee() {
     }
+
+    public Employee(String fname, String lname, gender gen, Date dob, String cnic, String contactNo, String emerContact,
+    String email, String address, String bloodGrp, String allergy, String emp_id, String dept_id, int sport_id){
+        this(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address, bloodGrp, allergy, emp_id, dept_id);
+        this.setSport_id(sport_id);
+    }    
 
     public Employee(String fname, String lname, gender gen, Date dob, String cnic, String contactNo, String emerContact,
             String email, String address, String bloodGrp, String allergy, String emp_id, String dept_id) {
@@ -38,6 +45,15 @@ public class Employee extends Person {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address);
         this.emp_id = emp_id;
         this.deptName = deptName;
+    }
+
+
+    public int getSport_id() {
+        return sport_id;
+    }
+
+    public void setSport_id(int sport_id) {
+        this.sport_id = sport_id;
     }
 
     public String getDept_id() {
