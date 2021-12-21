@@ -473,8 +473,8 @@ INSERT INTO transactions(type,amount) values
 
 INSERT INTO credit_membership(member_id,date,amount,status) values 
 (10000,	'2020-11-01' ,5000,	'paid'),
-(10001,	'2020-11-10',	8000,	'unpaid'),
-(10002	,'2020-10-01',	5000,	'unpaid'),
+(10001,	null,	8000,	'unpaid'),
+(10002	,null,	5000,	'unpaid'),
 (10003	,'2020-10-21',	1000,	'paid');
 
 
