@@ -1,5 +1,7 @@
 package sports.complex.attendant;
 
+import Classes.Attendance;
+import Classes.Employee;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -7,6 +9,8 @@ import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,22 +43,20 @@ import utilities.StageLoader;
  */
 public class AttendantController implements Initializable {
 
-    ObservableList<Attendance> list = FXCollections.observableArrayList();
+    ObservableList<MarkAttendance> list = FXCollections.observableArrayList();
 
     @FXML
     private BorderPane rootPane;
     @FXML
-    private TableColumn<Attendance, String> idCol;
+    private TableColumn<MarkAttendance, String> idCol;
     @FXML
-    private TableColumn<Attendance, String> nameCol;
+    private TableColumn<MarkAttendance, String> nameCol;
     @FXML
-    private TableColumn<Attendance, String> deptCol;
+    private TableColumn<MarkAttendance, String> deptCol;
     @FXML
-    private TableColumn<Attendance, String> roleCol;
+    private TableColumn<MarkAttendance, ToggleButton> attendanceCol;
     @FXML
-    private TableColumn<Attendance, ToggleButton> attendanceCol;
-    @FXML
-    private TableView<Attendance> tableView;
+    private TableView<MarkAttendance> tableView;
     @FXML
     private JFXComboBox<String> filterBy;
     @FXML
@@ -67,16 +69,16 @@ public class AttendantController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
-        loadData();
         try {
-            try {
-                populateDeptCombo();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            loadData();
+            populateDeptCombo();
+            filterById();
         } catch (SQLException ex) {
             Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public static void setId(String id) {
@@ -101,17 +103,25 @@ public class AttendantController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         deptCol.setCellValueFactory(new PropertyValueFactory<>("dept"));
-        roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
+
         attendanceCol.setCellValueFactory(new PropertyValueFactory<>("attendance"));
 
     }
 
-    private void loadData() {
-        list.add(new Attendance("54678", "Ahmed Ali", "Finance", "Manager"));
+    private void loadData() throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> emps = new ArrayList<Employee>();
+        emps = DbQuery.displayEmployeeList();
+        for (Employee e : emps) {
+
+            list.add(new MarkAttendance(e.getEmp_id(), e.getFname() + " " + e.getLname(), e.getDeptName(), "Manager"));
+        }
+        tableView.setItems(list);
+
+        list.add(new MarkAttendance("54678", "Ahmed Ali", "Finance", "Manager"));
         tableView.setItems(list);
     }
 
-    public class Attendance {
+    public class MarkAttendance {
 
         private final String id;
         private final SimpleStringProperty name;
@@ -119,7 +129,7 @@ public class AttendantController implements Initializable {
         private final SimpleStringProperty role;
         private final ToggleButton attendance;
 
-        public Attendance(String id, String name, String dept, String role) {
+        public MarkAttendance(String id, String name, String dept, String role) {
             this.id = (id);
             this.name = new SimpleStringProperty(name);
             this.dept = new SimpleStringProperty(dept);
@@ -130,16 +140,28 @@ public class AttendantController implements Initializable {
                 @Override
                 public void handle(ActionEvent event) {
 
-                    System.out.println("Hello World!");
                     ToggleButton btn = (ToggleButton) event.getSource();
-                    Attendance t = findByButton(list, btn);
-                    System.out.println(t.getId());
+                    MarkAttendance e = findByButton(list, btn);
+                    String status = "";
+                    if (btn.isSelected()) {
+                        status = "P";
+                    } else {
+                        status = "A";
+                    }
+
+                    try {
+                        DbQuery.markAttendance(new Attendance(e.getId(), new Date(Calendar.getInstance().getTime().getTime()), status));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(AttendantController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             });
         }
 
-        public Attendance findByButton(ObservableList<Attendance> list, ToggleButton btn) {
+        public MarkAttendance findByButton(ObservableList<MarkAttendance> list, ToggleButton btn) {
             return list.stream().filter(individual -> btn.equals(individual.getAttendance()))
                     .findFirst().orElse(null);
         }
@@ -179,7 +201,6 @@ public class AttendantController implements Initializable {
 
     }
 
-    @FXML
     private void menuViewNotice(ActionEvent event) {
         StageLoader.loadWindow(getClass().getResource("/sports/complex/menu/viewNotice.fxml"), "Notices", null);
 
@@ -208,7 +229,7 @@ public class AttendantController implements Initializable {
 
     private void filterById() {
 //        // Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+        FilteredList<MarkAttendance> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         search.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -231,7 +252,7 @@ public class AttendantController implements Initializable {
         });
 
         // 3. Wrap the FilteredList in a SortedList. 
-        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+        SortedList<MarkAttendance> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         // 	  Otherwise, sorting the TableView would have no effect.
@@ -245,7 +266,7 @@ public class AttendantController implements Initializable {
     @FXML
     private void filterByDept(MouseEvent event) {
         // Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Attendance> filteredData = new FilteredList<>(list, b -> true);
+        FilteredList<MarkAttendance> filteredData = new FilteredList<>(list, b -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
         filterBy.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -268,7 +289,7 @@ public class AttendantController implements Initializable {
         });
 
         // 3. Wrap the FilteredList in a SortedList. 
-        SortedList<Attendance> sortedData = new SortedList<>(filteredData);
+        SortedList<MarkAttendance> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         // 	  Otherwise, sorting the TableView would have no effect.

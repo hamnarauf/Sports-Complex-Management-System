@@ -1,6 +1,7 @@
 package sports.complex.emergency;
 
 import Classes.Emergency;
+import Classes.InventoryItem;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -10,6 +11,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,7 +49,13 @@ public class EmergencyController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            populateFacility();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EmergencyController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EmergencyController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void setId(String id) {
@@ -57,11 +66,11 @@ public class EmergencyController implements Initializable {
         return emp_id;
     }
 
-    public void populateFacility() {
-        ArrayList<String> facilities = new ArrayList<String>();
-//        facilities = DbQuery.getFacilitiesList();
-        for (String f : facilities) {
-            facilitiesUsed.getItems().add(f);
+    public void populateFacility() throws ClassNotFoundException, SQLException {
+        ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
+        items = DbQuery.getMedicalEquipment();
+        for (InventoryItem i : items) {
+            facilitiesUsed.getItems().add(i.getItemName());
         }
 
     }
@@ -84,8 +93,20 @@ public class EmergencyController implements Initializable {
                 status = "Unresolved";
             }
             Emergency e = new Emergency(id, "", p, facility, status);
-            DbQuery.registerPatient(e);
+            try {
+                DbQuery.registerPatient(e);
+                AlertMaker.showAlert("Sucess", "Patient registered sucessfully");
+                clearCache();
+            } catch (Exception ex) {
+                AlertMaker.showAlert("Error", "Invalid Member id");
+            }
         }
+    }
+
+    private void clearCache() {
+        patientId.setText("");
+        problem.setText("");
+        facilitiesUsed.setValue(null);
 
     }
 

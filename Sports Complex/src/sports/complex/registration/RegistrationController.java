@@ -139,7 +139,7 @@ public class RegistrationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {       
+        try {
             populateComboBox();
         } catch (SQLException ex) {
             Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -487,7 +487,7 @@ public class RegistrationController implements Initializable {
 
         if (fname.equals("") || lname.equals("") || empGender.equals("") || localDob.equals("") || cnic.equals("")
                 || address.equals("") || contact.equals("") || email.equals("") || bloodgrp.equals("") || dept.equals("")
-                || domain.equals("") || ques.equals("") || ans.equals("")) {
+                || ques.equals("") || ans.equals("")) {
             AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
@@ -503,10 +503,21 @@ public class RegistrationController implements Initializable {
 
             Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
                     emerContact, email, address, bloodgrp, allergy, "", DbQuery.getDeptID(dept));
-            DbQuery.registerEmployee(emp);
+            try {
+                if (domain == null) {
+                    DbQuery.registerEmployee(emp, false);
+                } else {
+                    emp.setSportName(domain);
+                    DbQuery.registerEmployee(emp, true);
+                }
 
-            AlertMaker.showAlert("Success", "Registeration successful.");
-            clearEmpCache();
+                AlertMaker.showAlert("Success", "Registeration successful.");
+                clearEmpCache();
+
+            } catch (Exception ex) {
+                AlertMaker.showAlert("Error", "Invalid data.");
+            }
+
         }
     }
 
@@ -562,8 +573,8 @@ public class RegistrationController implements Initializable {
     }
 
     @FXML
-    private void handleRegTeamSport(ActionEvent event) {
-//        regTeamMembers.setText(DbQuery.getSportMem(regTeamSport.getValue()));
+    private void handleRegTeamSport(ActionEvent event) throws SQLException, ClassNotFoundException {
+        regTeamMembers.setText(DbQuery.getSportMembers(regTeamSport.getValue()));
     }
 
 }

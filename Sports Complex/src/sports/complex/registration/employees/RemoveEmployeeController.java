@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -44,7 +45,11 @@ public class RemoveEmployeeController implements Initializable {
 
     @FXML
     private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
-        DbQuery.removeEmp(empId.getText());
+        if (DbQuery.isEmployee(empId.getText())) {
+            DbQuery.removeEmp(empId.getText());
+        }
+        AlertMaker.showAlert("Success", "Employee removed succesfully.");
+        clearCache();
 
     }
 

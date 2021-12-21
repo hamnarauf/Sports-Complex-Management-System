@@ -122,12 +122,12 @@ public class IssuedItemsController implements Initializable {
     }
 
     @FXML
-    private void handleReturnItem(ActionEvent event) {
+    private void handleReturnItem(ActionEvent event) throws ClassNotFoundException, SQLException {
         InventoryItem item = (InventoryItem) Utility.getRow((TableView<Object>) (Object) tableView);
          if (item == null) {
             AlertMaker.showAlert("Error", "No Row selected");
         } else {
-//            DbQuery.returnItem(item);
+            DbQuery.returnItem(item);
             refresh();
         }
     }
