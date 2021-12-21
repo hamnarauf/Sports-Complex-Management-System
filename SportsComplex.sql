@@ -297,8 +297,8 @@ CREATE TABLE credit_membership (
 (3740520208015,'Maryam','Amjad','1998-08-21','F','03205987600','03215583098','m.amjad@hsh.com','A+','TajResidency_street 2'),
 (3740520208016,'Ali','Faheem','2002-11-21','M','03210583698','03003609887','a.faheem@hsh.com','O-','DHA_phase6_street 8'),
 (3740520208017,'Javeria','Nadeem','1999-11-01','F','03203609000','03210583008','j.nadeem@hsh.com','AB+','I9_Block2_street17'),
-(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9')
-;
+(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9'),
+(3740520208019,	'Bilal','Farooq','1999-01-12','M','03355766854','03215583560','b.farooq@hsh.com','O-','DHA_phase2_street5');
 
 INSERT INTO member(cnic) values 
 (3740520208071),
@@ -314,14 +314,15 @@ INSERT INTO guest values
 (2740520208013,10001,'Bilal','Saif');
 
 INSERT INTO department(deptName,supervisor_id,salary)   values 
-('registration',	10006,         45000),
-('inventory',	10005,        25000),
-('medical',	10004,         25000),
-('finance',	10003,           50000),
-('emergency',	10002,            25000),
-('maintenance',	10001,         25000),
-('coach',	10000,             40000),
-('attendant',	10008,	25000);
+('registration',	10006,  45000),
+('inventory',	10005,  25000),
+('medical',	10004, 25000),
+('finance',	10003, 50000),
+('emergency',	10002, 25000),
+('maintenance',	10001, 25000),
+('coach',	10000, 40000),
+('attendant',	10008,	25000),
+('manager',	10009,	50000);
 
 
 
@@ -334,7 +335,8 @@ INSERT INTO employee(cnic,dept_id)   values
 (3740520208015,	2),
 (3740520208016,	1),
 (3740520208017,	7),
-(3740520208018,	8);
+(3740520208018,	8),
+(3740520208019,	9);
 
 ALTER TABLE department
 ADD FOREIGN KEY (supervisor_id) REFERENCES Employee(emp_id) ON DELETE SET NULL;
@@ -351,10 +353,10 @@ INSERT INTO coach values
 INSERT INTO class (day,startTime,endtime,coach_id) values 
 ('Monday',	'10:00:00',	'13:00:00',	10007),
 ('Tuesday',	'10:30:00',	'12:30:00',	10007),
-('Wednesday',	'11:30:00',	'13:30:00',	10007),
-('Thursday',	'13:30:00',	'16:30:00',	10007),
+('Wednesday','11:30:00','13:30:00',	10007),
+('Thursday','13:30:00',	'16:30:00',	10007),
 ('Friday',	'9:30:00',	'10:30:00',	10007),
-('Saturday',	'10:30:00',	'11:30:00',	10007);
+('Saturday','10:30:00',	'11:30:00',	10007);
 
 INSERT INTO trainee  values 
 (1,	10000),
@@ -382,7 +384,8 @@ INSERT INTO users  values
 ('M.amjad98',	10005	,'Mary@1998',	4,	'farzana'),
 ('A.faheem02',	10006	,'March#543',	2,	'brown'),
 ('J.nadeem99',	10007	,'Gvry@875',	3,	'fish'),
-('h.malik00',	10008	,'hsaan@195',	3,	'fish');
+('h.malik00',	10008	,'hsaan@195',	3,	'fish'),
+('b.farooq99',	10009	,'bilal@999',	2,	'white');
 
 
 
@@ -390,8 +393,10 @@ INSERT INTO users  values
 INSERT INTO team(sport_id,package)   values 
 (4	,'training'),
 (1	,'non-training');
+
 INSERT INTO team_schedule  values 
 (1,	4);
+
 INSERT INTO attendance values 
 (10000,	'2021-12-07',	'P'),
 (10001,	'2021-12-07',	'A'),
@@ -401,7 +406,8 @@ INSERT INTO attendance values
 (10005,	'2021-12-07',	'P'),
 (10006,	'2021-12-07',	'P'),
 (10007,	'2021-12-07',	'P'),
-(10008,	'2021-12-07',	'P');
+(10008,	'2021-12-07',	'P'),
+(10009,	'2021-12-07',	'P');
 
 INSERT INTO schedule(eventName,date,time,venue)   values 
 ('Swimming Tournament',	'2021-12-6',	'12:30:00',	'Main Swimming Pool,floor1'),
@@ -458,7 +464,9 @@ INSERT INTO repairs(sport_id,purpose,amount,status)   values
 
 INSERT INTO report(details,type,status)   values 
 ('Treadmill not working',	'complaint',	'addressed'),
-('New AC for bowling court',	'suggestion',	'unaddressed');
+('New AC for bowling court',	'suggestion',	'unaddressed'),
+('More swimming dresses', 'suggestion', 'unaddressed'),
+('Filter pump of swimming pool 3 not working', 'complaint', 'unaddressed');
 
 INSERT INTO notice(title,text,date)   values 
 ('Swimming tournament','Join us for Swimming tournament on 6 DEC','2021-12-6'),
@@ -475,7 +483,7 @@ INSERT INTO credit_membership(member_id,date,amount,status) values
 (10000,	'2020-11-01' ,5000,	'paid'),
 (10001,	null,	8000,	'unpaid'),
 (10002	,null,	5000,	'unpaid'),
-(10003	,'2020-10-21',	1000,	'paid');
+(10003	,'2020-10-06',	10000,	'paid');
 
 
 
