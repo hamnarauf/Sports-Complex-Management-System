@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import Database.*;
 import java.sql.SQLException;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import sports.complex.alert.AlertMaker;
 import utilities.StageLoader;
 
@@ -20,6 +22,8 @@ public class MemberIdController implements Initializable {
 
     @FXML
     private JFXTextField memberId;
+    @FXML
+    private BorderPane rootPane;
 
     /**
      * Initializes the controller class.
@@ -38,15 +42,22 @@ public class MemberIdController implements Initializable {
 
         } else {
             if (DbQuery.isMember(DbQuery.getMemberCnic(id))) {
-                TransactionFormController.id = id;
-                StageLoader.loadWindow(getClass().getResource("TransactionForm.fxml"), "Credit Membership", null);
-
+                if (!DbQuery.hasPaid(id)) {
+                    AlertMaker.showAlert("Invalid", "Member has already paid for this month.");
+                } else {
+                    TransactionFormController.id = id;
+                    StageLoader.loadWindow(getClass().getResource("TransactionForm.fxml"), "Credit Membership", getStage());
+                }
             } else {
                 AlertMaker.showAlert("Invalid", "Member id is invalid");
 
             }
         }
 
+    }
+
+    private Stage getStage() {
+        return (Stage) rootPane.getScene().getWindow();
     }
 
 }

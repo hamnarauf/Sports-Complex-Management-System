@@ -162,11 +162,20 @@ public class MaintenanceController implements Initializable {
     private void loadData() {
 
         ArrayList<MaintenanceActivity> activities1 = new ArrayList<MaintenanceActivity>();
+        list1.add(new MaintenanceActivity("Padding"));
+        list1.add(new MaintenanceActivity("Surfacing"));
+        list2.add(new MaintenanceActivity("Machinery"));
+        list2.add(new MaintenanceActivity("Drag & Mats"));
+        list3.add(new MaintenanceActivity("Chemical in swimming pool"));
 //        activities = DbQuery.displayActivities();
-        for (MaintenanceActivity act : activities1) {
-            list1.add(act);
+//        for (MaintenanceActivity act : activities1) {
+//            list1.add(act);
+//
+//        }
 
-        }
+        table1.setItems(list1);
+        table2.setItems(list2);
+        table3.setItems(list3);
 
     }
 

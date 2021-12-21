@@ -55,7 +55,7 @@ public class EnterUsernameController implements Initializable {
         }
     }
     
-     private Stage getStage() {
+    private Stage getStage() {
         return (Stage) rootPane.getScene().getWindow();
     }
 

@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import sports.complex.alert.AlertMaker;
 
 /**
@@ -31,14 +33,10 @@ public class TransactionFormController implements Initializable {
     private Label formId;
     @FXML
     private Label fees;
-    @FXML
-    private Label fine;
-    @FXML
-    private Label extras;
-    @FXML
-    private Label overdue;
 
     public static String id;
+    @FXML
+    private BorderPane rootPane;
 
     /**
      * Initializes the controller class.
@@ -60,7 +58,7 @@ public class TransactionFormController implements Initializable {
         name.setText(m.getFname() + " " + m.getLname());
         date.setText(m.getDuedate().toString());
         totalAmount.setText("Rs. " + Integer.toString(m.getAmount()));
-        fees.setText("Rs. 50000");
+        fees.setText("Rs. 4000");
 
     }
 
@@ -68,6 +66,11 @@ public class TransactionFormController implements Initializable {
     private void handlePaidBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.creditMembership(id);
         AlertMaker.showAlert("Success", "Fees paid successfully.");
+        getStage().close();
+    }
+    
+    private Stage getStage() {
+        return (Stage) rootPane.getScene().getWindow();
     }
 
 }

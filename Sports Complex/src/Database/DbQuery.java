@@ -1033,7 +1033,7 @@ public class DbQuery {
         setupDb();
         String total = "";
 
-        final String query = "select sum(amount) from transactions where type like \"%extra%\";";
+        final String query = "select sum(amount) from repairs where status = \"Allocated\"";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
             total = rs.getString("sum(amount)");
@@ -1042,7 +1042,20 @@ public class DbQuery {
         return total;
     }
 
-//    public static ArrayList<Member> getMemTransTotal()
+    public static String getMemTransTotal() throws SQLException, ClassNotFoundException {
+        setupDb();
+        String total = "";
+
+        final String query = "select sum(amount) from credit_membership \n"
+                + "where status = \"paid\";";
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            total = rs.getString("sum(amount)");
+        }
+        tearDownDb();
+        return total;
+    }
+
     public static ArrayList<Repair> getRepairs() throws SQLException, ClassNotFoundException {
         setupDb();
 
@@ -1059,6 +1072,46 @@ public class DbQuery {
 
         tearDownDb();
         return repairsList;
+    }
+
+    public static boolean hasPaid(String mem_id) throws ClassNotFoundException, ClassNotFoundException, SQLException {
+        setupDb();
+
+        final String query = "select * from credit_membership where status = \"unpaid\" "
+                + "and member_id = \"" + mem_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        boolean valid = false;
+        while (rs.next()) {
+            valid = true;
+        }
+
+        tearDownDb();
+        return valid;
+
+    }
+
+    public static ArrayList<Member> viewMemTrans() throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        ArrayList<Member> m = new ArrayList<Member>();
+        final String query = "select member_id, Concat(firstName, \" \", lastName) as name, date, amount  from credit_membership \n"
+                + "join member using (member_id) join person using (cnic)\n"
+                + "where status = \"paid\"";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Member mem = new Member();
+            mem.setFname(rs.getString("name"));
+            mem.setMember_id(rs.getString("member_id"));
+            mem.setDuedate(rs.getDate("date"));
+            mem.setAmount(rs.getInt("amount"));
+            m.add(mem);
+        }
+
+        tearDownDb();
+        return m;
     }
 
     public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
@@ -1113,7 +1166,7 @@ public class DbQuery {
 
     public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "UPDATE creditMembership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
+        final String query = "UPDATE credit_Membership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
         st.executeUpdate(query);
         tearDownDb();
     }
