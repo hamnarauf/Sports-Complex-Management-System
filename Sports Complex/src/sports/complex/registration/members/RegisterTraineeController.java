@@ -88,6 +88,7 @@ public class RegisterTraineeController implements Initializable {
     @FXML
     private void handleRegisterBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String tId = id.getText();
+        String cnic = DbQuery.getMemberCnic(tId);
         String sport = sportCombo.getValue();
         Time time = timeCombo.getValue();
         String day = dayCombo.getValue();
@@ -95,7 +96,7 @@ public class RegisterTraineeController implements Initializable {
         if (tId.equals("") || sport.equals("") || time.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
-            if (DbQuery.isMember(tId)) {
+            if (DbQuery.isMember(cnic)) {
                 Trainee t = new Trainee(tId, sport, time, day);
                 DbQuery.registerTrainee(t);
                 AlertMaker.showAlert("Registeration successfull", "Success");
