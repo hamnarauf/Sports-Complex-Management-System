@@ -58,24 +58,25 @@ public class PasswordRecoveryController implements Initializable {
     @FXML
     private void handleConfirmBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        if (answer.getText().equals("")|| newPass.getText().equals("")|| retypeNewPass.getText().equals("")) {
+        if (answer.getText().equals("") || newPass.getText().equals("") || retypeNewPass.getText().equals("")) {
             AlertMaker.showAlert("Try Again", "Please enter all data feilds");
 
         } else if (!newPass.getText().equals(retypeNewPass.getText())) {
             AlertMaker.showAlert("Try Again", "Please re-type same password");
         } else {
-            if (!Utility.passConstraints(newPass.getText())) {
-                AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character");
+
+            if (!DbQuery.checkSecAns(username, answer.getText())) {
+                AlertMaker.showAlert("Try Again", "Answer does not match with the records.");
             } else {
-                if (DbQuery.checkSecAns(username, answer.getText())) {
+                if (Utility.passConstraints(newPass.getText())) {
                     DbQuery.passwordNew(username, newPass.getText());
+                    AlertMaker.showAlert("Success", "Password updated successfully");
                 } else {
-                    AlertMaker.showAlert("Try Again", "Answer does not match with the records.");
+                    AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character.");
                 }
             }
 
         }
     }
-
 
 }

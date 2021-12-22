@@ -44,6 +44,8 @@ public class RemoveMemberController implements Initializable {
     private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeMember(memId.getText());
         AlertMaker.showAlert("Success", "Member Removed Successfully");
+        clearCache();
+        memId.setText("");
     }
 
     public void clearCache() {

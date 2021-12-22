@@ -457,6 +457,8 @@ INSERT INTO issued_items(member_id,item_id,time,quantity) values
 
 
 
+
+
 INSERT INTO maintenance(sport_id,date,activity,level)  values 
 (3,'2021-01-21','Checking','Partial'),
 (3,'2021-02-07','Cleaning','Compelete'),
@@ -495,3 +497,4 @@ INSERT INTO credit_membership(member_id,date,amount,status) values
 (10001,	null,	8000,	'unpaid'),
 (10002	,null,	5000,	'unpaid'),
 (10003	,'2020-10-06',	10000,	'paid');
+

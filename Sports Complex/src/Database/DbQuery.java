@@ -64,7 +64,6 @@ public class DbQuery {
                 + "WHERE username =\"" + username + "\" \n"
                 + "AND password =\"" + password + "\";";
 
-                
         ResultSet rs = st.executeQuery(query);
 
         if (rs.next()) { // valid credentials
@@ -139,7 +138,7 @@ public class DbQuery {
     // REGISTRATION INTERFACE
     // utilities
     public static int getSportID(String sport) throws SQLException, ClassNotFoundException {
-        setupDb();
+        
         int sport_id = 0;
 
         final String getSportQuery = "SELECT sport_id FROM Sport WHERE sportName = \"" + sport + "\"";
@@ -149,7 +148,7 @@ public class DbQuery {
             sport_id = rs.getInt("sport_id");
         }
 
-        tearDownDb();
+        
         return sport_id;
     }
 
@@ -644,12 +643,18 @@ public class DbQuery {
 
         if (isCoach) {
             final String queryCoach = "INSERT INTO Coach (coach_id, sport_id) VALUES (?,?)";
+            final String queryid = "SELECT emp_id FROM Employee WHERE cnic = \"" + emp.getCnic() + "\"";
 
-            String emp_id = getEmpId(emp.getCnic());
+            String emp_id = "";
+            ResultSet rs = st.executeQuery(queryid);
+
+            if (rs.next()) {
+                emp_id = rs.getString("emp_id");
+            }
 
             try (PreparedStatement statement = conn.prepareStatement(queryCoach)) {
                 statement.setString(1, emp_id);
-                statement.setInt(2, emp.getSport_id());
+                statement.setInt(2, getSportID(emp.getSportName()));
                 statement.executeUpdate();
             }
         }
@@ -766,17 +771,48 @@ public class DbQuery {
         return team;
     }
 
+    public static void deletePerson(String cnic) throws SQLException, ClassNotFoundException {
+        setupDb();
+        final String query = "DELETE FROM Person WHERE cnic = \"" + cnic + "\"";
+        st.executeUpdate(query);
+        tearDownDb();
+    }
+
+    public static String getMemberCnic(String member_id, boolean withoutSetup) throws SQLException, ClassNotFoundException {
+        String cnic = "";
+
+        final String getCnicQuery = "SELECT cnic FROM Member WHERE member_id = \"" + member_id + "\"";
+
+        ResultSet rs = st.executeQuery(getCnicQuery);
+        if (rs.next()) {
+            cnic = rs.getString("cnic");
+        }
+        return cnic;
+    }
+    
+    public static String getEmpCnic(String emp_id, boolean withoutSetup) throws SQLException, ClassNotFoundException {
+        String cnic = "";
+
+        final String getCnicQuery = "SELECT cnic FROM Employee WHERE emp_id = \"" + emp_id + "\"";
+
+        ResultSet rs = st.executeQuery(getCnicQuery);
+        if (rs.next()) {
+            cnic = rs.getString("cnic");
+        }
+        return cnic;
+    }
+
     public static void removeMember(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "DELETE FROM Member where member_id = \"" + member_id + "\"";
-        st.executeUpdate(query);
+        String cnic = getMemberCnic(member_id, true);
+        deletePerson(cnic);
         tearDownDb();
     }
 
     public static void removeEmp(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "DELETE FROM Employee where emp_id = \"" + emp_id + "\"";
-        st.executeUpdate(query);
+        String cnic = getEmpCnic(emp_id, true);
+        deletePerson(cnic);
         tearDownDb();
     }
 
@@ -794,9 +830,9 @@ public class DbQuery {
         String query;
 
         for (int i = 0; i < 6; i++) {
-            query = "UPDATE Class SET coach_id = \"" + cs[i].getCoach_id() + "\", " +
-                    "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", " +
-                    "endTime = \"" + cs[i].getEndTime() + "\";";
+            query = "UPDATE Class SET coach_id = \"" + cs[i].getCoach_id() + "\", "
+                    + "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", "
+                    + "endTime = \"" + cs[i].getEndTime() + "\";";
             st.executeUpdate(query);
         }
         tearDownDb();
@@ -1056,10 +1092,10 @@ public class DbQuery {
     }
 
     public static Member detailsTransForm(String member_id) throws SQLException, ClassNotFoundException {
-        final String query = "SELECT creditMembership.member_id, firstName, lastName, duedate, amount \n" +
-                "FROM creditMembership INNER JOIN Member ON creditMembership.member_id = Member.member_id \n" +
-                "INNER JOIN Person On Member.cnic = Person.cnic \n" +
-                "WHERE member_id = \"" + member_id + "\"";
+        final String query = "SELECT creditMembership.member_id, firstName, lastName, duedate, amount \n"
+                + "FROM creditMembership INNER JOIN Member ON creditMembership.member_id = Member.member_id \n"
+                + "INNER JOIN Person On Member.cnic = Person.cnic \n"
+                + "WHERE member_id = \"" + member_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1070,12 +1106,12 @@ public class DbQuery {
         return m;
     }
 
-   public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
+    public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
         final String query = "UPDATE creditMembership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
         st.executeUpdate(query);
         tearDownDb();
-   }
+    }
 
     // MANAGER
     public static ArrayList<Schedule> displaySchedule() throws ClassNotFoundException, SQLException {
@@ -1394,8 +1430,8 @@ public class DbQuery {
     public static String getIssueId(String mem_id, String item_id) throws ClassNotFoundException, SQLException {
         setupDb();
 
-        final String query = "SELECT issue_id FROM issued_items \n" +
-                "WHERE member_id = \"" + mem_id + "\" AND item_id = \"" + item_id + "\"";
+        final String query = "SELECT issue_id FROM issued_items \n"
+                + "WHERE member_id = \"" + mem_id + "\" AND item_id = \"" + item_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
         String issue_id = rs.getString("issue_id");
@@ -1407,14 +1443,22 @@ public class DbQuery {
     public static void returnItem(InventoryItem log) throws ClassNotFoundException, SQLException {
         setupDb();
 
-        final String inventoryLogQuery = "INSERT INTO inventory_log (issue_id, date, borrowedTime, " +
-                "returnedTime, damaged) VALUES (?,?,?,?,?)";
+        final String id = "select issue_id from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
+                + "and time = \"" + log.getTime() + "\"";
+        ResultSet rs = st.executeQuery(id);
+        String issue_id = "";
+        if (rs.next()) {
+            issue_id = rs.getString("issue_id");
+        }
+
+        final String inventoryLogQuery = "INSERT INTO inventory_log (issue_id, date, borrowedTime, "
+                + "returnedTime, damaged) VALUES (?,?,?,?,?)";
 
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
 
         try (PreparedStatement statement = conn.prepareStatement(inventoryLogQuery)) {
-            statement.setString(1, log.getIssue_id());
+            statement.setString(1, issue_id);
             statement.setDate(2, date);
             statement.setTime(3, log.getTime());
             statement.setTime(4, log.getReturnedTime());
@@ -1422,7 +1466,7 @@ public class DbQuery {
             statement.executeUpdate();
         }
 
-        final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + log.getIssue_id() + "\"";
+        final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + issue_id + "\"";
         st.executeUpdate(removeIssuedQuery);
         tearDownDb();
     }
@@ -1517,11 +1561,11 @@ public class DbQuery {
         ArrayList<InventoryItem> equList = new ArrayList<>();
         InventoryItem item;
 
-        final String query = "SELECT distinct(SUBSTRING(itemName, 5)), inventory.quantity, medical_log.quantity, \n"
+        final String query = "SELECT distinct(SUBSTRING(itemName, 5)) as itemName, inventory.quantity, medical_log.quantity, \n"
                 + "(inventory.quantity - medical_log.quantity) AS available \n"
                 + "FROM inventory \n"
                 + "LEFT JOIN medical_log ON inventory.item_id = medical_log.item_id \n"
-                + "WHERE SUBSTRING(itemName, 1, 3) = \"Med_\";";
+                + "WHERE SUBSTRING(itemName, 1, 3) = \"Med\";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1561,15 +1605,28 @@ public class DbQuery {
     public static void markAttendance(Attendance att) throws SQLException, ClassNotFoundException {
         setupDb();
 
-        final String queryLog = "INSERT INTO attendance (emp_id, date, status) \n"
-                + "VALUES (?, ?, ?);";
+        final String check = "select emp_id from attendance where emp_id = \"" + att.getEmp_id() + "\" "
+                + "and date = \"" + att.getDate() + "\"";
+        ResultSet rs = st.executeQuery(check);
 
-        try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
-            statement.setString(1, att.getEmp_id());
-            statement.setDate(2, att.getDate());
-            statement.setString(3, att.getAttendance());
-            statement.executeUpdate();
+        if (rs.next()) {
+            final String update = "update attendance\n"
+                    + "set status = \"" + att.getAttendance() + "\"\n"
+                    + "where emp_id = \"" + rs.getString("emp_id") + "\"";
+            st.executeUpdate(update);
+        } else {
+            final String queryLog = "INSERT INTO attendance (emp_id, date, status) \n"
+                    + "VALUES (?, ?, ?);";
+
+            try (PreparedStatement statement = conn.prepareStatement(queryLog)) {
+                statement.setString(1, att.getEmp_id());
+                statement.setDate(2, att.getDate());
+                statement.setString(3, att.getAttendance());
+                statement.executeUpdate();
+            }
+
         }
+
         tearDownDb();
     }
 
