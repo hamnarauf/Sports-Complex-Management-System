@@ -29,7 +29,8 @@ public class DbQuery {
         try {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection connection = DriverManager.getConnection(FILE + "?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
+            Connection connection = DriverManager.getConnection(
+                    FILE + "?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
                     "root", "root");
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
@@ -137,8 +138,38 @@ public class DbQuery {
 
     // REGISTRATION INTERFACE
     // utilities
+
+    public Employee getEmployee(String emp_id)throws SQLException, ClassNotFoundException {
+        setupDb();
+        Employee emp;
+
+        final String query = "SELECT firstName, lastName, dob, gender, cnic, email, \n" +
+        "contact, emerContact, deptName, address, bloodGroup, allergy FROM employee \n" +
+        "INNER JOIN person using(cnic) \n" +
+        "LEFT JOIN allergies using(cnic) \n" +
+        "INNER JOIN department using(dept_id);"; 
+
+        ResultSet rs = st.executeQuery(query);
+        emp = new Employee();
+        emp.setFname(rs.getString("firstName"));
+        emp.setLname(rs.getString("lastName"));
+        emp.setDob(rs.getDate("dob"));
+        emp.setGen(gender.valueOf(rs.getString("gender")));
+        emp.setCnic(rs.getString("cnic"));
+        emp.setEmail(rs.getString("email"));
+        emp.setContactNo(rs.getString("contact"));
+        emp.setEmerContact(rs.getString("emerContact"));
+        emp.setDeptName(rs.getString("deptName"));
+        emp.setAddress(rs.getString("address"));
+        emp.setBloodGrp(rs.getString("bloodGroup"));
+        emp.setAllergy(rs.getString("allergy"));
+
+        tearDownDb();
+        return emp;
+    }
+
     public static int getSportID(String sport) throws SQLException, ClassNotFoundException {
-        
+
         int sport_id = 0;
 
         final String getSportQuery = "SELECT sport_id FROM Sport WHERE sportName = \"" + sport + "\"";
@@ -148,7 +179,6 @@ public class DbQuery {
             sport_id = rs.getInt("sport_id");
         }
 
-        
         return sport_id;
     }
 
@@ -778,7 +808,8 @@ public class DbQuery {
         tearDownDb();
     }
 
-    public static String getMemberCnic(String member_id, boolean withoutSetup) throws SQLException, ClassNotFoundException {
+    public static String getMemberCnic(String member_id, boolean withoutSetup)
+            throws SQLException, ClassNotFoundException {
         String cnic = "";
 
         final String getCnicQuery = "SELECT cnic FROM Member WHERE member_id = \"" + member_id + "\"";
@@ -789,7 +820,7 @@ public class DbQuery {
         }
         return cnic;
     }
-    
+
     public static String getEmpCnic(String emp_id, boolean withoutSetup) throws SQLException, ClassNotFoundException {
         String cnic = "";
 
