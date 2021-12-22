@@ -1495,7 +1495,6 @@ public class DbQuery {
     }
 
     public static String getItemID(String itemName) throws ClassNotFoundException, SQLException {
-        setupDb();
         String item_id = "";
 
         final String query = "SELECT item_id FROM inventory WHERE itemName = \"" + itemName + "\";";
@@ -1504,8 +1503,6 @@ public class DbQuery {
         if (rs.next()) {
             item_id = rs.getString("item_id");
         }
-
-        tearDownDb();
         return item_id;
     }
 
@@ -1543,6 +1540,8 @@ public class DbQuery {
         String issue_id = "";
         int qty = 0;
 
+        System.out.println(getItemID(log.getItemName()));
+        
         final String id = "select issue_id from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
         ResultSet rs = st.executeQuery(id);
@@ -1550,6 +1549,7 @@ public class DbQuery {
         if (rs.next()) {
             issue_id = rs.getString("issue_id");
         }
+        //INSERT INTO inventory_log VALUES(10002, 2,'2021-12-23', '10:25:30', CURRENT_TIME(), 2, 0)
         
         final String getQty = "select quantity from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
@@ -1559,6 +1559,7 @@ public class DbQuery {
         if (rs.next()) {
             qty = rs.getInt("quantity");
         }
+        
         
         final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + issue_id + "\"";
         st.executeUpdate(removeIssuedQuery);
