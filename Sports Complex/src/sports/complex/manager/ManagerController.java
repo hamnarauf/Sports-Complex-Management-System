@@ -114,4 +114,10 @@ public class ManagerController implements Initializable {
         return (Stage) rootPane.getScene().getWindow();
     }
 
+    @FXML
+    private void menuLogout(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/login/login.fxml"), "Login", getStage());
+
+    }
+
 }

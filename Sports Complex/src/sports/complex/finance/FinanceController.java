@@ -146,4 +146,10 @@ public class FinanceController implements Initializable {
 
     }
 
+    @FXML
+    private void menuLogout(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/login/login.fxml"), "Login", getStage());
+
+    }
+
 }
