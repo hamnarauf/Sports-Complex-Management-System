@@ -13,6 +13,7 @@ public class Employee extends Person {
     private String dept_id;
     private String salary;
     private int sport_id;
+    private String sportName;
 
     public Employee() {
     }
@@ -45,6 +46,15 @@ public class Employee extends Person {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address);
         this.emp_id = emp_id;
         this.deptName = deptName;
+    }
+    
+    public void setSportName(String sport){
+        this.sportName = sport;
+    
+    }
+    
+    public String getSportName(){
+        return sportName;
     }
 
 
