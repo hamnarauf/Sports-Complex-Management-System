@@ -1,7 +1,9 @@
 package sports.complex.menu;
 
+import Database.DbQuery;
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,13 +29,13 @@ public class RegisterSuggestionController implements Initializable {
     }    
 
     @FXML
-    private void handleSuggOkBtn(ActionEvent event) {
+    private void handleSuggOkBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         if(suggestion.getText().equals("")){
             AlertMaker.showAlert("Empty Field", "Please type your suggestion");
         }
         
         else{
-//            DbQuery.regComplaint(complaint.getText());
+            DbQuery.registerSuggestion(suggestion.getText());
             AlertMaker.showAlert("Success", "Suggestion recorded succesfully");
             suggestion.setText("");
         }

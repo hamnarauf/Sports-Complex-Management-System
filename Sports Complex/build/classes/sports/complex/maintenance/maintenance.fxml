@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="515.0" prefWidth="946.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.maintenance.MaintenanceController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="551.0" prefWidth="946.0" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.maintenance.MaintenanceController">
    <children>
       <BorderPane prefHeight="542.0" prefWidth="774.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -143,13 +143,6 @@
                                        </expandedContent>
                                     </ExpansionPanel>
                                     <ExpansionPanel layoutX="10.0" layoutY="90.0" prefWidth="770.0">
-                                       <collapsedContent>
-                                          <!--<ExpansionPanel.CollapsedPanel>-->
-                                             <!--<titleNodes>-->
-                                                <Label text="Removal and Storage" />
-                                             <!--</titleNodes>-->
-                                          <!--</ExpansionPanel.CollapsedPanel>-->
-                                       </collapsedContent>
                                        <expandedContent>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>

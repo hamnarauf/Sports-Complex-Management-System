@@ -14,6 +14,9 @@ import Database.DbQuery;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import utilities.StageLoader;
 
 /**
  * FXML Controller class
@@ -32,6 +35,8 @@ public class PasswordRecoveryController implements Initializable {
     private JFXPasswordField retypeNewPass;
 
     private static String username;
+    @FXML
+    private AnchorPane rootPane;
 
     /**
      * Initializes the controller class.
@@ -70,13 +75,19 @@ public class PasswordRecoveryController implements Initializable {
             } else {
                 if (Utility.passConstraints(newPass.getText())) {
                     DbQuery.passwordNew(username, newPass.getText());
-                    AlertMaker.showAlert("Success", "Password updated successfully");
+                    AlertMaker.showAlert("Success", "Password updated successfully.");
+                    getStage().close();
                 } else {
                     AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character.");
                 }
             }
 
         }
+
+    }
+
+    private Stage getStage() {
+        return (Stage) rootPane.getScene().getWindow();
     }
 
 }

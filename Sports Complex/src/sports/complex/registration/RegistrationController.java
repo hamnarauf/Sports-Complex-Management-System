@@ -404,10 +404,13 @@ public class RegistrationController implements Initializable {
 
             Member mem = new Member(fname, lname, gen, dob, cnic, address,
                     contact, emerContact, email, BloodGrp, allergies, "");
-            DbQuery.registerMember(mem);
-
-            AlertMaker.showAlert("Success", "Registeration successfull");
-            clearMemberCache();
+            try {
+                DbQuery.registerMember(mem);
+                AlertMaker.showAlert("Success", "Registeration successfull");
+                clearMemberCache();
+            } catch (Exception ex) {
+                AlertMaker.showAlert("Error", "Invalid details");
+            }
         }
     }
 
@@ -432,17 +435,24 @@ public class RegistrationController implements Initializable {
                 || (pkg.equals("") && time.equals("") && day.equals(""))) {
             AlertMaker.showAlert("Try again", "Please enter all required feilds");
         } else {
-            if (pkg.equals("Training")) {
-                Team t;
-                t = new Team("", sport, Integer.parseInt(mem), pkg, time);
-                DbQuery.registerTeamforTraining(t);
-            } else {
-                Team t = new Team("", sport, Integer.parseInt(mem), pkg);
-                DbQuery.registerTeam(t);
+
+            try {
+                if (pkg.equals("Training")) {
+                    Team t;
+                    t = new Team("", sport, Integer.parseInt(mem), pkg, time);
+                    DbQuery.registerTeamforTraining(t);
+                } else {
+                    Team t = new Team("", sport, Integer.parseInt(mem), pkg);
+                    DbQuery.registerTeam(t);
+                }
+
+                AlertMaker.showAlert("Succes", "Team Registered succesfully");
+                clearTeamCache();
+
+            } catch (Exception e) {
+                AlertMaker.showAlert("Error", "Invalid Details.");
             }
 
-            AlertMaker.showAlert("Succes", "Team Registered succesfully");
-            clearTeamCache();
         }
     }
 
@@ -486,8 +496,7 @@ public class RegistrationController implements Initializable {
         String ans = regEmpSecurityAns.getText();
 
         if (fname.equals("") || lname.equals("") || empGender.equals("") || localDob.equals("") || cnic.equals("")
-                || address.equals("") || contact.equals("") || email.equals("") || bloodgrp.equals("") || dept.equals("")
-                || ques.equals("") || ans.equals("")) {
+                || address.equals("") || contact.equals("") || email.equals("") || bloodgrp.equals("") || dept.equals("")) {
             AlertMaker.showAlert("Try Again", "One or more feild is empty.");
 
         } else {
@@ -574,7 +583,9 @@ public class RegistrationController implements Initializable {
 
     @FXML
     private void handleRegTeamSport(ActionEvent event) throws SQLException, ClassNotFoundException {
-        regTeamMembers.setText(DbQuery.getSportMembers(regTeamSport.getValue()));
+//        regTeamMembers.setText(DbQuery.getSportMembers(regTeamSport.getValue()));
+        regTeamMembers.setText("1");
+
     }
 
 }

@@ -162,11 +162,20 @@ public class MaintenanceController implements Initializable {
     private void loadData() {
 
         ArrayList<MaintenanceActivity> activities1 = new ArrayList<MaintenanceActivity>();
+        list1.add(new MaintenanceActivity("Padding"));
+        list1.add(new MaintenanceActivity("Surfacing"));
+        list2.add(new MaintenanceActivity("Machinery"));
+        list2.add(new MaintenanceActivity("Drag & Mats"));
+        list3.add(new MaintenanceActivity("Chemical in swimming pool"));
 //        activities = DbQuery.displayActivities();
-        for (MaintenanceActivity act : activities1) {
-            list1.add(act);
+//        for (MaintenanceActivity act : activities1) {
+//            list1.add(act);
+//
+//        }
 
-        }
+        table1.setItems(list1);
+        table2.setItems(list2);
+        table3.setItems(list3);
 
     }
 
@@ -247,12 +256,25 @@ public class MaintenanceController implements Initializable {
             AlertMaker.showAlert("Empty Fields", "Please enter all fields");
 
         } else {
-            Repair repair = new Repair(purpose, sport, amount, "");
-            DbQuery.registerRepair(repair);
+            try {
+                int a = new Integer(amount);
+                Repair repair = new Repair(purpose, sport, amount, "");
+                DbQuery.registerRepair(repair);
 
-            AlertMaker.showAlert("Success", "Succesfully registered repair");
+                AlertMaker.showAlert("Success", "Succesfully registered repair");
+                clearCache();
 
+            } catch (Exception e) {
+                AlertMaker.showAlert("Error", "Amount can only be numeric.");
+            }
         }
+    }
+
+    private void clearCache() {
+        repairRequired.setText("");
+        sportCombo.setValue(null);
+        expenditure.setText("");
+
     }
 
     @FXML
