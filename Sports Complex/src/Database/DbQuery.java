@@ -138,18 +138,19 @@ public class DbQuery {
 
     // REGISTRATION INTERFACE
     // utilities
-
-    public Employee getEmployee(String emp_id)throws SQLException, ClassNotFoundException {
+    public static Employee getEmployee(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        Employee emp;
+        Employee emp = null;
 
-        final String query = "SELECT firstName, lastName, dob, gender, cnic, email, \n" +
-        "contact, emerContact, deptName, address, bloodGroup, allergy FROM employee \n" +
-        "INNER JOIN person using(cnic) \n" +
-        "LEFT JOIN allergies using(cnic) \n" +
-        "INNER JOIN department using(dept_id);"; 
+        final String query = "SELECT firstName, lastName, dob, gender, cnic, email, \n"
+                + "contact, emerContact, deptName, address, bloodGroup, allergy FROM employee \n"
+                + "INNER JOIN person using(cnic) \n"
+                + "LEFT JOIN allergies using(cnic) \n"
+                + "INNER JOIN department using(dept_id) \n"
+                + "WHERE emp_id = \"" + emp_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
+        rs.next();
         emp = new Employee();
         emp.setFname(rs.getString("firstName"));
         emp.setLname(rs.getString("lastName"));
@@ -1394,7 +1395,9 @@ public class DbQuery {
                 + "FROM issued_items \n"
                 + "INNER JOIN member ON issued_items.member_id = member.member_id \n"
                 + "INNER JOIN person ON member.cnic = person.cnic \n"
-                + "INNER JOIN inventory ON issued_items.item_id = inventory.item_id;";
+                + "INNER JOIN inventory ON issued_items.item_id = inventory.item_id"
+                + "WHERE SUBSTRING(itemName, 1, 4) != \"Med \";";
+
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
@@ -1471,7 +1474,7 @@ public class DbQuery {
                 + "INNER JOIN member on member.member_id = issued_items.member_id \n"
                 + "INNER JOIN person on member.cnic = person.cnic \n"
                 + "INNER JOIN inventory on issued_items.item_id = inventory.item_id \n"
-                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
+                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med \";";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1569,7 +1572,7 @@ public class DbQuery {
         final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity\n"
                 + "FROM inventory\n"
                 + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id\n"
-                + "WHERE SUBSTRING(itemName, 0, 4) !=\"Med\"";
+                + "WHERE SUBSTRING(itemName, 1, 4) !=\"Med \"";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1581,7 +1584,7 @@ public class DbQuery {
         final String queryNotIssued = "SELECT itemName, quantity \n"
                 + "FROM inventory \n"
                 + "WHERE item_id NOT IN (SELECT item_id FROM issued_items) AND \n"
-                + "SUBSTRING(itemName, 0, 4) != \"Med\";";
+                + "SUBSTRING(itemName, 1, 4) != \"Med \";";
 
         rs = st.executeQuery(queryNotIssued);
 
@@ -1714,7 +1717,6 @@ public class DbQuery {
                 statement.setString(3, att.getAttendance());
                 statement.executeUpdate();
             }
-
         }
 
         tearDownDb();
@@ -1737,52 +1739,39 @@ public class DbQuery {
     }
 
 //menu
-//    public static void editProfile(User u1) throws SQLException, ClassNotFoundException {
-//        setupDb();      
-//        final String query = "UPDATE person SET "+"
-//        contactNo = \"" + u1.getContactNo() + "\" , 
-//        emerContact =\"" + u1.getEmerContact() +"\" , 
-//        email =\"" + u1.getEmail() "\" ,
-//        address =\"" + u1.getAddress() + "\" " + 
-//        "where cnic = \"" + getEmpCnic(u1.getemp_id()) + \"" ;
-//
-//        st.executeUpdate(query);
-//
-//        final String query2="INSERT INTO allergies values(cnic,allergy)" +
-//         "VALUES (?, ?)";
-//        try (PreparedStatement statement = conn.prepareStatement(query)) {
-//            
-//                statement.setString(1, getEmpCnic(u1.getEmp_id()));
-//                statement.setString(2, u1.getAllergy());
-//                statement.executeUpdate(query2);          
-//        }
-//        tearDownDb();
-//    }
+    public static void editProfile(Employee u1) throws SQLException, ClassNotFoundException {
+        setupDb();
+        
+        final String cnicQuery = "SELECT cnic, emp_id FROM Employee WHERE emp_id = \"" + u1.getEmp_id() + "\"";
+        ResultSet rs = st.executeQuery(cnicQuery);
+        rs.next();
+        String cnic = rs.getString("cnic");
+        
+        final String query = "UPDATE person SET contact = ?, emerContact = ?, email = ?, address = ? where cnic = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, u1.getContactNo());
+        ps.setString(2, u1.getEmerContact());
+        ps.setString(3, u1.getEmail());
+        ps.setString(4, u1.getAddress());
+        ps.setString(5, cnic);
+        ps.executeUpdate();
+
+        final String query2 = "INSERT INTO allergies(cnic, allergy) VALUES (\"" + cnic + "\", \"" + u1.getAllergy() + "\")";
+        st.executeUpdate(query2);
+        tearDownDb();
+    }
+
     public static void registerComplaint(String details) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "INSERT INTO report (details, type) \n"
-                + "VALUES (?, ?);";
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-
-            statement.setString(1, details);
-            statement.setString(2, "complaint");
-            statement.executeUpdate(query);
-        }
+        final String query = "INSERT INTO report (details, type) VALUES (\"" + details + "\", \"complaint\");";
+        st.executeUpdate(query);
         tearDownDb();
     }
 
     public static void registerSuggestion(String details) throws SQLException, ClassNotFoundException {
         setupDb();
-
-        final String query = "INSERT INTO report (details,type)"
-                + "VALUES (?,?)";
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-
-            statement.setString(1, details);
-            statement.setString(2, "suggestion");
-
-            statement.executeUpdate(query);
-        }
+        final String query = "INSERT INTO report (details, type) VALUES (\"" + details + "\", \"suggestion\");";
+        st.executeUpdate(query);
         tearDownDb();
     }
 
@@ -1791,14 +1780,14 @@ public class DbQuery {
 
         ArrayList<Notice> noticeList = new ArrayList<Notice>();
 
-        final String query = "SELECT Notice.title, Notice.text, Notice.date "
+        final String query = "SELECT title, text, date "
                 + "FROM Notice ";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            Notice notice = new Notice(rs.getString("Notice.title"), rs.getString("Notice.text"),
-                    rs.getDate("Notice.date"));
+            Notice notice = new Notice(rs.getString("title"), rs.getString("text"),
+                    rs.getDate("date"));
 
             noticeList.add(notice);
         }
