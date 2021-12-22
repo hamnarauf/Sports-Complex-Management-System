@@ -1,4 +1,3 @@
-
 CREATE DATABASE SportsComplex;
 USE SportsComplex;
 CREATE TABLE PERSON (
@@ -171,7 +170,7 @@ CREATE TABLE EMERGENCY(
     status enum('resolved', 'unresolved'),
     
     constraint emergency_pk PRIMARY KEY (emer_id),
-    constraint emergency_fk FOREIGN KEY (patient_id) references MEMBER (member_id)
+    constraint emergency_fk FOREIGN KEY (patient_id) references MEMBER (member_id) 	ON DELETE cascade
 );
 
 CREATE TABLE INVENTORY(
@@ -198,14 +197,14 @@ CREATE TABLE ISSUED_ITEMS(
 );
 
 CREATE TABLE INVENTORY_LOG(
-    issue_id int(5),
+    member_id int(5),
     date date,
     borrowedTime time,
     returnedTime time,
     damaged bool default false,
     
-    constraint inventory_log_pk PRIMARY KEY (issue_id),
-    constraint inventory_log_fk FOREIGN KEY (issue_id) references ISSUED_ITEMS (issue_id) ON DELETE cascade
+    constraint inventory_log_pk PRIMARY KEY (member_id,date,borrowedTime),
+    constraint inventory_log_fk FOREIGN KEY (member_id) REFERENCES MEMBER (member_id)
 
 );
 
@@ -227,7 +226,7 @@ CREATE TABLE MEDICAL_LOG(
     quantity int,
     
     constraint medical_pk PRIMARY KEY (emer_id, item_id),
-    constraint medical_emer_fk FOREIGN KEY (emer_id) references EMERGENCY (emer_id),
+    constraint medical_emer_fk FOREIGN KEY (emer_id) references EMERGENCY (emer_id) ON DELETE cascade,
     constraint medical_item_fk FOREIGN KEY (item_id) references INVENTORY (item_id) ON DELETE cascade
 
 );
@@ -271,6 +270,15 @@ CREATE TABLE Transactions (
     CONSTRAINT check_amount_positive CHECK (amount >= 0)
 );
 
+CREATE TABLE credit_membership (
+    member_id int(5) ,
+    date date,
+    amount float,
+    status enum('paid', 'unpaid') default 'unpaid',
+    constraint credit_Membership_fk FOREIGN KEY (member_id) REFERENCES MEMBER (member_id) ON DELETE cascade
+);
+
+
 
 
 
@@ -288,8 +296,8 @@ CREATE TABLE Transactions (
 (3740520208015,'Maryam','Amjad','1998-08-21','F','03205987600','03215583098','m.amjad@hsh.com','A+','TajResidency_street 2'),
 (3740520208016,'Ali','Faheem','2002-11-21','M','03210583698','03003609887','a.faheem@hsh.com','O-','DHA_phase6_street 8'),
 (3740520208017,'Javeria','Nadeem','1999-11-01','F','03203609000','03210583008','j.nadeem@hsh.com','AB+','I9_Block2_street17'),
-(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9')
-;
+(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9'),
+(3740520208019,	'Bilal','Farooq','1999-01-12','M','03355766854','03215583560','b.farooq@hsh.com','O-','DHA_phase2_street5');
 
 INSERT INTO member(cnic) values 
 (3740520208071),
@@ -305,14 +313,15 @@ INSERT INTO guest values
 (2740520208013,10001,'Bilal','Saif');
 
 INSERT INTO department(deptName,supervisor_id,salary)   values 
-('registration',	10006,         45000),
-('inventory',	10005,        25000),
-('medical',	10004,         25000),
-('finance',	10003,           50000),
-('emergency',	10002,            25000),
-('maintenance',	10001,         25000),
-('coach',	10000,             40000),
-('attendant',	10008,	25000);
+('registration',	10006,  45000),
+('inventory',	10005,  25000),
+('medical',	10004, 25000),
+('finance',	10003, 50000),
+('emergency',	10002, 25000),
+('maintenance',	10001, 25000),
+('coach',	10000, 40000),
+('attendant',	10008,	25000),
+('manager',	10009,	50000);
 
 
 
@@ -325,7 +334,8 @@ INSERT INTO employee(cnic,dept_id)   values
 (3740520208015,	2),
 (3740520208016,	1),
 (3740520208017,	7),
-(3740520208018,	8);
+(3740520208018,	8),
+(3740520208019,	9);
 
 ALTER TABLE department
 ADD FOREIGN KEY (supervisor_id) REFERENCES Employee(emp_id) ON DELETE SET NULL;
@@ -342,10 +352,10 @@ INSERT INTO coach values
 INSERT INTO class (day,startTime,endtime,coach_id) values 
 ('Monday',	'10:00:00',	'13:00:00',	10007),
 ('Tuesday',	'10:30:00',	'12:30:00',	10007),
-('Wednesday',	'11:30:00',	'13:30:00',	10007),
-('Thursday',	'13:30:00',	'16:30:00',	10007),
+('Wednesday','11:30:00','13:30:00',	10007),
+('Thursday','13:30:00',	'16:30:00',	10007),
 ('Friday',	'9:30:00',	'10:30:00',	10007),
-('Saturday',	'10:30:00',	'11:30:00',	10007);
+('Saturday','10:30:00',	'11:30:00',	10007);
 
 INSERT INTO trainee  values 
 (1,	10000),
@@ -373,7 +383,8 @@ INSERT INTO users  values
 ('M.amjad98',	10005	,'Mary@1998',	4,	'farzana'),
 ('A.faheem02',	10006	,'March#543',	2,	'brown'),
 ('J.nadeem99',	10007	,'Gvry@875',	3,	'fish'),
-('h.malik00',	10008	,'hsaan@195',	3,	'fish');
+('h.malik00',	10008	,'hsaan@195',	3,	'fish'),
+('b.farooq99',	10009	,'bilal@999',	2,	'white');
 
 
 
@@ -381,8 +392,10 @@ INSERT INTO users  values
 INSERT INTO team(sport_id,package)   values 
 (4	,'training'),
 (1	,'non-training');
+
 INSERT INTO team_schedule  values 
 (1,	4);
+
 INSERT INTO attendance values 
 (10000,	'2021-12-07',	'P'),
 (10001,	'2021-12-07',	'A'),
@@ -392,7 +405,8 @@ INSERT INTO attendance values
 (10005,	'2021-12-07',	'P'),
 (10006,	'2021-12-07',	'P'),
 (10007,	'2021-12-07',	'P'),
-(10008,	'2021-12-07',	'P');
+(10008,	'2021-12-07',	'P'),
+(10009,	'2021-12-07',	'P');
 
 INSERT INTO schedule(eventName,date,time,venue)   values 
 ('Swimming Tournament',	'2021-12-6',	'12:30:00',	'Main Swimming Pool,floor1'),
@@ -410,7 +424,10 @@ INSERT INTO inventory(sport_id,itemName,quantity) values
 (2,'Dumbbells',9),
 (4,'Balls',6),
 (4,'Med First Aid Kit',4),
-(1,'Med First Aid Kit',4);
+(1,'Med First Aid Kit',4),
+(3	,'Med Oxygen tank',	3),
+(2	,'Med  Hot bags',	7),
+(2	,'Med  Drips',	8);
 
 
 INSERT INTO issued_items(member_id,item_id,time,quantity) values 
@@ -421,10 +438,24 @@ INSERT INTO issued_items(member_id,item_id,time,quantity) values
 
 
 INSERT INTO inventory_log values 
-(1,'2021-10-15','10:15:20','17:30:49',0),
-(2,'2021-10-15','12:25:30','15:30:30',0),
-(3,'2021-10-15','12:30:45','15:34:45',1),
-(4,'2021-10-25','9:12:25','13:12:25',0);
+(10003,'2021-10-15','10:15:20','17:30:49',0),
+(10001,'2021-10-15','12:25:30','15:30:30',0),
+(10001,'2021-10-15','12:30:45','15:34:45',1),
+(10000,'2021-10-25','9:12:25','13:12:25',0);
+
+DELETE FROM issued_items WHERE issue_id =1;
+DELETE FROM issued_items WHERE issue_id =2;
+DELETE FROM issued_items WHERE issue_id =3;
+DELETE FROM issued_items WHERE issue_id =4;
+
+INSERT INTO issued_items(member_id,item_id,time,quantity) values 
+(10003 , 8,'12:15:20',1),
+(10002 ,4 ,'10:25:30',2),
+(10001,9,'13:30:45',2),
+(10000 , 2,'11:12:25',2);
+
+
+
 
 INSERT INTO maintenance(sport_id,date,activity,level)  values 
 (3,'2021-01-21','Checking','Partial'),
@@ -444,7 +475,9 @@ INSERT INTO repairs(sport_id,purpose,amount,status)   values
 
 INSERT INTO report(details,type,status)   values 
 ('Treadmill not working',	'complaint',	'addressed'),
-('New AC for bowling court',	'suggestion',	'unaddressed');
+('New AC for bowling court',	'suggestion',	'unaddressed'),
+('More swimming dresses', 'suggestion', 'unaddressed'),
+('Filter pump of swimming pool 3 not working', 'complaint', 'unaddressed');
 
 INSERT INTO notice(title,text,date)   values 
 ('Swimming tournament','Join us for Swimming tournament on 6 DEC','2021-12-6'),
@@ -457,3 +490,8 @@ INSERT INTO transactions(type,amount) values
 ('inventoryFunds',	25000),
 ('repairFunds',	7000);
 
+INSERT INTO credit_membership(member_id,date,amount,status) values 
+(10000,	'2020-11-01' ,5000,	'paid'),
+(10001,	null,	8000,	'unpaid'),
+(10002	,null,	5000,	'unpaid'),
+(10003	,'2020-10-06',	10000,	'paid');
