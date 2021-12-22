@@ -198,14 +198,14 @@ CREATE TABLE ISSUED_ITEMS(
 );
 
 CREATE TABLE INVENTORY_LOG(
-    issue_id int(5),
+    member_id int(5),
     date date,
     borrowedTime time,
     returnedTime time,
     damaged bool default false,
     
-    constraint inventory_log_pk PRIMARY KEY (issue_id),
-    constraint inventory_log_fk FOREIGN KEY (issue_id) references ISSUED_ITEMS (issue_id) ON DELETE cascade
+    constraint inventory_log_pk PRIMARY KEY (member_id,date,borrowedTime),
+    constraint inventory_log_fk FOREIGN KEY (member_id) REFERENCES MEMBER (member_id)
 
 );
 
@@ -439,10 +439,22 @@ INSERT INTO issued_items(member_id,item_id,time,quantity) values
 
 
 INSERT INTO inventory_log values 
-(1,'2021-10-15','10:15:20','17:30:49',0),
-(2,'2021-10-15','12:25:30','15:30:30',0),
-(3,'2021-10-15','12:30:45','15:34:45',1),
-(4,'2021-10-25','9:12:25','13:12:25',0);
+(10003,'2021-10-15','10:15:20','17:30:49',0),
+(10001,'2021-10-15','12:25:30','15:30:30',0),
+(10001,'2021-10-15','12:30:45','15:34:45',1),
+(10000,'2021-10-25','9:12:25','13:12:25',0);
+
+DELETE FROM issued_items WHERE issue_id =1;
+DELETE FROM issued_items WHERE issue_id =2;
+DELETE FROM issued_items WHERE issue_id =3;
+DELETE FROM issued_items WHERE issue_id =4;
+
+INSERT INTO issued_items(member_id,item_id,time,quantity) values 
+(10003 , 8,'12:15:20',1),
+(10002 ,4 ,'10:25:30',2),
+(10001,9,'13:30:45',2),
+(10000 , 2,'11:12:25',2);
+
 
 
 
