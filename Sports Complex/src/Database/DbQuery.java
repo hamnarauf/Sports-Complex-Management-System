@@ -212,12 +212,13 @@ public class DbQuery {
 
     public static String getUsername(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        String uname;
+        String uname = "";
 
         final String query = "SELECT username FROM Users WHERE emp_id = \"" + emp_id + "\"";
-
         ResultSet rs = st.executeQuery(query);
-        uname = rs.getString("username");
+        if (rs.next()) {
+            uname = rs.getString("username");
+        }
 
         tearDownDb();
         return uname;
@@ -1546,23 +1547,23 @@ public class DbQuery {
         final String id = "select issue_id from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
         ResultSet rs = st.executeQuery(id);
-        
+
         if (rs.next()) {
             issue_id = rs.getString("issue_id");
         }
-        
+
         final String getQty = "select quantity from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
 
         rs = st.executeQuery(getQty);
-        
+
         if (rs.next()) {
             qty = rs.getInt("quantity");
         }
-        
+
         final String removeIssuedQuery = "DELETE FROM issued_items WHERE issue_id = \"" + issue_id + "\"";
         st.executeUpdate(removeIssuedQuery);
-        
+
         final String inventoryLogQuery = "INSERT INTO inventory_log (member_id, item_id, date, borrowedTime, "
                 + "returnedTime, quantity, damaged) VALUES (?,?,?,?,?,?,?)";
 
@@ -1580,7 +1581,6 @@ public class DbQuery {
             statement.executeUpdate();
         }
 
-        
         tearDownDb();
     }
 

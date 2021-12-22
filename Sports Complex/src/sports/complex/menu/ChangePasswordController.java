@@ -51,19 +51,29 @@ public class ChangePasswordController implements Initializable {
 
         if (cPass.equals("") || nPass.equals("") || retypePass.equals("")) {
             AlertMaker.showAlert("Empty fields", "Please enter all feilds");
-        } else if (!cPass.equals(retypePass)) {
-
+        } else if (!nPass.equals(retypePass)) {
             AlertMaker.showAlert("Try Again", "Retyped password does not match");
 
         } else {
             if (!Utility.passConstraints(newPass.getText())) {
                 AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character");
             } else {
+                if (DbQuery.checkLoginDetails(DbQuery.getUsername(emp_id), currentPass.getText()) == null) {
+                    AlertMaker.showAlert("Error", "Invalid current password.");
 
+                } else {
                     DbQuery.passwordNew(DbQuery.getUsername(emp_id), newPass.getText());
+                    AlertMaker.showAlert("Success", "Password updated.");
+                    clearCache();
+                }
             }
-
         }
+    }
+
+    private void clearCache() {
+        currentPass.setText("");
+        newPass.setText("");
+        retypeNewPass.setText("");
 
     }
 }
