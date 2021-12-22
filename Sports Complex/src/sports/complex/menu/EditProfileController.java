@@ -4,7 +4,10 @@ import Classes.Employee;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,19 +51,25 @@ public class EditProfileController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        Employee e = DbQuery.getEmployee(emp_id);
-//        name.setText(e.getLname()+ " " + e.getLname());
-//        dob.setText(e.getDob().toString());
-//        contact.setText(e.getContactNo());
-//        contactEmer.setText(e.getEmerContact());
-//        address.setText(e.getAddress());
-//        dept.setText(e.getDeptName());
-//        email.setText(e.getEmail());
-//        gender.setText(e.getGen().toString());
-//        bloodGroup.setText(e.getBloodGrp());
-//        allergies.setText(e.getAllergy());
-//        cnic.setText(e.getCnic());
-        id.setText(emp_id);
+        try {
+            Employee e = DbQuery.getEmployee(emp_id);
+            name.setText(e.getFname()+ " " + e.getLname());
+            dob.setText(e.getDob().toString());
+            contact.setText(e.getContactNo());
+            contactEmer.setText(e.getEmerContact());
+            address.setText(e.getAddress());
+            dept.setText(e.getDeptName());
+            email.setText(e.getEmail());
+            gender.setText(e.getGen().toString());
+            bloodGroup.setText(e.getBloodGrp());
+            allergies.setText(e.getAllergy());
+            cnic.setText(e.getCnic());
+            id.setText(emp_id);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void setId(String id) {
@@ -72,15 +81,16 @@ public class EditProfileController implements Initializable {
     }
 
     @FXML
-    private void handleEditBtn(ActionEvent event) {
+    private void handleEditBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         Employee emp = new Employee();
+        emp.setEmp_id(emp_id);
         emp.setEmail(email.getText());
         emp.setContactNo(contact.getText());
         emp.setEmerContact(contactEmer.getText());
         emp.setAllergy(allergies.getText());
         emp.setAddress(address.getText());
 
-//        DbQuery.editProfile(emp);
+        DbQuery.editProfile(emp);
     }
 
 }
