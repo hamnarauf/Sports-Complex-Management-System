@@ -179,6 +179,12 @@ public class MaintenanceController implements Initializable {
 
     }
 
+    @FXML
+    private void menuLogout(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/login/login.fxml"), "Login", getStage());
+
+    }
+
     public class MaintenanceActivity {
 
         private final SimpleStringProperty activity;

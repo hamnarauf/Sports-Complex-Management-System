@@ -30,11 +30,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utilities.StageLoader;
 import Database.DbQuery;
+import static Database.DbQuery.getSportID;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import javafx.scene.input.MouseEvent;
 import sports.complex.alert.AlertMaker;
 import sports.complex.menu.ChangePasswordController;
 import sports.complex.menu.EditProfileController;
@@ -219,10 +221,12 @@ public class RegistrationController implements Initializable {
 
     void populateTimeCombo(String day, String sport) throws SQLException, ClassNotFoundException {
         ArrayList<Time> times = new ArrayList<Time>();
-        times = DbQuery.getTime(day, sport);
-        for (Time t : times) {
-            regTeamTime.getItems().add(t);
-        }
+//        times = DbQuery.getTime(day, sport);
+//        for (Time t : times) {
+            regTeamTime.getItems().add(new Time(9,0,0));
+            regTeamTime.getItems().add(new Time(10,0,0));
+            regTeamTime.getItems().add(new Time(13,0,0));
+//        }
     }
 
     void populateDaysCombo() {
@@ -431,12 +435,12 @@ public class RegistrationController implements Initializable {
         Time time = regTeamTime.getValue();
         String day = regTeamDay.getValue();
 
-        if (sport.equals("") || mem.equals("") || pkg.equals("")
+        if (sport.equals("")  || pkg.equals("")
                 || (pkg.equals("") && time.equals("") && day.equals(""))) {
             AlertMaker.showAlert("Try again", "Please enter all required feilds");
         } else {
 
-            try {
+//            try {
                 if (pkg.equals("Training")) {
                     Team t;
                     t = new Team("", sport, Integer.parseInt(mem), pkg, time);
@@ -449,9 +453,9 @@ public class RegistrationController implements Initializable {
                 AlertMaker.showAlert("Succes", "Team Registered succesfully");
                 clearTeamCache();
 
-            } catch (Exception e) {
-                AlertMaker.showAlert("Error", "Invalid Details.");
-            }
+//            } catch (Exception e) {
+//                AlertMaker.showAlert("Error", "Invalid Details.");
+//            }
 
         }
     }
@@ -576,16 +580,26 @@ public class RegistrationController implements Initializable {
 
     @FXML
     private void handleDayTeam(ActionEvent event) throws SQLException, ClassNotFoundException {
-        if (!regTeamSport.getValue().equals("")) {
+        if (regTeamSport.getValue()!= null) {
             populateTimeCombo(regTeamDay.getValue(), regTeamSport.getValue());
         }
     }
 
     @FXML
     private void handleRegTeamSport(ActionEvent event) throws SQLException, ClassNotFoundException {
-//        regTeamMembers.setText(DbQuery.getSportMembers(regTeamSport.getValue()));
-        regTeamMembers.setText("1");
+//        regTeamMembers.setText(DbQuery.getSportMembers(DbQuery.getSportID(regTeamSport.getValue())).toString());
+        regTeamMembers.setText("2");
 
+    }
+
+    @FXML
+    private void menuLogout(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/login/login.fxml"), "Login", getStage());
+
+    }
+
+    @FXML
+    private void handleTeamTime(MouseEvent event) {
     }
 
 }

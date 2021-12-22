@@ -4,6 +4,7 @@ import Classes.Utility;
 import Database.DbQuery;
 import com.jfoenix.controls.JFXPasswordField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +44,7 @@ public class ChangePasswordController implements Initializable {
     }
 
     @FXML
-    private void handleConfirmBtn(ActionEvent event) {
+    private void handleConfirmBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String cPass = currentPass.getText();
         String nPass = newPass.getText();
         String retypePass = retypeNewPass.getText();
@@ -59,7 +60,7 @@ public class ChangePasswordController implements Initializable {
                 AlertMaker.showAlert("Try Again", "Password should be of minimum 8 length, contains upper and lowercase, digit, special character");
             } else {
 
-//                    DbQuery.passwordNew(DbQuery.getusername(emp_id), newPass.getText());
+                    DbQuery.passwordNew(DbQuery.getUsername(emp_id), newPass.getText());
             }
 
         }
