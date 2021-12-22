@@ -33,23 +33,20 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <JFXTextField fx:id="name" disable="true" text="Ahmed Ali" />
                   <JFXTextField fx:id="dob" disable="true" text="23 March 2023" GridPane.rowIndex="1" />
                   <JFXTextField fx:id="contact" labelFloat="true" promptText="Contact Number" text="01223435567" GridPane.rowIndex="3" />
                   <JFXTextField fx:id="contactEmer" labelFloat="true" promptText="Emergency Contact" text="0213233434" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <JFXTextField fx:id="address" labelFloat="true" promptText="Address" text="block 48, islamabad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <JFXTextField fx:id="dept" disable="true" text="Finance" GridPane.rowIndex="4" />
-                  <JFXTextField fx:id="id" disable="true" text="52" GridPane.columnIndex="1" />
-                  <JFXTextField fx:id="email" labelFloat="true" promptText="Email" text="abc@gmail.com" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <JFXTextField fx:id="gender" disable="true" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <JFXTextField fx:id="role" disable="true" text="Manager" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <JFXTextField fx:id="bloodGroup" disable="true" text="O-" GridPane.rowIndex="6" />
-                  <JFXTextField fx:id="allergies" labelFloat="true" promptText="Allergies" text="Peanut Allergy" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <JFXTextField fx:id="salary" disable="true" text="SALARY" GridPane.rowIndex="5" />
+                  <JFXTextField fx:id="address" labelFloat="true" promptText="Address" text="block 48, islamabad" GridPane.rowIndex="4" />
+                  <JFXTextField fx:id="dept" disable="true" text="Finance" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="email" labelFloat="true" promptText="Email" text="abc@gmail.com" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <JFXTextField fx:id="gender" disable="true" text="Female" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <JFXTextField fx:id="bloodGroup" disable="true" text="O-" GridPane.rowIndex="5" />
+                  <JFXTextField fx:id="allergies" labelFloat="true" promptText="Allergies" text="Peanut Allergy" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <JFXTextField fx:id="cnic" disable="true" text="CNIC Number" GridPane.rowIndex="2" />
+                  <JFXTextField fx:id="id" disable="true" layoutX="10.0" layoutY="29.0" text="1000" GridPane.columnIndex="1" />
                </children>
                <BorderPane.margin>
                   <Insets left="50.0" right="50.0" />

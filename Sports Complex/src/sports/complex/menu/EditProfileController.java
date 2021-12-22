@@ -29,44 +29,38 @@ public class EditProfileController implements Initializable {
     @FXML
     private JFXTextField dept;
     @FXML
-    private JFXTextField id;
-    @FXML
     private JFXTextField email;
     @FXML
     private JFXTextField gender;
-    @FXML
-    private JFXTextField role;
     @FXML
     private JFXTextField bloodGroup;
     @FXML
     private JFXTextField allergies;
     @FXML
-    private JFXTextField salary;
-    @FXML
     private JFXTextField cnic;
 
     public static String emp_id;
+    @FXML
+    private JFXTextField id;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        Employee e = DbQuery.getEmployee();
-//        name.setText(e.fname+" " + e.lname());
-//        dob.setText();
-//        contact.setText();
-//        contactEmer.setText();
-//        address.setText();
-//        dept.setText();
-//        id.setText();
-//        email.setText();
-//        gender.setText();
-//        role.setText();
-//        bloodGroup.setText();
-//        allergies.setText();
-//        salary.setText();
-//        cnic.setText();
+//        Employee e = DbQuery.getEmployee(emp_id);
+//        name.setText(e.getLname()+ " " + e.getLname());
+//        dob.setText(e.getDob().toString());
+//        contact.setText(e.getContactNo());
+//        contactEmer.setText(e.getEmerContact());
+//        address.setText(e.getAddress());
+//        dept.setText(e.getDeptName());
+//        email.setText(e.getEmail());
+//        gender.setText(e.getGen().toString());
+//        bloodGroup.setText(e.getBloodGrp());
+//        allergies.setText(e.getAllergy());
+//        cnic.setText(e.getCnic());
+        id.setText(emp_id);
     }
 
     public static void setId(String id) {
