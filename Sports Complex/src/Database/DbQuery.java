@@ -1065,7 +1065,21 @@ public class DbQuery {
         setupDb();
         String total = "";
 
-        final String query = "select sum(amount) from transactions where type like \"%extra%\";";
+        final String query = "select sum(amount) from repairs where status = \"Allocated\"";
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            total = rs.getString("sum(amount)");
+        }
+        tearDownDb();
+        return total;
+    }
+
+    public static String getMemTransTotal() throws SQLException, ClassNotFoundException {
+        setupDb();
+        String total = "";
+
+        final String query = "select sum(amount) from credit_membership \n"
+                + "where status = \"paid\";";
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
             total = rs.getString("sum(amount)");
@@ -1092,16 +1106,59 @@ public class DbQuery {
         return repairsList;
     }
 
-    public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
+    public static boolean hasPaid(String mem_id) throws ClassNotFoundException, ClassNotFoundException, SQLException {
         setupDb();
 
+        final String query = "select * from credit_membership where status = \"unpaid\" "
+                + "and member_id = \"" + mem_id + "\"";
+
+        ResultSet rs = st.executeQuery(query);
+        boolean valid = false;
+        while (rs.next()) {
+            valid = true;
+        }
+
+        tearDownDb();
+        return valid;
+
+    }
+
+    public static ArrayList<Member> viewMemTrans() throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        ArrayList<Member> m = new ArrayList<Member>();
+        final String query = "select member_id, Concat(firstName, \" \", lastName) as name, date, amount  from credit_membership \n"
+                + "join member using (member_id) join person using (cnic)\n"
+                + "where status = \"paid\"";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Member mem = new Member();
+            mem.setFname(rs.getString("name"));
+            mem.setMember_id(rs.getString("member_id"));
+            mem.setDuedate(rs.getDate("date"));
+            mem.setAmount(rs.getInt("amount"));
+            m.add(mem);
+        }
+
+        tearDownDb();
+        return m;
+    }
+
+    public static boolean hasReqRepairs() throws SQLException, ClassNotFoundException {
+        setupDb();
         final String query = "select purpose, sportName, amount from repairs join sport using (sport_id)\n"
                 + "where status = \"Pending\"";
 
         ResultSet rs = st.executeQuery(query);
 
+        if (rs.next()) {
+            tearDownDb();
+            return true;
+        }
         tearDownDb();
-        return rs.next();
+        return false;
     }
 
     public static void allocateFunds(Repair r) throws SQLException, ClassNotFoundException {
@@ -1123,23 +1180,25 @@ public class DbQuery {
     }
 
     public static Member detailsTransForm(String member_id) throws SQLException, ClassNotFoundException {
-        final String query = "SELECT creditMembership.member_id, firstName, lastName, duedate, amount \n"
-                + "FROM creditMembership INNER JOIN Member ON creditMembership.member_id = Member.member_id \n"
+        setupDb();
+        final String query = "SELECT credit_Membership.member_id, firstName, lastName, date, amount \n"
+                + "FROM credit_Membership INNER JOIN Member ON credit_Membership.member_id = Member.member_id \n"
                 + "INNER JOIN Person On Member.cnic = Person.cnic \n"
-                + "WHERE member_id = \"" + member_id + "\"";
+                + "WHERE credit_Membership.member_id = \"" + member_id + "\"";
 
         ResultSet rs = st.executeQuery(query);
-
-        Member m = new Member(rs.getString("member_id"), rs.getString("firstName"),
-                rs.getString("lastName"), rs.getDate("duedate"), rs.getInt("amount"));
-
+        Member m = null;
+        if (rs.next()) {
+            m = new Member(rs.getString("credit_Membership.member_id"), rs.getString("firstName"), rs.getString("lastName"),
+                    rs.getDate("date"), rs.getInt("amount"));
+        }
         tearDownDb();
         return m;
     }
 
     public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "UPDATE creditMembership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
+        final String query = "UPDATE credit_Membership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
         st.executeUpdate(query);
         tearDownDb();
     }
@@ -1507,10 +1566,10 @@ public class DbQuery {
         ArrayList<AvailableItem> itemList = new ArrayList<>();
         AvailableItem item;
 
-        final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity \n"
-                + "FROM inventory \n"
-                + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id \n"
-                + "WHERE SUBSTRING(itemName, 0, 4) != \"Med_\";";
+        final String query = "SELECT itemName, (inventory.quantity - issued_items.quantity) AS quantity\n"
+                + "FROM inventory\n"
+                + "INNER JOIN issued_items ON inventory.item_id = issued_items.item_id\n"
+                + "WHERE SUBSTRING(itemName, 0, 4) !=\"Med\"";
 
         ResultSet rs = st.executeQuery(query);
 
@@ -1522,7 +1581,7 @@ public class DbQuery {
         final String queryNotIssued = "SELECT itemName, quantity \n"
                 + "FROM inventory \n"
                 + "WHERE item_id NOT IN (SELECT item_id FROM issued_items) AND \n"
-                + "SUBSTRING(itemName, 0, 4) != \"Med_\";";
+                + "SUBSTRING(itemName, 0, 4) != \"Med\";";
 
         rs = st.executeQuery(queryNotIssued);
 
@@ -1675,6 +1734,76 @@ public class DbQuery {
             statement.executeUpdate();
         }
         tearDownDb();
+    }
+
+//menu
+//    public static void editProfile(User u1) throws SQLException, ClassNotFoundException {
+//        setupDb();      
+//        final String query = "UPDATE person SET "+"
+//        contactNo = \"" + u1.getContactNo() + "\" , 
+//        emerContact =\"" + u1.getEmerContact() +"\" , 
+//        email =\"" + u1.getEmail() "\" ,
+//        address =\"" + u1.getAddress() + "\" " + 
+//        "where cnic = \"" + getEmpCnic(u1.getemp_id()) + \"" ;
+//
+//        st.executeUpdate(query);
+//
+//        final String query2="INSERT INTO allergies values(cnic,allergy)" +
+//         "VALUES (?, ?)";
+//        try (PreparedStatement statement = conn.prepareStatement(query)) {
+//            
+//                statement.setString(1, getEmpCnic(u1.getEmp_id()));
+//                statement.setString(2, u1.getAllergy());
+//                statement.executeUpdate(query2);          
+//        }
+//        tearDownDb();
+//    }
+    public static void registerComplaint(String details) throws SQLException, ClassNotFoundException {
+        setupDb();
+        final String query = "INSERT INTO report (details, type) \n"
+                + "VALUES (?, ?);";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setString(1, details);
+            statement.setString(2, "complaint");
+            statement.executeUpdate(query);
+        }
+        tearDownDb();
+    }
+
+    public static void registerSuggestion(String details) throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        final String query = "INSERT INTO report (details,type)"
+                + "VALUES (?,?)";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setString(1, details);
+            statement.setString(2, "suggestion");
+
+            statement.executeUpdate(query);
+        }
+        tearDownDb();
+    }
+
+    public static ArrayList<Notice> viewNotice() throws SQLException, ClassNotFoundException {
+        setupDb();
+
+        ArrayList<Notice> noticeList = new ArrayList<Notice>();
+
+        final String query = "SELECT Notice.title, Notice.text, Notice.date "
+                + "FROM Notice ";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Notice notice = new Notice(rs.getString("Notice.title"), rs.getString("Notice.text"),
+                    rs.getDate("Notice.date"));
+
+            noticeList.add(notice);
+        }
+        tearDownDb();
+        return noticeList;
     }
 
 }

@@ -60,41 +60,41 @@ public class LoginController implements Initializable {
             clearPass();
 
         } else {
-            
+
             User user = DbQuery.checkLoginDetails(uname, pass);
             if (user != null) {
                 switch (DbQuery.getDeptName(user.getDept_id())) {
                     case ("registration"):
                         RegistrationController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/registration/registration.fxml"), "Registration", getStage());
                         break;
                     case ("attendant"):
                         AttendantController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/attendant/attendant.fxml"), "Attendant", getStage());
                         break;
                     case ("coach"):
                         CoachController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/coach/coach.fxml"), "Coach", getStage());
                         break;
                     case ("emergency"):
                         EmergencyController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/emergency/emergency.fxml"), "Emergency", getStage());
                         break;
                     case ("finance"):
                         FinanceController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/finance/finance.fxml"), "Finance", getStage());
                         break;
                     case ("inventory"):
                         InventoryController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/inventory/inventory.fxml"), "Inventory", getStage());
                         break;
                     case ("maintenance"):
                         MaintenanceController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/maintenance/maintenance.fxml"), "Maintenance", getStage());
                         break;
                     case ("manager"):
                         ManagerController.setId(user.getEmp_id());
-                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", null);
+                        StageLoader.loadWindow(getClass().getResource("/sports/complex/manager/manager.fxml"), "Manager", getStage());
                         break;
                 }
             } else {
@@ -131,6 +131,10 @@ public class LoginController implements Initializable {
     private void clearPass() {
         pass_hidden.setText("");
         pass_text.setText("");
+    }
+
+    private Stage getStage() {
+        return (Stage) rootPane.getScene().getWindow();
     }
 
     @Override

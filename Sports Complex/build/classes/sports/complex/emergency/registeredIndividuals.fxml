@@ -47,7 +47,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
                   <JFXTextField fx:id="search" onMouseClicked="#filterByName" prefHeight="37.0" prefWidth="311.0" promptText="Search by Name" />
-                  <JFXComboBox fx:id="bloodGroup" prefHeight="37.0" prefWidth="333.0" promptText="Select Blood Group" />
+                  <JFXComboBox fx:id="bloodGroup" onMouseClicked="#filterByBloodG" prefHeight="37.0" prefWidth="333.0" promptText="Select Blood Group" />
                </children>
             </HBox>
          </children>
