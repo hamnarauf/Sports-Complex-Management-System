@@ -98,7 +98,7 @@ public class RegisterTraineeController implements Initializable {
         } else {
             if (DbQuery.isMember(cnic)) {
                 Trainee t = new Trainee(tId, sport, time, day);
-                DbQuery.registerTrainee(t);
+//                DbQuery.registerTrainee(t);
                 AlertMaker.showAlert("Registeration successfull", "Success");
 
             } else {
