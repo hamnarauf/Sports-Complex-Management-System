@@ -34,7 +34,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/teams/removeTeam.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
-//        setStage("/sports/complex/login/login.fxml");
+        setStage("/sports/complex/login/login.fxml");
 //        setStage("/sports/complex/alert/alertbox.fxml");
 //        setStage("/sports/complex/finance/finance.fxml");
 //        setStage("/sports/complex/attendant/attendant.fxml");
