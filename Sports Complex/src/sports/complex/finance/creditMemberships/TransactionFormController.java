@@ -56,7 +56,7 @@ public class TransactionFormController implements Initializable {
     private void setLabels(Member m) {
         formId.setText(m.getMember_id());
         name.setText(m.getFname() + " " + m.getLname());
-        date.setText(m.getDuedate().toString());
+        date.setText("08/01/2022");
         totalAmount.setText("Rs. " + Integer.toString(m.getAmount()));
         fees.setText("Rs. 4000");
 

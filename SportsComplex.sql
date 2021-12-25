@@ -1,4 +1,3 @@
-
 CREATE DATABASE SportsComplex;
 USE SportsComplex;
 CREATE TABLE PERSON (
@@ -199,13 +198,16 @@ CREATE TABLE ISSUED_ITEMS(
 
 CREATE TABLE INVENTORY_LOG(
     member_id int(5),
+    item_id int(5),
     date date,
     borrowedTime time,
     returnedTime time,
+    quantity int,
     damaged bool default false,
     
-    constraint inventory_log_pk PRIMARY KEY (member_id,date,borrowedTime),
-    constraint inventory_log_fk FOREIGN KEY (member_id) REFERENCES MEMBER (member_id)
+    constraint inventory_log_pk PRIMARY KEY (member_id, item_id, date, borrowedTime),
+    constraint inventory_log_fk1 FOREIGN KEY (member_id) REFERENCES MEMBER (member_id),
+	constraint inventory_log__fk2 FOREIGN KEY (item_id) REFERENCES INVENTORY (item_id) ON DELETE cascade
 
 );
 
@@ -297,14 +299,20 @@ CREATE TABLE credit_membership (
 (3740520208015,'Maryam','Amjad','1998-08-21','F','03205987600','03215583098','m.amjad@hsh.com','A+','TajResidency_street 2'),
 (3740520208016,'Ali','Faheem','2002-11-21','M','03210583698','03003609887','a.faheem@hsh.com','O-','DHA_phase6_street 8'),
 (3740520208017,'Javeria','Nadeem','1999-11-01','F','03203609000','03210583008','j.nadeem@hsh.com','AB+','I9_Block2_street17'),
-(3740520208018,	'Hassan',	'Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9'),
-(3740520208019,	'Bilal','Farooq','1999-01-12','M','03355766854','03215583560','b.farooq@hsh.com','O-','DHA_phase2_street5');
+(3740520208018,	'Hassan','Malik','2000-01-01','M','03207709900','03000583128','h.malik@hsh.com','B-','TajResidency_street 9'),
+(3740520208019,	'Bilal','Farooq','1999-01-12','M','03355766854','03215583560','b.farooq@hsh.com','O-','DHA_phase2_street5'),
+(3740520208020,	'Dua',	'Fatima','2004-01-12','F','03034650870','03355766645','d.fatima@hsh.com','AB+'	,'I10_Block3_street10'),
+(3740520208021,	'Huma',	'Umar'	,'2000-09-21','F','03210504698','03005766854','h.umar@hsh.com'	,'A-','Bharia_street4'),
+(3740520208022,	'Insha','Sajad'	,'2001-05-10','F','03203909099','03210083088','i.sajad@hsh.com'	,'B-','I10_Block1_street1');
 
 INSERT INTO member(cnic) values 
 (3740520208071),
 (3740520208082),
 (3740520208093),
-(3740520208096);
+(3740520208096),
+(3740520208020),
+(3740520208021),
+(3740520208022);
 
 
 INSERT INTO guest values 
@@ -439,10 +447,10 @@ INSERT INTO issued_items(member_id,item_id,time,quantity) values
 
 
 INSERT INTO inventory_log values 
-(10003,'2021-10-15','10:15:20','17:30:49',0),
-(10001,'2021-10-15','12:25:30','15:30:30',0),
-(10001,'2021-10-15','12:30:45','15:34:45',1),
-(10000,'2021-10-25','9:12:25','13:12:25',0);
+(10003,3,'2021-10-15','10:15:20','17:30:49',4,0),
+(10001,1,'2021-10-15','12:25:30','15:30:30',10,0),
+(10001,2,'2021-10-15','12:30:45','15:34:45',12,1),
+(10000,4,'2021-10-25','9:12:25','13:12:25',2,0);
 
 DELETE FROM issued_items WHERE issue_id =1;
 DELETE FROM issued_items WHERE issue_id =2;
@@ -496,6 +504,3 @@ INSERT INTO credit_membership(member_id,date,amount,status) values
 (10001,	null,	8000,	'unpaid'),
 (10002	,null,	5000,	'unpaid'),
 (10003	,'2020-10-06',	10000,	'paid');
-
-
-

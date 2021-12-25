@@ -121,6 +121,12 @@ public class AttendantController implements Initializable {
         tableView.setItems(list);
     }
 
+    @FXML
+    private void menuLogout(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("/sports/complex/login/login.fxml"), "Login", getStage());
+
+    }
+
     public class MarkAttendance {
 
         private final String id;

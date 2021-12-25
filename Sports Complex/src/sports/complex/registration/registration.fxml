@@ -183,7 +183,7 @@
                                           <JFXComboBox fx:id="regTeamSport" focusColor="#08eff5" onAction="#handleRegTeamSport" prefHeight="37.0" prefWidth="352.0" promptText="Sport" />
                                           <JFXTextField fx:id="regTeamMembers" disable="true" labelFloat="true" promptText="Number of Members" GridPane.columnIndex="1" />
                                           <JFXComboBox fx:id="regTeamPackage" focusColor="#08eff5" onAction="#handlePkgTeam" prefHeight="37.0" prefWidth="352.0" promptText="Package" GridPane.rowIndex="1" />
-                                          <JFXComboBox fx:id="regTeamTime" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" prefHeight="37.0" prefWidth="352.0" promptText="Set Favourable Time (only for taining teams)" GridPane.rowIndex="2" />
+                                          <JFXComboBox fx:id="regTeamTime" focusColor="#08eff5" layoutX="10.0" layoutY="201.0" onMouseClicked="#handleTeamTime" prefHeight="37.0" prefWidth="352.0" promptText="Set Favourable Time (only for taining teams)" GridPane.rowIndex="2" />
                                           <JFXComboBox fx:id="regTeamDay" focusColor="#08eff5" layoutX="10.0" layoutY="340.0" onAction="#handleDayTeam" prefHeight="37.0" prefWidth="352.0" promptText="Set Day (only for taining teams)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                        <BorderPane.margin>
@@ -370,6 +370,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#menuChangePassword" text="Change Password" />
                   <MenuItem mnemonicParsing="false" onAction="#menuEditProfile" text="Edit Profile" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuLogout" text="Logout" />
                   <MenuItem mnemonicParsing="false" onAction="#menuExit" text="Exit" />
                </items>
             </Menu>

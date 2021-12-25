@@ -42,7 +42,7 @@ public class RegisterTraineeController implements Initializable {
         try {
             populateDaysCombo();
             populateSportsCombo();
-//            populateTimeCombo();
+            populateTimeCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -76,16 +76,19 @@ public class RegisterTraineeController implements Initializable {
         ArrayList<Time> times = new ArrayList<Time>();
         String sport = sportCombo.getValue();
         String day = dayCombo.getValue();
-
-        times = DbQuery.getTime(sport, day);
-        for (Time time : times) {
-            timeCombo.getItems().add(time);
-        }
+        timeCombo.getItems().add(new Time(9, 0, 0));
+        timeCombo.getItems().add(new Time(10, 0, 0));
+        timeCombo.getItems().add(new Time(13, 0, 0));
+//        times = DbQuery.getTime(sport, day);
+//        for (Time time : times) {
+//            timeCombo.getItems().add(time);
+//        }
     }
 
     @FXML
     private void handleRegisterBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         String tId = id.getText();
+        String cnic = DbQuery.getMemberCnic(tId);
         String sport = sportCombo.getValue();
         Time time = timeCombo.getValue();
         String day = dayCombo.getValue();
@@ -93,7 +96,7 @@ public class RegisterTraineeController implements Initializable {
         if (tId.equals("") || sport.equals("") || time.equals("")) {
             AlertMaker.showAlert("Try Again", "Please Enter all feilds");
         } else {
-            if (DbQuery.isMember(tId)) {
+            if (DbQuery.isMember(cnic)) {
                 Trainee t = new Trainee(tId, sport, time, day);
                 DbQuery.registerTrainee(t);
                 AlertMaker.showAlert("Registeration successfull", "Success");
