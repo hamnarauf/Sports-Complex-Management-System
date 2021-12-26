@@ -2,12 +2,14 @@ package Database;
 
 import Classes.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -697,16 +699,90 @@ public class DbQuery {
         tearDownDb();
     }
 
+//    public static void registerUser(User user, boolean isCoach) throws SQLException, ClassNotFoundException {
+//        setupDb();
+//        registerEmployee(user, isCoach);
+//        String emp_id = getEmpId(user.getCnic());
+//        user.setEmp_id(emp_id);
+//
+//        final String query = "INSERT INTO Users (emp_id, securityQues, securityAns) \n"
+//                + "VALUES (\"" + user.getEmp_id() + "\", \"" + user.getSecQs() + "\", \""
+//                + user.getSecAns() + "\")";
+//
+//        st.executeUpdate(query);
+//        tearDownDb();
+//    }
     public static void registerUser(User user, boolean isCoach) throws SQLException, ClassNotFoundException {
         setupDb();
-        registerEmployee(user, isCoach);
-        String emp_id = getEmpId(user.getCnic());
+        final String queryPer = "INSERT INTO Person (firstName, lastName, gender, dob, cnic, address,"
+                + " contact, emerContact, email, bloodGroup) \n"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        final String queryEmp = "INSERT INTO Employee (cnic, dept_id) VALUES (\"" + user.getCnic() + "\", "
+                + user.getDept_id() + ");";
+
+        java.sql.Date date = new java.sql.Date(user.getDob().getTime());
+
+        try (PreparedStatement statement = conn.prepareStatement(queryPer)) {
+            statement.setString(1, user.getFname());
+            statement.setString(2, user.getLname());
+            statement.setString(3, user.getGen().name());
+            statement.setDate(4, date);
+            statement.setString(5, user.getCnic());
+            statement.setString(6, user.getAddress());
+            statement.setString(7, user.getContactNo());
+            statement.setString(8, user.getEmerContact());
+            statement.setString(9, user.getEmail());
+            statement.setString(10, user.getBloodGrp());
+            statement.executeUpdate();
+        }
+        st.executeUpdate(queryEmp);
+
+        if (user.getAllergy() != "") {
+            final String query = "INSERT INTO allergies VALUES (\"" + user.getCnic() + "\", \"" + user.getAllergy()
+                    + "\")";
+            st.executeUpdate(query);
+        }
+
+        if (isCoach) {
+            final String queryCoach = "INSERT INTO Coach (coach_id, sport_id) VALUES (?,?)";
+            final String queryid = "SELECT emp_id FROM Employee WHERE cnic = \"" + user.getCnic() + "\"";
+
+            String emp_id = "";
+            ResultSet rs = st.executeQuery(queryid);
+
+            if (rs.next()) {
+                emp_id = rs.getString("emp_id");
+            }
+
+            try (PreparedStatement statement = conn.prepareStatement(queryCoach)) {
+                statement.setString(1, emp_id);
+
+                statement.setInt(2, getSportID(user.getSportName()));
+                statement.executeUpdate();
+            }
+        }
+
+        final String queryid = "SELECT emp_id FROM Employee WHERE cnic = \"" + user.getCnic() + "\"";
+        final String queryQuesId = "select ques_id from security_qs where ques = \"" + user.getSecQs() + "\"";
+
+        String emp_id = "";
+        ResultSet rs = st.executeQuery(queryid);
+
+        if (rs.next()) {
+            emp_id = rs.getString("emp_id");
+        }
         user.setEmp_id(emp_id);
 
-        final String query = "INSERT INTO Users (emp_id, securityQues, securityAns) \n"
-                + "VALUES (\"" + user.getEmp_id() + "\", \"" + user.getSecQs() + "\", \""
-                + user.getSecAns() + "\")";
+        String secQues = "";
+        ResultSet rs2 = st.executeQuery(queryQuesId);
+        if (rs2.next()) {
+            secQues = rs2.getString("ques_id");
+        }
 
+        final String query = "INSERT INTO Users (emp_id, security_qs_id, securityAns) \n"
+                + "VALUES (\"" + user.getEmp_id() + "\", \"" + secQues + "\", \""
+                + user.getSecAns() + "\")";
         st.executeUpdate(query);
         tearDownDb();
     }
@@ -908,7 +984,7 @@ public class DbQuery {
                 + "GROUP BY class.day;";
 
         ResultSet rs = st.executeQuery(query);
-        if (rs.next()) {
+        while (rs.next()) {
             cs = new CoachSchedule(coach_id, rs.getString("day"), rs.getTime("startTime"),
                     rs.getTime("endTime"), rs.getInt("count(trainee.member_id)"));
             schedule.add(cs);
@@ -932,7 +1008,7 @@ public class DbQuery {
                 + "Coach.coach_id = \"" + coach_id + "\";";
 
         ResultSet rs = st.executeQuery(query);
-        if (rs.next()) {
+        while (rs.next()) {
             t = new Trainee(rs.getString("member_id"), rs.getString("firstName"), rs.getString("lastName"));
             traineeList.add(t);
         }
@@ -1283,7 +1359,11 @@ public class DbQuery {
 
     public static void creditMembership(String member_id) throws SQLException, ClassNotFoundException {
         setupDb();
-        final String query = "UPDATE credit_Membership SET status = \"paid\" WHERE member_id = \"" + member_id + "\";";
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        
+        final String query = "update credit_membership set status = \"paid\", date = '"+date+"' "
+                + " WHERE member_id = \"" + member_id + "\";";
         st.executeUpdate(query);
         tearDownDb();
     }
@@ -1472,13 +1552,13 @@ public class DbQuery {
     public static ArrayList<Employee> displayInsertedEmp() throws ClassNotFoundException, SQLException {
         setupDb();
         ArrayList<Employee> employees = new ArrayList<>();
-        Employee e = new Employee();
 
         final String query = "select * from employee_INSERTED join department using(dept_id)";
 
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
+            Employee e = new Employee();
             e.setEmp_id(rs.getString("emp_id"));
             e.setCnic(rs.getString("cnic"));
             e.setDeptName(rs.getString("deptName"));
@@ -1626,6 +1706,20 @@ public class DbQuery {
         return item_id;
     }
 
+    public static String isItem(String itemName) throws ClassNotFoundException, SQLException {
+        setupDb();
+        String item_id = "";
+
+        final String query = "SELECT item_id FROM inventory WHERE itemName = \"" + itemName + "\";";
+        ResultSet rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            item_id = rs.getString("item_id");
+        }
+        tearDownDb();
+        return item_id;
+    }
+
     public static void issueItem(InventoryItem item) throws ClassNotFoundException, SQLException {
         setupDb();
 
@@ -1694,7 +1788,7 @@ public class DbQuery {
             statement.setString(2, getItemID(log.getItemName()));
             statement.setDate(3, date);
             statement.setTime(4, log.getTime());
-            statement.setTime(5, log.getReturnedTime());
+            statement.setTime(5, new Time(date.getTime()));
             statement.setInt(6, qty);
             statement.setInt(7, log.getDamaged());
             statement.executeUpdate();

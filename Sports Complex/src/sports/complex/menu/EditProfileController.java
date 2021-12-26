@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import sports.complex.alert.AlertMaker;
 
 /**
  * FXML Controller class
@@ -18,7 +19,7 @@ import javafx.fxml.Initializable;
  * @author Hamna Rauf
  */
 public class EditProfileController implements Initializable {
-
+    
     @FXML
     private JFXTextField name;
     @FXML
@@ -41,7 +42,7 @@ public class EditProfileController implements Initializable {
     private JFXTextField allergies;
     @FXML
     private JFXTextField cnic;
-
+    
     public static String emp_id;
     @FXML
     private JFXTextField id;
@@ -53,7 +54,7 @@ public class EditProfileController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             Employee e = DbQuery.getEmployee(emp_id);
-            name.setText(e.getFname()+ " " + e.getLname());
+            name.setText(e.getFname() + " " + e.getLname());
             dob.setText(e.getDob().toString());
             contact.setText(e.getContactNo());
             contactEmer.setText(e.getEmerContact());
@@ -71,15 +72,15 @@ public class EditProfileController implements Initializable {
             Logger.getLogger(EditProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public static void setId(String id) {
         emp_id = id;
     }
-
+    
     public static String getId() {
         return emp_id;
     }
-
+    
     @FXML
     private void handleEditBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         Employee emp = new Employee();
@@ -89,8 +90,14 @@ public class EditProfileController implements Initializable {
         emp.setEmerContact(contactEmer.getText());
         emp.setAllergy(allergies.getText());
         emp.setAddress(address.getText());
-
-        DbQuery.editProfile(emp);
+        
+        try {
+            DbQuery.editProfile(emp);
+            AlertMaker.showAlert("Success", "Profile Updated Successfully");
+        } catch (Exception e) {
+            AlertMaker.showAlert("Error", "Invalid Data.");
+        }
+        
     }
-
+    
 }

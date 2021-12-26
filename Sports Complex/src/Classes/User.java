@@ -6,8 +6,8 @@ import java.sql.Date;
  *
  * @author Sana Zehra
  */
-
 public class User extends Employee {
+
     private String uname;
     private String pass;
     private String secQs;
@@ -18,12 +18,12 @@ public class User extends Employee {
         this.pass = pass;
     }
 
-    public User(String uname, String pass, String dept_id){
+    public User(String uname, String pass, String dept_id) {
         this(uname, pass);
         this.setDept_id(dept_id);
     }
 
-    public User(String uname, String pass, String dept_id, String emp_id){
+    public User(String uname, String pass, String dept_id, String emp_id) {
         this(uname, pass, dept_id);
         setEmp_id(emp_id);
     }
@@ -32,6 +32,15 @@ public class User extends Employee {
             String emerContact, String email, String address, String emp_id, String deptName,
             String secQs, String secAns) {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address, emp_id, deptName);
+        this.secQs = secQs;
+        this.secAns = secAns;
+    }
+
+    public User(Employee e, String secQs, String secAns) {
+        super(e.getFname(), e.getLname(), e.getGen(), e.getDob(), e.getCnic(), e.getContactNo(), 
+                e.getEmerContact(), e.getEmail(), e.getAddress(), e.getEmp_id(), e.getDeptName());
+        this.setSportName(e.getSportName());
+        this.setDept_id(e.getDept_id());
         this.secQs = secQs;
         this.secAns = secAns;
     }

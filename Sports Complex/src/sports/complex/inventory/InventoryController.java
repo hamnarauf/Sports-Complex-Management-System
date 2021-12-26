@@ -79,11 +79,14 @@ public class InventoryController implements Initializable {
         } else {
             try {
                 int q = new Integer(quantity.getText());
-                InventoryItem item = new InventoryItem(id, "", items, q, Time.valueOf(LocalTime.now()));
+                InventoryItem i = new InventoryItem(id, "", items, q, Time.valueOf(LocalTime.now()));
 
                 try {
-                    DbQuery.issueItem(item);
+                    DbQuery.issueItem(i);
                     AlertMaker.showAlert("Success", "Item Issue successfully");
+                    MemberId.setText("");
+                    quantity.setText("");
+                    item.setValue(null);
                 } catch (Exception e) {
                     AlertMaker.showAlert("Error", "Invalid Member ID.");
                 }

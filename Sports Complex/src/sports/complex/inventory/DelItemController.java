@@ -37,7 +37,7 @@ public class DelItemController implements Initializable {
     @FXML
     private void handleDeleteBtn(ActionEvent event) throws ClassNotFoundException, SQLException {
         String name = itemName.getText();
-        if(!name.equals("") && !DbQuery.getItemID(name).equals("")){
+        if(!name.equals("") && !DbQuery.isItem(name).equals("")){
             DbQuery.deleteItem(name);
             AlertMaker.showAlert("Success", "Item deleted successfuly");
             itemName.setText("");
@@ -53,7 +53,7 @@ public class DelItemController implements Initializable {
         clearCache();
         String name = itemName.getText();
 
-        if (!name.equals("") && !DbQuery.getItemID(name).equals("")) {
+        if (!name.equals("") && !DbQuery.isItem(name).equals("")) {
             InventoryItem item;
             item = DbQuery.showDeleteItemDetails(name);
             quantity.setText(Integer.toString(item.getQuantity()));

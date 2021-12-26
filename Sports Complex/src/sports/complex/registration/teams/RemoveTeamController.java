@@ -38,27 +38,29 @@ public class RemoveTeamController implements Initializable {
     private void handleRemoveBtn(ActionEvent event) throws SQLException, ClassNotFoundException {
         DbQuery.removeTeam(teamId.getText());
         AlertMaker.showAlert("Success", "Team removed successfully");
+        clearCache();
 
     }
 
     private void clearCache() {
         sport.setText("");
         pack.setText("");
+        teamId.setText("");
     }
 
     @FXML
     private void updateFields(ActionEvent event) throws SQLException, ClassNotFoundException {
-        clearCache();
+//        clearCache();
         String id = teamId.getText();
 
-        if (id != null && DbQuery.isTeam(id)) {
+        if (!id.equals("")&& DbQuery.isTeam(id)) {
             Team team;
             team = DbQuery.removeTeamDetails(id);
             sport.setText(team.getSport());
             pack.setText(team.getPack());
 
         } else {
-            pack.setText("Invalid Member ID");
+            pack.setText("Invalid Team ID");
         }
     }
 

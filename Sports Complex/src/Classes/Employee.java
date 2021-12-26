@@ -31,7 +31,7 @@ public class Employee extends Person {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address, bloodGrp, allergy);
 
         this.emp_id = emp_id;
-        this.setDept_id(dept_id);
+        this.dept_id = (dept_id);
     }
     
     public Employee(String fname, String lname, gender gen, Date dob, String cnic, String contactNo, String emerContact,

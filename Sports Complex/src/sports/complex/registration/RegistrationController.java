@@ -3,6 +3,7 @@ package sports.complex.registration;
 import Classes.Employee;
 import Classes.Member;
 import Classes.Team;
+import Classes.User;
 import Classes.gender;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -235,6 +236,8 @@ public class RegistrationController implements Initializable {
     }
 
     void populateDaysCombo() {
+        regTeamDay.getSelectionModel().clearSelection();
+        regTeamDay.getItems().clear();
         regTeamDay.getItems().add("Monday");
         regTeamDay.getItems().add("Tuesday");
         regTeamDay.getItems().add("Wednesday");
@@ -448,10 +451,10 @@ public class RegistrationController implements Initializable {
 //            try {
             if (pkg.equals("Training")) {
                 Team t;
-                t = new Team("", sport, Integer.parseInt(mem), pkg, time);
+                t = new Team("", sport, 0, pkg, time);
                 DbQuery.registerTeamforTraining(t);
             } else {
-                Team t = new Team("", sport, Integer.parseInt(mem), pkg);
+                Team t = new Team("", sport, 0, pkg);
                 DbQuery.registerTeam(t);
             }
 
@@ -521,11 +524,24 @@ public class RegistrationController implements Initializable {
             Employee emp = new Employee(fname, lname, gen, dob, cnic, contact,
                     emerContact, email, address, bloodgrp, allergy, "", DbQuery.getDeptID(dept));
             try {
-                if (domain == null) {
-                    DbQuery.registerEmployee(emp, false);
+                if (domain == null || domain.equals("")) {
+                    if (ans == null || ans.equals("")) {
+                        DbQuery.registerEmployee(emp, false);
+                    } else {
+                        User user = new User(emp, ques, ans);
+                        System.out.println("reg user");
+                        DbQuery.registerUser(user, false);
+                    }
+
                 } else {
                     emp.setSportName(domain);
-                    DbQuery.registerEmployee(emp, true);
+                    if (ans == null || ans.equals("")) {
+                        DbQuery.registerEmployee(emp, true);
+                    } else {
+                        User user = new User(emp, ques, ans);
+
+                        DbQuery.registerUser(user, true);
+                    }
                 }
 
                 AlertMaker.showAlert("Success", "Registeration successful.");
@@ -551,7 +567,8 @@ public class RegistrationController implements Initializable {
 
             } else {
                 AlertMaker.showAlert("Success", "Registeration successfull");
-
+                tourMemId.setText("");
+                sports1.setValue("");
             }
         }
 
@@ -570,19 +587,23 @@ public class RegistrationController implements Initializable {
 
             } else {
                 AlertMaker.showAlert("Success", "Registeration successfull");
+                tourTeamId.setText("");
+                sports2.setValue("");
             }
         }
     }
 
     @FXML
     private void handlePkgTeam(ActionEvent event) {
-        if(regTeamPackage.getValue()!= null){
-            if (regTeamPackage.getValue().equals("Non-Training")) {
-            populateDaysCombo();
-        }
+        if (regTeamPackage.getValue() != null) {
+            if (regTeamPackage.getValue().equals("Training")) {
+                populateDaysCombo();
+            } else {
+                regTeamDay.getSelectionModel().clearSelection();
+                regTeamDay.getItems().clear();
+            }
         }
 
-        
     }
 
     @FXML
