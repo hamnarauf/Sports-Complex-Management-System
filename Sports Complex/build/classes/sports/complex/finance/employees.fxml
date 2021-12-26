@@ -32,7 +32,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="59.0" prefWidth="787.0" spacing="300.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="totalLabel" text="Total 500000" />
+            <Label fx:id="totalLabel" />
             <JFXButton onAction="#handleExportPdf" prefHeight="42.0" prefWidth="151.0" text="Export as PDF" />
          </children>
          <BorderPane.margin>

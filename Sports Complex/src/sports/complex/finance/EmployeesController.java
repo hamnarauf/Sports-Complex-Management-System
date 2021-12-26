@@ -61,8 +61,8 @@ public class EmployeesController implements Initializable {
     }
 
     private void updateLabel() throws SQLException, ClassNotFoundException {
-        String total = DbQuery.getExtraTransTotal();
-        totalLabel.setText(total);
+        String total = DbQuery.getEmpTransTotal();
+        totalLabel.setText("Rs. " + total);
     }
 
     private void initCol() {

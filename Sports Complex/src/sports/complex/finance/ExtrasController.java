@@ -71,7 +71,7 @@ public class ExtrasController implements Initializable {
 
     private void updateLabel() throws SQLException, ClassNotFoundException {
         String total = DbQuery.getExtraTransTotal();
-        totalLabel.setText(total);
+        totalLabel.setText("Rs. " + total);
     }
 
     private void loadData() throws SQLException, ClassNotFoundException {

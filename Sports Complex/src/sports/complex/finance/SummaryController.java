@@ -58,7 +58,7 @@ public class SummaryController implements Initializable {
 
     private void updateLabel() throws SQLException, ClassNotFoundException {
         String total = DbQuery.getSummaryTransTotal();
-        totalLabel.setText(total);
+        totalLabel.setText("Rs. " + total);
     }
 
     private void initCol() {

@@ -937,23 +937,47 @@ public class DbQuery {
 
         final String query = "select * from transactions;";
 
-        ResultSet rs = st.executeQuery(query);
+        ResultSet rs1 = st.executeQuery(query);
 
-        while (rs.next()) {
-            Transaction trans = new Transaction(rs.getString("transactions.transaction_id"),
-                    rs.getString("transactions.type"),
-                    rs.getString("transactions.amount"));
+        while (rs1.next()) {
+            Transaction trans = new Transaction(rs1.getString("transactions.transaction_id"),
+                    rs1.getString("transactions.type"),
+                    rs1.getString("transactions.amount"));
 
             transList.add(trans);
         }
 
         final String repairs = "select repair_id, purpose, amount from repairs;";
-        ResultSet r = st.executeQuery(repairs);
+        ResultSet rs2 = st.executeQuery(repairs);
 
-        while (r.next()) {
-            Transaction repair = new Transaction(r.getString("repair_id"),
-                    r.getString("purpose"),
-                    r.getString("amount"));
+        while (rs2.next()) {
+            Transaction repair = new Transaction(rs2.getString("repair_id"),
+                    "Repair",
+                    rs2.getString("amount"));
+
+            transList.add(repair);
+        }
+        final String emp = "select emp_id, salary \n"
+                + "from employee join person using (cnic) join department using (dept_id);";
+        ResultSet rs3 = st.executeQuery(emp);
+
+        while (rs3.next()) {
+            Transaction repair = new Transaction(rs3.getString("emp_id"),
+                    "Employee Salary",
+                    rs3.getString("salary"));
+
+            transList.add(repair);
+        }
+        
+        final String mem = "select member_id, amount  from credit_membership \n"
+                + "join member using (member_id) join person using (cnic)\n"
+                + "where status = \"paid\"";
+        ResultSet rs4 = st.executeQuery(mem);
+
+        while (rs4.next()) {
+            Transaction repair = new Transaction(rs4.getString("member_id"),
+                    "Credit Membership",
+                    rs4.getString("amount"));
 
             transList.add(repair);
         }
@@ -964,15 +988,38 @@ public class DbQuery {
 
     public static String getSummaryTransTotal() throws SQLException, ClassNotFoundException {
         setupDb();
-        String total = "";
+        int total = 0;
 
-        final String query = "select sum(amount) from transactions;";
-        ResultSet rs = st.executeQuery(query);
-        if (rs.next()) {
-            total = rs.getString("sum(amount)");
+        final String query1 = "select sum(amount) from transactions;";
+        ResultSet rs1 = st.executeQuery(query1);
+        if (rs1.next()) {
+            total = rs1.getInt("sum(amount)");
         }
+        final String query2 = "select sum(amount) from repairs";
+        ResultSet rs2 = st.executeQuery(query2);
+        if (rs2.next()) {
+            total += rs2.getInt("sum(amount)");
+        }
+        final String emp = "select sum(salary) \n"
+                + "from employee join person using (cnic) join department using (dept_id);";
+        ResultSet rs3 = st.executeQuery(emp);
+
+        if (rs3.next()) {
+            total += rs3.getInt("sum(salary)");
+        }
+        
+        final String mem = "select sum(amount)  from credit_membership \n"
+                + "join member using (member_id) join person using (cnic)\n"
+                + "where status = \"paid\"";
+        ResultSet rs4 = st.executeQuery(mem);
+
+        if (rs4.next()) {
+            total += rs4.getInt("sum(amount)");
+        }
+        
+        
         tearDownDb();
-        return total;
+        return Integer.toString(total);
     }
 
     public static ArrayList<Transaction> viewTransBills() throws SQLException, ClassNotFoundException {
@@ -1082,6 +1129,20 @@ public class DbQuery {
         ResultSet rs = st.executeQuery(query);
         if (rs.next()) {
             total = rs.getString("sum(amount)");
+        }
+        tearDownDb();
+        return total;
+    }
+
+    public static String getEmpTransTotal() throws SQLException, ClassNotFoundException {
+        setupDb();
+        String total = "";
+
+        final String query = "select sum(salary) \n"
+                + "from employee join person using (cnic) join department using (dept_id);";
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            total = rs.getString("sum(salary)");
         }
         tearDownDb();
         return total;

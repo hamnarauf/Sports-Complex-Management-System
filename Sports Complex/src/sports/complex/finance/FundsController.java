@@ -58,8 +58,8 @@ public class FundsController implements Initializable {
     }
 
     private void updateLabel() throws SQLException, ClassNotFoundException {
-        String total = DbQuery.getBillsTransTotal();
-        totalLabel.setText(total);
+        String total = DbQuery.getFundsTransTotal();
+        totalLabel.setText("Rs. " + total);
     }
 
     private void initCol() {

@@ -59,7 +59,7 @@ public class BillsController implements Initializable {
 
     private void updateLabel() throws SQLException, ClassNotFoundException {
         String total = DbQuery.getBillsTransTotal();
-        totalLabel.setText(total);
+        totalLabel.setText("Rs. " + total);
     }
 
     private void initCol() {

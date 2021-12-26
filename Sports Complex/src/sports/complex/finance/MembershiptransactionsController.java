@@ -54,7 +54,7 @@ public class MembershiptransactionsController implements Initializable {
         initCol();
         try {
             loadData();
-            totalLabel.setText((DbQuery.getMemTransTotal()));
+            totalLabel.setText("Rs. " + (DbQuery.getMemTransTotal()));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MembershiptransactionsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
