@@ -40,44 +40,44 @@ public class StageLoader {
             Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void loadWindow(URL loc, String title, Stage parentStage) {
         Object controller = null;
         try {
             FXMLLoader loader = new FXMLLoader(loc);
             Parent parent = loader.load();
             controller = loader.getController();
-            setStage(title, parent, parentStage, false);
+            setStage(title, parent, parentStage, true);
         } catch (IOException ex) {
             Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+// height 369
+    // width 485
 
-    
     public static void setStage(String title, Parent parent, Stage parentStage, boolean resize) {
-        Stage stage = null;
+//        Stage stage = null;
         if (parentStage != null) {
-            stage = parentStage;
-        } else {
-            stage = new Stage(StageStyle.DECORATED);
+            parentStage.close();
         }
+        stage = new Stage(StageStyle.DECORATED);
+
         stage.setTitle(title);
         stage.setScene(new Scene(parent));
         stage.setResizable(resize);
         setStageIcon(stage);
         stage.show();
-        
 
     }
 
     public static void setAlertStage(String title, AlertboxController controller) {
-       Dialog dialog = new Dialog();
-            dialog.setDialogPane(controller.dialogPane);
-            dialog.setTitle(title);
+        Dialog dialog = new Dialog();
+        dialog.setDialogPane(controller.dialogPane);
+        dialog.setTitle(title);
 
-           Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-            setStageIcon(stage);
-            dialog.showAndWait();
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        setStageIcon(stage);
+        dialog.showAndWait();
     }
 
 }

@@ -873,12 +873,24 @@ public class DbQuery {
 
         String query;
 
-        for (int i = 0; i < 6; i++) {
-            query = "UPDATE Class SET coach_id = \"" + cs[i].getCoach_id() + "\", "
-                    + "day = \"" + cs[i].getDay() + "\", startTime = \"" + cs[i].getStartTime() + "\", "
-                    + "endTime = \"" + cs[i].getEndTime() + "\";";
-            st.executeUpdate(query);
+        String hasClass = "select * from class where coach_id = \"" + cs[0].getCoach_id() + "\"";
+        ResultSet rs = st.executeQuery(hasClass);
+        if (rs.next()) {
+            for (int i = 0; i < 6; i++) {
+                query = "UPDATE Class SET startTime = \"" + cs[i].getStartTime() + "\", "
+                        + "endTime = \"" + cs[i].getEndTime() + "\""
+                        + "Where coach_id = \"" + cs[i].getCoach_id() + "\" and day = \"" + cs[i].getDay() + "\";";
+                st.executeUpdate(query);
+            }
+        } else {
+            for (int i = 0; i < 6; i++) {
+                String newClass = "insert into class (day, startTime, endTime, coach_id) values(\"" + cs[i].getDay() + "\",\"" + cs[i].getStartTime()
+                        + "\",\"" + cs[i].getEndTime() + "\",\"" + cs[i].getCoach_id() + "\")";
+
+                st.executeUpdate(newClass);
+            }
         }
+
         tearDownDb();
     }
 
@@ -968,7 +980,7 @@ public class DbQuery {
 
             transList.add(repair);
         }
-        
+
         final String mem = "select member_id, amount  from credit_membership \n"
                 + "join member using (member_id) join person using (cnic)\n"
                 + "where status = \"paid\"";
@@ -1007,7 +1019,7 @@ public class DbQuery {
         if (rs3.next()) {
             total += rs3.getInt("sum(salary)");
         }
-        
+
         final String mem = "select sum(amount)  from credit_membership \n"
                 + "join member using (member_id) join person using (cnic)\n"
                 + "where status = \"paid\"";
@@ -1016,8 +1028,7 @@ public class DbQuery {
         if (rs4.next()) {
             total += rs4.getInt("sum(amount)");
         }
-        
-        
+
         tearDownDb();
         return Integer.toString(total);
     }

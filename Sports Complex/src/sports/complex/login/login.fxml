@@ -4,37 +4,99 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="369.0" prefWidth="485.0" style="-fx-background-color: #2f3136;" stylesheets="@../../../utilities/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sports.complex.login.LoginController">
    <children>
-      <JFXTextField id="username" fx:id="username" focusColor="#e0a0ae" labelFloat="true" layoutX="128.0" layoutY="120.0" prefHeight="38.0" prefWidth="260.0" promptText="Username" unFocusColor="#e0a0ae">
-         <font>
-            <Font size="15.0" />
-         </font></JFXTextField>
-      <FontAwesomeIconView glyphName="USER" layoutX="67.0" layoutY="150.0" size="30" text="" />
-      <FontAwesomeIconView glyphName="KEY" layoutX="62.0" layoutY="219.0" size="30" text="" />
-      <FontAwesomeIconView fill="#a49f9f" glyphName="LOCK" layoutX="225.0" layoutY="75.0" size="55" text="" textAlignment="CENTER" />
-      <JFXButton id="loginBtn" alignment="CENTER" layoutX="188.0" layoutY="302.0" onAction="#handleLoginButton" prefHeight="40.0" prefWidth="110.0" text="Login" textFill="#e0a0ae">
-
-         <effect>
-            <Glow />
-         </effect>
-      </JFXButton>
-      <JFXButton layoutX="138.0" layoutY="249.0" onAction="#forgetPassword" prefHeight="40.0" prefWidth="210.0" styleClass="forget-pass" text="Forget password?">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXButton>
-      <JFXTextField fx:id="pass_text" labelFloat="true" layoutX="128.0" layoutY="189.0" prefHeight="38.0" prefWidth="260.0" promptText="Password" visible="false" />
-      <FontAwesomeIconView glyphName="EYE" layoutX="397.0" layoutY="215.0" onMouseClicked="#passwordShow" size="20">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </FontAwesomeIconView>
-      <JFXPasswordField id="password" fx:id="pass_hidden" labelFloat="true" layoutX="128.0" layoutY="189.0" prefHeight="38.0" prefWidth="260.0" promptText="Password" />
+      <BorderPane prefHeight="369.0" prefWidth="485.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <FontAwesomeIconView fill="#a49f9f" glyphName="LOCK" size="55" text="" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="30.0" />
+               </BorderPane.margin>
+            </FontAwesomeIconView>
+         </top>
+         <bottom>
+            <JFXButton id="loginBtn" alignment="CENTER" onAction="#handleLoginButton" prefHeight="40.0" prefWidth="110.0" text="Login" textFill="#e0a0ae" BorderPane.alignment="CENTER">
+      
+               <effect>
+                  <Glow />
+               </effect>
+               <BorderPane.margin>
+                  <Insets bottom="30.0" top="10.0" />
+               </BorderPane.margin>
+            </JFXButton>
+         </bottom>
+         <center>
+            <VBox prefHeight="10000.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <FontAwesomeIconView glyphName="USER" size="30" text="">
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="6.0" />
+                           </HBox.margin>
+                        </FontAwesomeIconView>
+                        <JFXTextField id="username" fx:id="username" focusColor="#e0a0ae" labelFloat="true" prefHeight="38.0" prefWidth="15000.0" promptText="Username" unFocusColor="#e0a0ae">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="1.0" prefWidth="1.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="10.0" prefWidth="1.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <JFXTextField fx:id="pass_text" labelFloat="true" prefHeight="38.0" prefWidth="1000000.0" promptText="Password" visible="false" GridPane.columnIndex="1" />
+                        <JFXPasswordField id="password" fx:id="pass_hidden" labelFloat="true" prefHeight="37.0" prefWidth="100000.0" promptText="Password" GridPane.columnIndex="1" />
+                        <FontAwesomeIconView glyphName="EYE" onMouseClicked="#passwordShow" size="20" GridPane.columnIndex="2">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </FontAwesomeIconView>
+                        <FontAwesomeIconView glyphName="KEY" size="30" text="" />
+                     </children>
+                  </GridPane>
+                  <JFXButton onAction="#forgetPassword" prefHeight="40.0" prefWidth="1500000.0" styleClass="forget-pass" text="Forget password?">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                  </JFXButton>
+               </children>
+               <BorderPane.margin>
+                  <Insets left="70.0" right="70.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

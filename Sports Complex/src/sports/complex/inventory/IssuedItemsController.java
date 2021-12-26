@@ -45,22 +45,24 @@ public class IssuedItemsController implements Initializable {
     private TableColumn<InventoryItem, String> quantityCol;
     @FXML
     private TableColumn<InventoryItem, String> timeCol;
+    ObservableList<InventoryItem> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         refresh();
     }
-    
-    private void refresh(){
+
+    private void refresh() {
         initCol();
         try {
             loadData();
+            filterByName();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(IssuedItemsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(IssuedItemsController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     private void initCol() {
@@ -73,18 +75,17 @@ public class IssuedItemsController implements Initializable {
     }
 
     private void loadData() throws ClassNotFoundException, SQLException {
-        ObservableList<InventoryItem> list = FXCollections.observableArrayList();
-
+        list.clear();
         ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
         items = DbQuery.displayIssuedItems();
         for (InventoryItem item : items) {
             list.add(item);
         }
         tableView.setItems(list);
-        filterByName(list);
+
     }
 
-    private void filterByName(ObservableList<InventoryItem> list) {
+    private void filterByName() {
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<InventoryItem> filteredData = new FilteredList<>(list, b -> true);
 
@@ -102,8 +103,6 @@ public class IssuedItemsController implements Initializable {
 
                 if (item.getName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true; // Filter matches first name.
-                } else if (item.getItemName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true; // Filter matches last name.
                 } else {
                     return false; // Does not match.
                 }
@@ -124,7 +123,7 @@ public class IssuedItemsController implements Initializable {
     @FXML
     private void handleReturnItem(ActionEvent event) throws ClassNotFoundException, SQLException {
         InventoryItem item = (InventoryItem) Utility.getRow((TableView<Object>) (Object) tableView);
-         if (item == null) {
+        if (item == null) {
             AlertMaker.showAlert("Error", "No Row selected");
         } else {
             DbQuery.returnItem(item);
