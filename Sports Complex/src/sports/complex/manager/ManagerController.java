@@ -120,4 +120,17 @@ public class ManagerController implements Initializable {
 
     }
 
+    @FXML
+    private void loadInsertedEmp(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("insertedEmp.fxml"), "Inserted Employees", null);
+
+    }
+
+    @FXML
+    private void loadDelEmp(ActionEvent event) {
+        StageLoader.loadWindow(getClass().getResource("removeEmp.fxml"), "Removed Employees", null);
+
+        
+    }
+
 }

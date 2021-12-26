@@ -21,7 +21,7 @@ public class SportsComplex extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-//        setStage("/sports/complex/registration/registration.fxml");
+        setStage("/sports/complex/registration/registration.fxml");
 //        setStage("/sports/complex/registration/members/allMembers.fxml");
 //        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/members/registerGuest.fxml");
@@ -34,7 +34,7 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/registration/teams/allTeams.fxml");
 //        setStage("/sports/complex/registration/teams/removeTeam.fxml");
 //        setStage("/sports/complex/emergency/emergency.fxml");
-        setStage("/sports/complex/login/login.fxml");
+//        setStage("/sports/complex/login/login.fxml", false);
 //        setStage("/sports/complex/alert/alertbox.fxml");
 //        setStage("/sports/complex/finance/finance.fxml");
 //        setStage("/sports/complex/attendant/attendant.fxml");
@@ -46,6 +46,8 @@ public class SportsComplex extends Application {
 //        setStage("/sports/complex/manager/repairs.fxml");
 //        setStage("/sports/complex/manager/emergencies.fxml");
 //        setStage("/sports/complex/manager/attendance.fxml");
+//        setStage("/sports/complex/manager/insertedEmp.fxml");
+//        setStage("/sports/complex/manager/removeEmp.fxml");
 //        setStage("/sports/complex/coach/coach.fxml");
 //        setStage("/sports/complex/inventory/inventory.fxml");
 //        setStage("/sports/complex/inventory/issuedItems.fxml");
@@ -65,7 +67,7 @@ public class SportsComplex extends Application {
         launch(args);
     }
 
-    public void setStage(String fxml) {
+    public void setStage(String fxml, boolean resize) {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource(fxml));
@@ -75,12 +77,17 @@ public class SportsComplex extends Application {
 
             stage.getIcons().add(new Image(("/Images/icon.png")));
             stage.setTitle("Sports Complex");
-//            stage.setMaximized(true);
+            stage.setResizable(resize);
             stage.show();
 
         } catch (IOException ex) {
             Logger.getLogger(SportsComplex.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    public void setStage(String fxml) {
+        setStage(fxml, true);
 
     }
 

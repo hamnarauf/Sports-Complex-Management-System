@@ -29,19 +29,32 @@ public class StageLoader {
         stage.getIcons().add(new Image(ICON_IMAGE_LOC));
     }
 
+    public static void loadWindow(URL loc, String title, Stage parentStage, boolean resize) {
+        Object controller = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(loc);
+            Parent parent = loader.load();
+            controller = loader.getController();
+            setStage(title, parent, parentStage, resize);
+        } catch (IOException ex) {
+            Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void loadWindow(URL loc, String title, Stage parentStage) {
         Object controller = null;
         try {
             FXMLLoader loader = new FXMLLoader(loc);
             Parent parent = loader.load();
             controller = loader.getController();
-            setStage(title, parent, parentStage);
+            setStage(title, parent, parentStage, false);
         } catch (IOException ex) {
             Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void setStage(String title, Parent parent, Stage parentStage) {
+    
+    public static void setStage(String title, Parent parent, Stage parentStage, boolean resize) {
         Stage stage = null;
         if (parentStage != null) {
             stage = parentStage;
@@ -50,6 +63,7 @@ public class StageLoader {
         }
         stage.setTitle(title);
         stage.setScene(new Scene(parent));
+        stage.setResizable(resize);
         setStageIcon(stage);
         stage.show();
         

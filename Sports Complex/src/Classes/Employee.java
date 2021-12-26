@@ -1,5 +1,6 @@
 package Classes;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -14,6 +15,7 @@ public class Employee extends Person {
     private String salary;
     private int sport_id;
     private String sportName;
+    private String time;
 
     public Employee() {
     }
@@ -46,6 +48,14 @@ public class Employee extends Person {
         super(fname, lname, gen, dob, cnic, contactNo, emerContact, email, address);
         this.emp_id = emp_id;
         this.deptName = deptName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
     
     public void setSportName(String sport){

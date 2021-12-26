@@ -42,7 +42,6 @@ public class RegisterTraineeController implements Initializable {
         try {
             populateDaysCombo();
             populateSportsCombo();
-            populateTimeCombo();
         } catch (SQLException ex) {
             Logger.getLogger(RegisterTraineeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -72,17 +71,19 @@ public class RegisterTraineeController implements Initializable {
 
     }
 
-    void populateTimeCombo() throws SQLException, ClassNotFoundException {
+    void populateTimeCombo(String sport, String day) throws SQLException, ClassNotFoundException {
         ArrayList<Time> times = new ArrayList<Time>();
-        String sport = sportCombo.getValue();
-        String day = dayCombo.getValue();
-        timeCombo.getItems().add(new Time(9, 0, 0));
-        timeCombo.getItems().add(new Time(10, 0, 0));
-        timeCombo.getItems().add(new Time(13, 0, 0));
-//        times = DbQuery.getTime(sport, day);
-//        for (Time time : times) {
-//            timeCombo.getItems().add(time);
-//        }
+
+        timeCombo.getSelectionModel().clearSelection();
+        timeCombo.getItems().clear();
+//        timeCombo.getItems().add(new Time(9, 0, 0));
+//        timeCombo.getItems().add(new Time(10, 0, 0));
+//        timeCombo.getItems().add(new Time(13, 0, 0));
+        times = DbQuery.getTime(day, sport);
+        for (Time time : times) {
+
+            timeCombo.getItems().add(time);
+        }
     }
 
     @FXML
@@ -98,8 +99,14 @@ public class RegisterTraineeController implements Initializable {
         } else {
             if (DbQuery.isMember(cnic)) {
                 Trainee t = new Trainee(tId, sport, time, day);
-//                DbQuery.registerTrainee(t);
+                try{
+                DbQuery.registerTrainee(t);
                 AlertMaker.showAlert("Registeration successfull", "Success");
+                 clearCache();
+                }
+                catch(Exception e){
+                       AlertMaker.showAlert("Error", "Member already registered for this class.");
+                }
 
             } else {
                 AlertMaker.showAlert("Try Again", "Member id does not exists");
@@ -109,9 +116,22 @@ public class RegisterTraineeController implements Initializable {
     }
 
     @FXML
-    private void handleTime(MouseEvent event) throws SQLException, ClassNotFoundException {
-        System.out.println("time");
-        populateTimeCombo();
+    private void handleDay(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if (sportCombo.getValue() != null) {
+            populateTimeCombo(dayCombo.getValue(), sportCombo.getValue());
+        }
     }
 
+    @FXML
+    private void handleTime(MouseEvent event) {
+    }
+
+    private void clearCache() {
+        dayCombo.setValue(null);
+        sportCombo.setValue(null);
+        timeCombo.getSelectionModel().clearSelection();
+        timeCombo.getItems().clear();
+        id.setText("");
+
+    }
 }

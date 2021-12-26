@@ -183,20 +183,23 @@ public class DbQuery {
         return sport_id;
     }
 
-    public static String getSportMembers(String sport_id) throws SQLException, ClassNotFoundException {
+    public static String getSportMembers(String sport) throws SQLException, ClassNotFoundException {
         setupDb();
-        String mem = null;
+        String mem = "";
 
-        final String query = "SELECT teamMember FROM Sport WHERE sport_id = \"" + sport_id + "\";";
+        final String query = "SELECT teamMember FROM Sport WHERE sportname = \"" + sport + "\";";
         ResultSet rs = st.executeQuery(query);
-        mem = rs.getString("teamMember");
+
+        if (rs.next()) {
+            mem = rs.getString("teamMember");
+        }
 
         tearDownDb();
         return mem;
     }
 
     public static ArrayList<String> getCoachOfSport(int sport_id) throws SQLException, ClassNotFoundException {
-        setupDb();
+
         ArrayList<String> coach_id = new ArrayList();
 
         final String getCoachQuery = "SELECT coach_id FROM Coach WHERE sport_id = \"" + sport_id + "\"";
@@ -206,7 +209,6 @@ public class DbQuery {
             coach_id.add(rs.getString("coach_id"));
         }
 
-        tearDownDb();
         return coach_id;
     }
 
@@ -366,7 +368,7 @@ public class DbQuery {
     }
 
     public static int getCountOfTraineesOfCoach(String coach_id) throws SQLException, ClassNotFoundException {
-        setupDb();
+
         int count = 0;
 
         final String query = "SELECT COUNT(*) FROM Trainee INNER JOIN CLASS "
@@ -376,12 +378,12 @@ public class DbQuery {
         if (rs.next()) {
             count = rs.getInt("COUNT(*)");
         }
-        tearDownDb();
+
         return count;
     }
 
     public static int getCountOfTeamsOfCoach(String coach_id) throws SQLException, ClassNotFoundException {
-        setupDb();
+
         int count = 0;
 
         final String query = "SELECT COUNT(*) FROM Team_Schedule INNER JOIN CLASS "
@@ -391,7 +393,7 @@ public class DbQuery {
         if (rs.next()) {
             count = rs.getInt("COUNT(*)");
         }
-        tearDownDb();
+
         return count;
     }
 
@@ -418,7 +420,6 @@ public class DbQuery {
         ArrayList<String> coach_ids;
         ResultSet rs2;
         ArrayList<Time> startTime = new ArrayList<Time>();
-
         int sport_id = getSportID(sport);
         coach_ids = getCoachOfSport(sport_id);
 
@@ -429,7 +430,9 @@ public class DbQuery {
                         + "AND day = \"" + day + "\"";
 
                 rs2 = st.executeQuery(getClassTimeQuery);
-                startTime.add(rs2.getTime("startTime"));
+                if (rs2.next()) {
+                    startTime.add(rs2.getTime("startTime"));
+                }
             }
         }
 
@@ -616,10 +619,10 @@ public class DbQuery {
 
         if (rs.next()) {
             class_id = rs.getInt("Class.class_id");
-            System.out.println(class_id);
-        }
 
-        final String regTraineeQuery = "INSERT INTO Trainee VALUES (" + t1.getMember_id() + ", " + class_id + ")";
+        }
+        System.out.println(class_id);
+        final String regTraineeQuery = "INSERT INTO Trainee VALUES (" + class_id + ", " + t1.getMember_id() + ")";
 
         st.executeUpdate(regTraineeQuery);
         tearDownDb();
@@ -743,10 +746,12 @@ public class DbQuery {
 
         final String teamidQuery = "SELECT count(*) FROM Team";
         rs = st.executeQuery(teamidQuery);
-
-        int team_id = rs.getInt("count(*)") + 1;
-
-        final String regTeamQuery = "INSERT INTO Team_Schedule (team_id, class_id) VALUES (" + team_id + ", " + class_id + ")";
+        int team_id = 0;
+        if (rs.next()) {
+            team_id = rs.getInt("count(*)");
+        }
+        System.out.println(team_id);
+        final String regTeamQuery = "INSERT INTO Team_Schedule VALUES (" + team_id + ", " + class_id + ")";
         st.executeUpdate(regTeamQuery);
         tearDownDb();
     }
@@ -1392,6 +1397,48 @@ public class DbQuery {
         return attList;
     }
 
+    public static ArrayList<Employee> displayInsertedEmp() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Employee> employees = new ArrayList<>();
+        Employee e = new Employee();
+
+        final String query = "select * from employee_INSERTED join department using(dept_id)";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            e.setEmp_id(rs.getString("emp_id"));
+            e.setCnic(rs.getString("cnic"));
+            e.setDeptName(rs.getString("deptName"));
+            e.setTime(rs.getString("time"));
+            employees.add(e);
+        }
+
+        tearDownDb();
+        return employees;
+    }
+
+    public static ArrayList<Employee> displayDelEmp() throws ClassNotFoundException, SQLException {
+        setupDb();
+        ArrayList<Employee> employees = new ArrayList<>();
+        Employee e = new Employee();
+
+        final String query = "select * from employee_deleted join department using(dept_id)";
+
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            e.setEmp_id(rs.getString("emp_id"));
+            e.setCnic(rs.getString("cnic"));
+            e.setDeptName(rs.getString("deptName"));
+            e.setTime(rs.getString("time"));
+            employees.add(e);
+        }
+
+        tearDownDb();
+        return employees;
+    }
+
     // INVENTORY INTERFACE
     public static ArrayList<InventoryItem> displayIssuedItems() throws ClassNotFoundException, SQLException {
         setupDb();
@@ -1542,7 +1589,7 @@ public class DbQuery {
         int qty = 0;
 
         System.out.println(getItemID(log.getItemName()));
-        
+
         final String id = "select issue_id from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
         ResultSet rs = st.executeQuery(id);
@@ -1552,8 +1599,6 @@ public class DbQuery {
         }
 
         //INSERT INTO inventory_log VALUES(10002, 2,'2021-12-23', '10:25:30', CURRENT_TIME(), 2, 0)
-        
-
         final String getQty = "select quantity from issued_items where member_id = \"" + log.getMember_id() + "\"\n"
                 + "and time = \"" + log.getTime() + "\"";
 
