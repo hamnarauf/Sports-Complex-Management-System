@@ -932,6 +932,8 @@ public class DbQuery {
     public static void removeEmp(String emp_id) throws SQLException, ClassNotFoundException {
         setupDb();
         String cnic = getEmpCnic(emp_id, true);
+        String query = "DELETE FROM Employee WHERE emp_id = \"" + emp_id + "\"";
+        st.executeUpdate(query);
         deletePerson(cnic);
         tearDownDb();
     }
