@@ -24,6 +24,10 @@ public class DbQuery {
     private final static String FILE = "jdbc:mysql://localhost:3306/sportscomplex";
     private static Connection conn = null;
     private static Statement st;
+    
+    // Edit this
+    private static String username = "root";    //MySQL Username
+    private static String password = "root";    // MySQL Password
 
     // GENERAL-PURPOSE METHODS
     private static void setupDb() throws ClassNotFoundException {
@@ -33,7 +37,7 @@ public class DbQuery {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection connection = DriverManager.getConnection(
                     FILE + "?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC",
-                    "root", "root");
+                    username, password);
             DbQuery.conn = connection;
             Statement statement = connection.createStatement();
             DbQuery.st = statement;
