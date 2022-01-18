@@ -1,7 +1,7 @@
 # Sports-Complex-Management-System
 
 A Java based desktop application made for Sports Complex Management. 
-The objective is to make a system that can manage the records, data and servicing activity of different sports, players, coach, management all at a time through a single platform.    
+The objective is to make a system that can manage the records, data and servicing activities of different sports, players, coach, management all at a time through a single platform.    
 
 ## Project Description
 - JavaFX (FXML) for front-end, CSS for styling
@@ -33,7 +33,9 @@ For further details please refer to Software Requirements Specification (SRS) an
 
 ## How to Run
     1- Execute SportsComplex.sql in MySQL.
-    2- Open and run project in NetBeans and Enjoy!
+    2- Open project in NetBeans IDE.
+    3- In DbQuery.java, update the username and password attributes of class with your MySQL username and password at line 29 and 30 respectively.
+    4- Run the project and Enjoy!
 
 ### Login details:
 	Username	Password	Role
